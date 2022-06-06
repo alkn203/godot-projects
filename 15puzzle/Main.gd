@@ -3,9 +3,9 @@ extends Node2D
 # Called when the node enters the scene tree for the first time.
 func _ready():
 	for piece in get_children():
-		print(piece.name)
+		var num = piece.get_index()
+		# Set frame
+		piece.find_node("Sprite").set("frame", num)
 
-
-# Called every frame. 'delta' is the elapsed time since the previous frame.
-#func _process(delta):
-#	pass
+func _test(piece):
+	print(piece.position)
