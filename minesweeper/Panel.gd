@@ -3,6 +3,7 @@ extends Area2D
 
 # Declare member variables here.
 var is_bomb = false
+var is_open = false
 
 
 # Called when the node enters the scene tree for the first time.

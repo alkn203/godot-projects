@@ -48,8 +48,8 @@ func open_panel(panel):
 	# Count the number of bombs on the surrounding panels
 	for i in index_array:
 		for j in index_array:
-			var x = panel.postion.x + i * PANEL_SIZE 
-			var y = panel.postion.y + j * PANEL_SIZE 
+			var x = panel.position.x + i * PANEL_SIZE 
+			var y = panel.position.y + j * PANEL_SIZE 
 			var target = get_panel(x, y)
 			# 
 			if target != null and target.is_bomb:
@@ -60,8 +60,8 @@ func open_panel(panel):
 	if count == 0:
 		for i in index_array:
 			for j in index_array:
-				var x = panel.postion.x + i * PANEL_SIZE
-				var y = panel.postion.y + j * PANEL_SIZE
+				var x = panel.position.x + i * PANEL_SIZE
+				var y = panel.position.y + j * PANEL_SIZE
 				var target = get_panel(x, y)
 				if target:
 					open_panel(target)
@@ -70,6 +70,6 @@ func open_panel(panel):
 func get_panel(x, y):
 	var result = null
 	for panel in get_children():
-		if (panel.postion.x == x) and (panel.postion.y == y):
+		if (panel.position.x == x) and (panel.position.y == y):
 			result = panel
 	return result
