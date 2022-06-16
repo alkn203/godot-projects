@@ -2,6 +2,7 @@ extends Node2D
 
 
 # Declare member variables
+const PANEL_SIZE = 64
 const BOMB_NUM = 10
 const PANEL_FRAME = 10
 const BOMB_FRAME = 11 
@@ -26,6 +27,49 @@ func _ready():
 		var num = panel.get_index()
 		panel.is_bomb = bomb_array[num]
 		
-		
+# 		
 func open_panel(panel):
-	pass
+	# Get Sprite node
+	var sprite = panel.find_node("Sprite")
+	# If the panel has a bomb
+	if panel.is_bomb:
+		sprite.set("frame",  BOMB_EXP_FRAME)
+		#this.showAllBombs()
+		return
+
+	# Do nothing if it is already open
+	if panel.is_open:
+		return
+	# Flag as open
+	panel.is_open = true
+	#this.oCount++
+	var count = 0
+	var index_array = [-1, 0, 1]
+	# Count the number of bombs on the surrounding panels
+	for i in index_array:
+		for j in index_array:
+			var x = panel.postion.x + i * PANEL_SIZE 
+			var y = panel.postion.y + j * PANEL_SIZE 
+			var target = get_panel(x, y)
+			# 
+			if target != null and target.is_bomb:
+				count += 1
+	# Show a number on the panel
+	sprite.set("frame", count)
+	# Recursively look up if there are no bombs around
+	if count == 0:
+		for i in index_array:
+			for j in index_array:
+				var x = panel.postion.x + i * PANEL_SIZE
+				var y = panel.postion.y + j * PANEL_SIZE
+				var target = get_panel(x, y)
+				if target:
+					open_panel(target)
+					
+# Get the panel specified by position
+func get_panel(x, y):
+	var result = null
+	for panel in get_children():
+		if (panel.postion.x == x) and (panel.postion.y == y):
+			result = panel
+	return result

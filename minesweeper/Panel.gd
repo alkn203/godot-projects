@@ -11,8 +11,7 @@ func _ready():
 
 
 func _on_Panel_input_event(viewport, event, shape_idx):
-	# 何らかの入力イベントが発生 
+	# マウスボタンの入力イベント 
 	if event is InputEventMouseButton: 
-		# マウスボタンの入力イベント 
 		if event.is_pressed(): 
 			get_parent().open_panel(self)
