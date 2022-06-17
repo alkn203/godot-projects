@@ -14,27 +14,25 @@ var bomb_array = []
 # Called when the node enters the scene tree for the first time.
 func _ready():
 	var cnt = get_child_count()
-	print(cnt)
 	for i in range(cnt):
 		if i <= BOMB_NUM:
 			bomb_array.append(true)
 		else:
 			bomb_array.append(false)
-
 	bomb_array.shuffle()
 	# Set wether a panel has a bomb
 	for panel in get_children():
 		var num = panel.get_index()
 		panel.is_bomb = bomb_array[num]
 		
-# 		
+
 func open_panel(panel):
 	# Get Sprite node
 	var sprite = panel.find_node("Sprite")
 	# If the panel has a bomb
 	if panel.is_bomb:
-		sprite.set("frame",  BOMB_EXP_FRAME)
-		#this.showAllBombs()
+		sprite.set("frame", BOMB_EXP_FRAME)
+		show_all_bombs()
 		return
 
 	# Do nothing if it is already open
@@ -73,3 +71,13 @@ func get_panel(x, y):
 		if (panel.position.x == x) and (panel.position.y == y):
 			result = panel
 	return result
+	
+	
+# Prevent touching the panel and show all bombs
+func show_all_bombs(): 
+	for panel in get_children():
+		panel.disconnect("input_event", panel, "_on_Panel_input_event")
+		if panel.is_bomb:
+			var sprite = panel.find_node("Sprite")
+			if sprite.frame != BOMB_EXP_FRAME:
+				sprite.set("frame", BOMB_FRAME)
