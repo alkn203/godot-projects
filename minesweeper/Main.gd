@@ -15,10 +15,12 @@ var bomb_array = []
 func _ready():
 	var cnt = get_child_count()
 	for i in range(cnt):
-		if i <= BOMB_NUM:
+		if i < BOMB_NUM:
 			bomb_array.append(true)
 		else:
 			bomb_array.append(false)
+	# Initialize ramdom
+	randomize()
 	bomb_array.shuffle()
 	# Set wether a panel has a bomb
 	for panel in get_children():
@@ -31,7 +33,7 @@ func open_panel(panel):
 	var sprite = panel.find_node("Sprite")
 	# If the panel has a bomb
 	if panel.is_bomb:
-		sprite.set("frame", BOMB_EXP_FRAME)
+		sprite.frame = BOMB_EXP_FRAME
 		show_all_bombs()
 		return
 
@@ -53,7 +55,7 @@ func open_panel(panel):
 			if target != null and target.is_bomb:
 				count += 1
 	# Show a number on the panel
-	sprite.set("frame", count)
+	sprite.frame = count
 	# Recursively look up if there are no bombs around
 	if count == 0:
 		for i in index_array:
@@ -80,4 +82,4 @@ func show_all_bombs():
 		if panel.is_bomb:
 			var sprite = panel.find_node("Sprite")
 			if sprite.frame != BOMB_EXP_FRAME:
-				sprite.set("frame", BOMB_FRAME)
+				sprite.frame = BOMB_FRAME
