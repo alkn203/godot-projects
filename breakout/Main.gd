@@ -20,9 +20,11 @@ func _input(event):
 			dragging = false
 	
 	if event is InputEventMouseMotion and dragging:
-		# While dragging, move the sprite with the mouse.
-		print(event.position)
-		find_node("Paddle").position.x = event.position.x
+		# While dragging, move the Paddle with the mouse.
+		var size_x = get_node("Paddle/Sprite").texture.get_size().x
+		$Paddle.position.x = clamp(event.position.x, size_x / 2, 640 - size_x / 2)
+		print(get_viewport().size.x)
+#print(event.position)
 
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
