@@ -21,11 +21,11 @@ func _input(event):
 	
 	if event is InputEventMouseMotion and dragging:
 		# While dragging, move the Paddle with the mouse.
+		# Get paddle size for clamp.
 		var size_x = get_node("Paddle/Sprite").texture.get_size().x
+		# Set paddle position 
 		$Paddle.position.x = clamp(event.position.x, size_x / 2, 640 - size_x / 2)
-		print(get_viewport().size.x)
-#print(event.position)
-
+		
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta):

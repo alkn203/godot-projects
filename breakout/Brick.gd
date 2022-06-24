@@ -4,7 +4,7 @@ extends StaticBody2D
 # Declare member variables here. Examples:
 # var a = 2
 # var b = "text"
-export var flame_index = 0
+export (int) var flame_index = 0
 
 
 # Called when the node enters the scene tree for the first time.
