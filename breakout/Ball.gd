@@ -12,10 +12,14 @@ func _ready():
 
 
 func _on_Ball_body_entered(body):
+	
+	direction = linear_velocity.normalized()
+	velocity = direction * ball_speed
+	
 	if body.is_in_group("Bricks"):
 		body.queue_free()
 		
-	if body.get_name() == "Paddle": # まるごと追加
+	if body.get_name() == "Paddle":
 		direction = (position - body.position).normalized()
 		velocity = direction * ball_speed
 	
