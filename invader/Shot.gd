@@ -15,3 +15,12 @@ func _ready():
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta):
 	position.y -= speed * delta
+
+
+# Check collision
+func _on_Shot_area_entered(area):
+	print("test")
+	# If target is enemy, destroy it.
+	if area.is_in_group("Enemys"):
+		area.queue_free()
+		queue_free()

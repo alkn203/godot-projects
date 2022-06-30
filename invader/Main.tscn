@@ -15,14 +15,14 @@ __meta__ = {
 "_edit_lock_": true
 }
 
-[node name="Enemy" parent="." instance=ExtResource( 1 )]
-position = Vector2( 185, 344 )
-
 [node name="Explosion" parent="." instance=ExtResource( 2 )]
 position = Vector2( 182, 456 )
 
 [node name="Player" parent="." instance=ExtResource( 3 )]
 position = Vector2( 305, 551 )
 
-[node name="Shot" parent="Player" instance=ExtResource( 4 )]
-position = Vector2( -8, -112 )
+[node name="Shot" parent="." instance=ExtResource( 4 )]
+position = Vector2( 185, 547 )
+
+[node name="Enemy" parent="." instance=ExtResource( 1 )]
+position = Vector2( 191, 370 )
