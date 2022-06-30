@@ -2,21 +2,19 @@ extends Area2D
 
 
 # Declare member variables here. Examples:
-# var a = 2
-# var b = "text"
 var speed = 200
+onready var size_y = find_node("Sprite").texture.get_size().y 
 onready var explosion_scene = preload("res://Explosion.tscn")
 onready var explosion_layer = get_node("/root/Main/ExplosionLayer")
-
-# Called when the node enters the scene tree for the first time.
-func _ready():
-	pass
 
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta):
 	position.y -= speed * delta
-
+	# Remove if goes outside of screen
+	if position.y < -size_y:
+		queue_free()
+	
 
 # Check collision
 func _on_Shot_area_entered(area):
