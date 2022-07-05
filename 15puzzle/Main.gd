@@ -7,11 +7,11 @@ func _ready():
 	for piece in get_children():
 		var num = piece.get_index()
 		# Set frame
-		piece.find_node("Sprite").set("frame", num)
+		piece.find_node("Sprite").frame = num
 
 func move_piece(piece):
-		# get blank piece
-	var blank = find_node("Piece16")
+	# get blank piece
+	var blank = get_node("Piece16")
 	
 	var px = piece.position.x
 	var py = piece.position.y
