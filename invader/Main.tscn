@@ -1,7 +1,10 @@
-[gd_scene load_steps=3 format=2]
+[gd_scene load_steps=4 format=2]
 
 [ext_resource path="res://Enemy.tscn" type="PackedScene" id=1]
 [ext_resource path="res://Player.tscn" type="PackedScene" id=3]
+
+[sub_resource type="RectangleShape2D" id=1]
+extents = Vector2( 16, 480 )
 
 [node name="Main" type="Node2D"]
 
@@ -16,7 +19,139 @@ __meta__ = {
 [node name="EnemyLayer" type="CanvasLayer" parent="."]
 
 [node name="Enemy" parent="EnemyLayer" instance=ExtResource( 1 )]
-position = Vector2( 191, 370 )
+position = Vector2( 64, 96 )
+
+[node name="Enemy2" parent="EnemyLayer" instance=ExtResource( 1 )]
+position = Vector2( 128, 96 )
+
+[node name="Enemy3" parent="EnemyLayer" instance=ExtResource( 1 )]
+position = Vector2( 192, 96 )
+
+[node name="Enemy4" parent="EnemyLayer" instance=ExtResource( 1 )]
+position = Vector2( 256, 96 )
+
+[node name="Enemy5" parent="EnemyLayer" instance=ExtResource( 1 )]
+position = Vector2( 320, 96 )
+
+[node name="Enemy6" parent="EnemyLayer" instance=ExtResource( 1 )]
+position = Vector2( 384, 96 )
+
+[node name="Enemy7" parent="EnemyLayer" instance=ExtResource( 1 )]
+position = Vector2( 448, 96 )
+
+[node name="Enemy8" parent="EnemyLayer" instance=ExtResource( 1 )]
+position = Vector2( 512, 96 )
+
+[node name="Enemy9" parent="EnemyLayer" instance=ExtResource( 1 )]
+position = Vector2( 576, 96 )
+
+[node name="Enemy10" parent="EnemyLayer" instance=ExtResource( 1 )]
+position = Vector2( 576, 160 )
+
+[node name="Enemy11" parent="EnemyLayer" instance=ExtResource( 1 )]
+position = Vector2( 512, 160 )
+
+[node name="Enemy12" parent="EnemyLayer" instance=ExtResource( 1 )]
+position = Vector2( 448, 160 )
+
+[node name="Enemy13" parent="EnemyLayer" instance=ExtResource( 1 )]
+position = Vector2( 384, 160 )
+
+[node name="Enemy14" parent="EnemyLayer" instance=ExtResource( 1 )]
+position = Vector2( 320, 160 )
+
+[node name="Enemy15" parent="EnemyLayer" instance=ExtResource( 1 )]
+position = Vector2( 256, 160 )
+
+[node name="Enemy16" parent="EnemyLayer" instance=ExtResource( 1 )]
+position = Vector2( 192, 160 )
+
+[node name="Enemy17" parent="EnemyLayer" instance=ExtResource( 1 )]
+position = Vector2( 128, 160 )
+
+[node name="Enemy18" parent="EnemyLayer" instance=ExtResource( 1 )]
+position = Vector2( 64, 160 )
+
+[node name="Enemy19" parent="EnemyLayer" instance=ExtResource( 1 )]
+position = Vector2( 64, 224 )
+
+[node name="Enemy20" parent="EnemyLayer" instance=ExtResource( 1 )]
+position = Vector2( 128, 224 )
+
+[node name="Enemy21" parent="EnemyLayer" instance=ExtResource( 1 )]
+position = Vector2( 192, 224 )
+
+[node name="Enemy22" parent="EnemyLayer" instance=ExtResource( 1 )]
+position = Vector2( 256, 224 )
+
+[node name="Enemy23" parent="EnemyLayer" instance=ExtResource( 1 )]
+position = Vector2( 320, 224 )
+
+[node name="Enemy24" parent="EnemyLayer" instance=ExtResource( 1 )]
+position = Vector2( 384, 224 )
+
+[node name="Enemy25" parent="EnemyLayer" instance=ExtResource( 1 )]
+position = Vector2( 448, 224 )
+
+[node name="Enemy26" parent="EnemyLayer" instance=ExtResource( 1 )]
+position = Vector2( 512, 224 )
+
+[node name="Enemy27" parent="EnemyLayer" instance=ExtResource( 1 )]
+position = Vector2( 576, 224 )
+
+[node name="Enemy28" parent="EnemyLayer" instance=ExtResource( 1 )]
+position = Vector2( 576, 288 )
+
+[node name="Enemy29" parent="EnemyLayer" instance=ExtResource( 1 )]
+position = Vector2( 512, 288 )
+
+[node name="Enemy30" parent="EnemyLayer" instance=ExtResource( 1 )]
+position = Vector2( 448, 288 )
+
+[node name="Enemy31" parent="EnemyLayer" instance=ExtResource( 1 )]
+position = Vector2( 384, 288 )
+
+[node name="Enemy32" parent="EnemyLayer" instance=ExtResource( 1 )]
+position = Vector2( 320, 288 )
+
+[node name="Enemy33" parent="EnemyLayer" instance=ExtResource( 1 )]
+position = Vector2( 256, 288 )
+
+[node name="Enemy34" parent="EnemyLayer" instance=ExtResource( 1 )]
+position = Vector2( 192, 288 )
+
+[node name="Enemy35" parent="EnemyLayer" instance=ExtResource( 1 )]
+position = Vector2( 128, 288 )
+
+[node name="Enemy36" parent="EnemyLayer" instance=ExtResource( 1 )]
+position = Vector2( 64, 288 )
+
+[node name="Enemy37" parent="EnemyLayer" instance=ExtResource( 1 )]
+position = Vector2( 64, 352 )
+
+[node name="Enemy38" parent="EnemyLayer" instance=ExtResource( 1 )]
+position = Vector2( 128, 352 )
+
+[node name="Enemy39" parent="EnemyLayer" instance=ExtResource( 1 )]
+position = Vector2( 192, 352 )
+
+[node name="Enemy40" parent="EnemyLayer" instance=ExtResource( 1 )]
+position = Vector2( 256, 352 )
+
+[node name="Enemy41" parent="EnemyLayer" instance=ExtResource( 1 )]
+position = Vector2( 320, 352 )
+
+[node name="Enemy42" parent="EnemyLayer" instance=ExtResource( 1 )]
+position = Vector2( 384, 352 )
+
+[node name="Enemy43" parent="EnemyLayer" instance=ExtResource( 1 )]
+position = Vector2( 448, 352 )
+
+[node name="Enemy44" parent="EnemyLayer" instance=ExtResource( 1 )]
+position = Vector2( 512, 352 )
+
+[node name="Enemy45" parent="EnemyLayer" instance=ExtResource( 1 )]
+position = Vector2( 576, 352 )
 
 [node name="ExplosionLayer" type="CanvasLayer" parent="."]
 layer = 2
@@ -28,4 +163,16 @@ layer = 3
 layer = 4
 
 [node name="Player" parent="PlayerLayer" instance=ExtResource( 3 )]
-position = Vector2( 305, 551 )
+position = Vector2( 320, 896 )
+
+[node name="LeftWall" type="Area2D" parent="."]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="LeftWall"]
+position = Vector2( -21, 480 )
+shape = SubResource( 1 )
+
+[node name="RightWall" type="Area2D" parent="."]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="RightWall"]
+position = Vector2( 656, 480 )
+shape = SubResource( 1 )
