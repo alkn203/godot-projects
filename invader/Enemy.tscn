@@ -22,7 +22,7 @@ animations = [ {
 [sub_resource type="RectangleShape2D" id=4]
 extents = Vector2( 28, 20 )
 
-[node name="Enemy" type="Area2D"]
+[node name="Enemy" type="Area2D" groups=["Enemys"]]
 script = ExtResource( 2 )
 __meta__ = {
 "_edit_group_": true

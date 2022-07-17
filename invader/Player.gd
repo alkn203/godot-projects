@@ -3,6 +3,8 @@ extends Area2D
 
 # Declare member variables here. Examples:
 var speed = 100
+onready var screen_size = get_viewport_rect().size
+onready var sprite_half = find_node("Sprite").texture.get_size().x / 2
 onready var shot_scene = preload("res://Shot.tscn")
 onready var shot_layer = get_node("/root/Main/ShotLayer")
 onready var shot_timer = get_node("ShotTimer") 
@@ -10,7 +12,8 @@ onready var shot_timer = get_node("ShotTimer")
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
-	pass # Replace with function body.
+	print(screen_size)
+	print(sprite_half)
 
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
@@ -28,3 +31,7 @@ func _process(delta):
 		shot_layer.add_child(shot)
 		#
 		shot_timer.start()
+	
+	#
+	position.x = clamp(position.x, sprite_half, screen_size.x - sprite_half)
+
