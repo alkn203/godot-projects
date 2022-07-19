@@ -33,5 +33,5 @@ func _process(delta):
 		shot_timer.start()
 	
 	#
-	position.x = clamp(position.x, sprite_half, screen_size.x - sprite_half)
+	#position.x = clamp(position.x, sprite_half, screen_size.x - sprite_half)
 
