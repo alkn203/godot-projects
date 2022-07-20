@@ -22,7 +22,7 @@ animations = [ {
 [sub_resource type="RectangleShape2D" id=4]
 extents = Vector2( 28, 16 )
 
-[node name="Ufo" type="Area2D"]
+[node name="Ufo" type="Area2D" groups=["Ufos"]]
 script = ExtResource( 2 )
 
 [node name="AnimatedSprite" type="AnimatedSprite" parent="."]

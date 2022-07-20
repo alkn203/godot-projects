@@ -12,8 +12,7 @@ onready var shot_timer = get_node("ShotTimer")
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
-	print(screen_size)
-	print(sprite_half)
+	pass
 
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
@@ -25,13 +24,12 @@ func _process(delta):
 		# Move as long as the key/button is pressed.
 		position.x -= speed * delta
 	if Input.is_action_just_pressed("space_key") and shot_timer.is_stopped():
-		# shoot
+		# Add shot
 		var shot = shot_scene.instance()
 		shot.position = position
 		shot_layer.add_child(shot)
 		#
 		shot_timer.start()
-	
 	#
-	#position.x = clamp(position.x, sprite_half, screen_size.x - sprite_half)
+	position.x = clamp(position.x, sprite_half, screen_size.x - sprite_half)
 
