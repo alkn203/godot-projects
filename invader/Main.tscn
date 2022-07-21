@@ -37,7 +37,10 @@ __meta__ = {
 "_edit_lock_": true
 }
 
+[node name="BeamLayer" type="CanvasLayer" parent="."]
+
 [node name="EnemyLayer" type="CanvasLayer" parent="."]
+layer = 2
 
 [node name="Enemy" parent="EnemyLayer" instance=ExtResource( 1 )]
 position = Vector2( 64, 96 )
@@ -175,20 +178,22 @@ position = Vector2( 512, 352 )
 position = Vector2( 576, 352 )
 
 [node name="ExplosionLayer" type="CanvasLayer" parent="."]
-layer = 2
-
-[node name="ShotLayer" type="CanvasLayer" parent="."]
 layer = 3
 
-[node name="PlayerLayer" type="CanvasLayer" parent="."]
+[node name="ShotLayer" type="CanvasLayer" parent="."]
 layer = 4
+
+[node name="PlayerLayer" type="CanvasLayer" parent="."]
+layer = 5
 
 [node name="Player" parent="PlayerLayer" instance=ExtResource( 3 )]
 position = Vector2( 320, 896 )
 
 [node name="UfoLayer" type="CanvasLayer" parent="."]
+layer = 6
 
 [node name="ScoreLayer" type="CanvasLayer" parent="."]
+layer = 7
 
 [node name="WallLeft" type="Area2D" parent="."]
 script = ExtResource( 5 )
