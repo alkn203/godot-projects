@@ -2,7 +2,7 @@ extends Area2D
 
 
 # Declare member variables here. Examples:
-var speed = 100
+var speed = 150
 onready var screen_size = get_viewport_rect().size
 onready var sprite_half = find_node("Sprite").texture.get_size().x / 2
 onready var shot_scene = preload("res://Shot.tscn")
