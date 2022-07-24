@@ -17,6 +17,6 @@ func _process(delta):
 func _on_Beam_area_entered(area):
 	# If target is player
 	if area.name == "Player":
-		get_tree().paused = true
+		#get_tree().paused = true
 		yield(get_tree().create_timer(1.0), "timeout")
-		print(2)
+		get_tree().change_scene("res://Title.tscn")

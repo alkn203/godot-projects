@@ -55,7 +55,7 @@ position = Vector2( 320, 512 )
 script = null
 
 [node name="StartLabel" type="Label" parent="."]
-modulate = Color( 1, 1, 1, 0.637695 )
+modulate = Color( 1, 1, 1, 0.516807 )
 margin_left = 80.0
 margin_top = 656.0
 margin_right = 573.0
