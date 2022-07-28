@@ -55,7 +55,6 @@ position = Vector2( 320, 512 )
 script = null
 
 [node name="StartLabel" type="Label" parent="."]
-modulate = Color( 1, 1, 1, 0.516807 )
 margin_left = 80.0
 margin_top = 656.0
 margin_right = 573.0
@@ -64,7 +63,6 @@ custom_colors/font_color = Color( 0.647059, 0.0627451, 0.0627451, 1 )
 custom_fonts/font = SubResource( 2 )
 text = "PRESS SPACE TO START	"
 align = 1
-percent_visible = -0.0555556
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
 anims/fadeout_in = SubResource( 3 )
