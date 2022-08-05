@@ -2,9 +2,10 @@ extends Sprite
 
 
 # Declare member variables here. Examples:
-const UNIT_SIZE = 64
+const TILE_SIZE = 64
 var grid_pos = Vector2(4, 8)
 onready var tilemap = get_node("/root/Main/Stage1/TileMap")
+onready var baggage_layer = get_node("/root/Main/Stage1/BaggageLayer")
 
 
 # Called when the node enters the scene tree for the first time.
@@ -13,6 +14,7 @@ onready var tilemap = get_node("/root/Main/Stage1/TileMap")
 
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
+# warning-ignore:unused_argument
 func _process(delta):
 	var v = Vector2(0, 0)
 	#
@@ -30,6 +32,11 @@ func _process(delta):
 		#print(tilemap.get_cellv(next))
 		if tilemap.get_cellv(next) == 3: # 壁
 			return
+		
+		for baggage in baggage_layer.get_children():
+			if baggage.tile_pos == next:
+				if tilemap.get_cellv(next + v) == 1:
+					print("free")
 		# プレイヤー位置更新
 		grid_pos = next
-		position += v * UNIT_SIZE
+		position += v * TILE_SIZE

@@ -2,7 +2,7 @@ extends Sprite
 
 
 # Declare member variables here. Examples:
-var grid_pos = Vector2(4, 7)
+var tile_pos = Vector2(0, 0) 
 
 
 # Called when the node enters the scene tree for the first time.
