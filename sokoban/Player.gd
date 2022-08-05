@@ -34,9 +34,10 @@ func _process(delta):
 			return
 		
 		for baggage in baggage_layer.get_children():
+			#
 			if baggage.tile_pos == next:
-				if tilemap.get_cellv(next + v) == 1:
-					print("free")
+				if tilemap.get_cellv(next + v) == 3:
+					return
 		# プレイヤー位置更新
 		grid_pos = next
 		position += v * TILE_SIZE
