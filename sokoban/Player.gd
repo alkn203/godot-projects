@@ -2,11 +2,13 @@ extends Sprite
 
 
 # Declare member variables here. Examples:
-const TILE_SIZE = 64
 var grid_pos = Vector2(4, 8)
 onready var tilemap = get_node("/root/Main/Stage1/TileMap")
 onready var baggage_layer = get_node("/root/Main/Stage1/BaggageLayer")
 
+const TILE_SIZE = 64
+
+enum { TILE_NONE, TILE_FLOOR, TILE_GORL, TILE_WALL }
 
 # Called when the node enters the scene tree for the first time.
 #func _ready():
@@ -30,14 +32,16 @@ func _process(delta):
 	if v.x != 0 or v.y != 0:
 		var next = grid_pos + v
 		#print(tilemap.get_cellv(next))
-		if tilemap.get_cellv(next) == 3: # 壁
+		if tilemap.get_cellv(next) == TILE_WALL:
 			return
 		
 		for baggage in baggage_layer.get_children():
 			#
 			if baggage.tile_pos == next:
-				if tilemap.get_cellv(next + v) == 3:
+				if tilemap.get_cellv(next + v) == TILE_WALL:
 					return
 		# プレイヤー位置更新
 		grid_pos = next
 		position += v * TILE_SIZE
+
+# 指定のインデックス位置にある荷物を返す
