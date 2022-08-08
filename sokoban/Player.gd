@@ -8,7 +8,7 @@ onready var baggage_layer = get_node("/root/Main/Stage1/BaggageLayer")
 
 const TILE_SIZE = 64
 
-enum { TILE_NONE, TILE_FLOOR, TILE_GORL, TILE_WALL }
+enum { TILE_NONE, TILE_FLOOR, TILE_GOAL, TILE_WALL, BAGGAGE, BAGGAGE_ON_GOAL } 
 
 # Called when the node enters the scene tree for the first time.
 #func _ready():
@@ -45,8 +45,14 @@ func _process(delta):
 			if _get_baggage_by_pos(next + v) != null:
 				return
 			# 荷物位置更新
-			baggage.tile_pos = next + v
+			baggage.tile_pos += v
 			baggage.position += v * TILE_SIZE
+			# 荷物がゴールに乗っているかのチェック
+			_change_baggage_color_on_goal()
+			# クリアチェック
+			if _is_clear() == true:
+				OS.alert("clear")
+			
 		# プレイヤー位置更新
 		tile_pos = next
 		position += v * TILE_SIZE
@@ -58,3 +64,19 @@ func _get_baggage_by_pos(pos):
 		if baggage.tile_pos == pos:
 			return baggage
 	return null
+
+
+# ゴールに乗っている荷物の色を変える 
+func _change_baggage_color_on_goal(): 
+	for baggage in baggage_layer.get_children(): 
+		if tilemap.get_cellv(baggage.tile_pos) == TILE_GOAL: 
+			baggage.frame = BAGGAGE_ON_GOAL
+		else:
+			baggage.frame = BAGGAGE
+
+# クリアチェック 
+func _is_clear(): 
+	for baggage in baggage_layer.get_children(): 
+		if baggage.frame == BAGGAGE:
+			return false
+	return true
