@@ -4,82 +4,86 @@ extends Node2D
 # Declare member variables
 const PANEL_SIZE = 64
 const BOMB_NUM = 10
-const PANEL_FRAME = 10
-const BOMB_FRAME = 11 
-const BOMB_EXP_FRAME = 12 
+enum {NONE, ONE, TWO, THREE, FOUR, FIVE, SIX, SEVEN, EIGHT, NINE, PANEL, BOMB, BOMB_EXP}
 
 var bomb_array = []
 
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
-	var cnt = get_child_count()
-	for i in range(cnt):
+	var count = get_child_count()
+	# 配列に爆弾情報を格納
+	for i in range(count):
 		if i < BOMB_NUM:
 			bomb_array.append(true)
 		else:
 			bomb_array.append(false)
-	# Initialize ramdom
+	# 乱数初期化
 	randomize()
+	# 配列をシャッフル
 	bomb_array.shuffle()
-	# Set wether a panel has a bomb
+	# パネルが爆弾かどうか設定
 	for panel in get_children():
 		var num = panel.get_index()
 		panel.is_bomb = bomb_array[num]
 		
-
-func open_panel(panel):
-	# Get Sprite node
-	var sprite = panel.find_node("Sprite")
-	# If the panel has a bomb
+# クリックされたパネルを開く
+func open_panel(panel: MyPanel):
+	var sprite: Sprite = panel.get_node("Sprite")
+	# 爆弾
 	if panel.is_bomb:
-		sprite.frame = BOMB_EXP_FRAME
-		show_all_bombs()
+		sprite.frame = BOMB
+		_show_all_bombs()
 		return
-
-	# Do nothing if it is already open
+	# 既に開かれていたら何もしない
 	if panel.is_open:
 		return
-	# Flag as open
+	# 開いたとフラグを立てる
 	panel.is_open = true
-	#this.oCount++
-	var count = 0
+	
+	var bomb_count = 0;
 	var index_array = [-1, 0, 1]
-	# Count the number of bombs on the surrounding panels
+	# 周りのパネルの爆弾数をカウント
 	for i in index_array:
 		for j in index_array:
-			var x = panel.position.x + i * PANEL_SIZE 
-			var y = panel.position.y + j * PANEL_SIZE 
-			var target = get_panel(x, y)
-			# 
-			if target != null and target.is_bomb:
-				count += 1
-	# Show a number on the panel
-	sprite.frame = count
-	# Recursively look up if there are no bombs around
-	if count == 0:
+			var x = panel.position.x + i * PANEL_SIZE
+			var y = panel.position.y + j * PANEL_SIZE
+			var pos = Vector2(x, y)
+			var target = _get_panel(pos)
+			# 爆弾数カウント
+			if target and target.is_bomb:
+				bomb_count += 1
+	# パネルに数を表示
+	sprite.frame = bomb_count
+	# 周りに爆弾がなければ再帰的に調べる
+	if bomb_count == 0:
 		for i in index_array:
 			for j in index_array:
 				var x = panel.position.x + i * PANEL_SIZE
 				var y = panel.position.y + j * PANEL_SIZE
-				var target = get_panel(x, y)
+				var pos = Vector2(x, y)
+				var target = _get_panel(pos);
+				# パネルがあれば
 				if target:
 					open_panel(target)
 					
-# Get the panel specified by position
-func get_panel(x, y):
-	var result = null
+					
+# 指定された位置のパネルを返す
+func _get_panel(pos: Vector2): 
 	for panel in get_children():
-		if (panel.position.x == x) and (panel.position.y == y):
-			result = panel
-	return result
-	
-	
-# Prevent touching the panel and show all bombs
-func show_all_bombs(): 
+		if panel.position == pos:
+			return panel
+	return null
+
+# 爆弾をすべて表示する
+func _show_all_bombs():
 	for panel in get_children():
-		panel.disconnect("input_event", panel, "_on_Panel_input_event")
+		var sprite: Sprite = panel.get_node("Sprite") 
+		
 		if panel.is_bomb:
-			var sprite = panel.find_node("Sprite")
-			if sprite.frame != BOMB_EXP_FRAME:
-				sprite.frame = BOMB_FRAME
+			if sprite.frame == BOMB:
+				sprite.frame = BOMB_EXP
+			else:
+				sprite.frame = BOMB
+		# パネルをクリック不可にする		
+		panel.get_node("CollisionShape2D").set_deferred("disabled", true)
