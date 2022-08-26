@@ -2,15 +2,15 @@
 
 importer="texture"
 type="StreamTexture"
-path="res://.import/minespsheet.png-94f1ebf1ab40123c1be51bc1811db13a.stex"
+path="res://.import/minespsheet.png-11bed2e1fbaf4a59c3bf5f86f6f73ebf.stex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://minespsheet.png"
-dest_files=[ "res://.import/minespsheet.png-94f1ebf1ab40123c1be51bc1811db13a.stex" ]
+source_file="res://assets/minespsheet.png"
+dest_files=[ "res://.import/minespsheet.png-11bed2e1fbaf4a59c3bf5f86f6f73ebf.stex" ]
 
 [params]
 
