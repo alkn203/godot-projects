@@ -1,0 +1,292 @@
+[gd_scene load_steps=5 format=2]
+
+[ext_resource path="res://Paddle.tscn" type="PackedScene" id=1]
+[ext_resource path="res://Paddle.gd" type="Script" id=2]
+[ext_resource path="res://Ball.tscn" type="PackedScene" id=3]
+[ext_resource path="res://Block.tscn" type="PackedScene" id=4]
+
+[node name="Main" type="Node2D"]
+
+[node name="Background" type="ColorRect" parent="."]
+margin_right = 640.0
+margin_bottom = 960.0
+color = Color( 0, 0, 0, 1 )
+__meta__ = {
+"_edit_lock_": true
+}
+
+[node name="Paddle" parent="." instance=ExtResource( 1 )]
+position = Vector2( 320, 830 )
+script = ExtResource( 2 )
+
+[node name="Ball" parent="." instance=ExtResource( 3 )]
+position = Vector2( 320, 400 )
+
+[node name="Wall" type="StaticBody2D" parent="."]
+
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="Wall"]
+polygon = PoolVector2Array( 0, 0, 0, 960, -16, 960, -16, -16, 656, -16, 656, 960, 640, 960, 640, 0 )
+
+[node name="Block1" parent="." instance=ExtResource( 4 )]
+position = Vector2( 64, 64 )
+
+[node name="Block2" parent="." instance=ExtResource( 4 )]
+position = Vector2( 128, 64 )
+
+[node name="Block3" parent="." instance=ExtResource( 4 )]
+position = Vector2( 192, 64 )
+
+[node name="Block4" parent="." instance=ExtResource( 4 )]
+position = Vector2( 256, 64 )
+
+[node name="Block5" parent="." instance=ExtResource( 4 )]
+position = Vector2( 320, 64 )
+
+[node name="Block6" parent="." instance=ExtResource( 4 )]
+position = Vector2( 384, 64 )
+
+[node name="Block7" parent="." instance=ExtResource( 4 )]
+position = Vector2( 448, 64 )
+
+[node name="Block8" parent="." instance=ExtResource( 4 )]
+position = Vector2( 512, 64 )
+
+[node name="Block9" parent="." instance=ExtResource( 4 )]
+position = Vector2( 64, 96 )
+
+[node name="Block10" parent="." instance=ExtResource( 4 )]
+position = Vector2( 128, 96 )
+
+[node name="Block11" parent="." instance=ExtResource( 4 )]
+position = Vector2( 192, 96 )
+
+[node name="Block12" parent="." instance=ExtResource( 4 )]
+position = Vector2( 256, 96 )
+
+[node name="Block13" parent="." instance=ExtResource( 4 )]
+position = Vector2( 320, 96 )
+
+[node name="Block14" parent="." instance=ExtResource( 4 )]
+position = Vector2( 384, 96 )
+
+[node name="Block15" parent="." instance=ExtResource( 4 )]
+position = Vector2( 448, 96 )
+
+[node name="Block16" parent="." instance=ExtResource( 4 )]
+position = Vector2( 512, 96 )
+
+[node name="Block17" parent="." instance=ExtResource( 4 )]
+position = Vector2( 64, 128 )
+
+[node name="Block18" parent="." instance=ExtResource( 4 )]
+position = Vector2( 128, 128 )
+
+[node name="Block19" parent="." instance=ExtResource( 4 )]
+position = Vector2( 192, 128 )
+
+[node name="Block20" parent="." instance=ExtResource( 4 )]
+position = Vector2( 256, 128 )
+
+[node name="Block21" parent="." instance=ExtResource( 4 )]
+position = Vector2( 320, 128 )
+
+[node name="Block22" parent="." instance=ExtResource( 4 )]
+position = Vector2( 384, 128 )
+
+[node name="Block23" parent="." instance=ExtResource( 4 )]
+position = Vector2( 448, 128 )
+
+[node name="Block24" parent="." instance=ExtResource( 4 )]
+position = Vector2( 512, 128 )
+
+[node name="Block25" parent="." instance=ExtResource( 4 )]
+position = Vector2( 64, 160 )
+frame_index = 1
+
+[node name="Block26" parent="." instance=ExtResource( 4 )]
+position = Vector2( 128, 160 )
+frame_index = 1
+
+[node name="Block27" parent="." instance=ExtResource( 4 )]
+position = Vector2( 192, 160 )
+frame_index = 1
+
+[node name="Block28" parent="." instance=ExtResource( 4 )]
+position = Vector2( 256, 160 )
+frame_index = 1
+
+[node name="Block29" parent="." instance=ExtResource( 4 )]
+position = Vector2( 320, 160 )
+frame_index = 1
+
+[node name="Block30" parent="." instance=ExtResource( 4 )]
+position = Vector2( 384, 160 )
+frame_index = 1
+
+[node name="Block31" parent="." instance=ExtResource( 4 )]
+position = Vector2( 448, 160 )
+frame_index = 1
+
+[node name="Block32" parent="." instance=ExtResource( 4 )]
+position = Vector2( 512, 160 )
+frame_index = 1
+
+[node name="Block33" parent="." instance=ExtResource( 4 )]
+position = Vector2( 64, 192 )
+frame_index = 1
+
+[node name="Block34" parent="." instance=ExtResource( 4 )]
+position = Vector2( 128, 192 )
+frame_index = 1
+
+[node name="Block35" parent="." instance=ExtResource( 4 )]
+position = Vector2( 192, 192 )
+frame_index = 1
+
+[node name="Block36" parent="." instance=ExtResource( 4 )]
+position = Vector2( 256, 192 )
+frame_index = 1
+
+[node name="Block37" parent="." instance=ExtResource( 4 )]
+position = Vector2( 320, 192 )
+frame_index = 1
+
+[node name="Block38" parent="." instance=ExtResource( 4 )]
+position = Vector2( 384, 192 )
+frame_index = 1
+
+[node name="Block39" parent="." instance=ExtResource( 4 )]
+position = Vector2( 448, 192 )
+frame_index = 1
+
+[node name="Block40" parent="." instance=ExtResource( 4 )]
+position = Vector2( 512, 192 )
+frame_index = 1
+
+[node name="Block41" parent="." instance=ExtResource( 4 )]
+position = Vector2( 64, 224 )
+frame_index = 1
+
+[node name="Block42" parent="." instance=ExtResource( 4 )]
+position = Vector2( 128, 224 )
+frame_index = 1
+
+[node name="Block43" parent="." instance=ExtResource( 4 )]
+position = Vector2( 192, 224 )
+frame_index = 1
+
+[node name="Block44" parent="." instance=ExtResource( 4 )]
+position = Vector2( 256, 224 )
+frame_index = 1
+
+[node name="Block45" parent="." instance=ExtResource( 4 )]
+position = Vector2( 320, 224 )
+frame_index = 1
+
+[node name="Block46" parent="." instance=ExtResource( 4 )]
+position = Vector2( 384, 224 )
+frame_index = 1
+
+[node name="Block47" parent="." instance=ExtResource( 4 )]
+position = Vector2( 448, 224 )
+frame_index = 1
+
+[node name="Block48" parent="." instance=ExtResource( 4 )]
+position = Vector2( 512, 224 )
+frame_index = 1
+
+[node name="Block49" parent="." instance=ExtResource( 4 )]
+position = Vector2( 64, 256 )
+frame_index = 2
+
+[node name="Block50" parent="." instance=ExtResource( 4 )]
+position = Vector2( 128, 256 )
+frame_index = 2
+
+[node name="Block51" parent="." instance=ExtResource( 4 )]
+position = Vector2( 192, 256 )
+frame_index = 2
+
+[node name="Block52" parent="." instance=ExtResource( 4 )]
+position = Vector2( 256, 256 )
+frame_index = 2
+
+[node name="Block53" parent="." instance=ExtResource( 4 )]
+position = Vector2( 320, 256 )
+frame_index = 2
+
+[node name="Block54" parent="." instance=ExtResource( 4 )]
+position = Vector2( 384, 256 )
+frame_index = 2
+
+[node name="Block55" parent="." instance=ExtResource( 4 )]
+position = Vector2( 448, 256 )
+frame_index = 2
+
+[node name="Block56" parent="." instance=ExtResource( 4 )]
+position = Vector2( 512, 256 )
+frame_index = 2
+
+[node name="Block57" parent="." instance=ExtResource( 4 )]
+position = Vector2( 64, 288 )
+frame_index = 2
+
+[node name="Block58" parent="." instance=ExtResource( 4 )]
+position = Vector2( 128, 288 )
+frame_index = 2
+
+[node name="Block59" parent="." instance=ExtResource( 4 )]
+position = Vector2( 192, 288 )
+frame_index = 2
+
+[node name="Block60" parent="." instance=ExtResource( 4 )]
+position = Vector2( 256, 288 )
+frame_index = 2
+
+[node name="Block61" parent="." instance=ExtResource( 4 )]
+position = Vector2( 320, 288 )
+frame_index = 2
+
+[node name="Block62" parent="." instance=ExtResource( 4 )]
+position = Vector2( 384, 288 )
+frame_index = 2
+
+[node name="Block63" parent="." instance=ExtResource( 4 )]
+position = Vector2( 448, 288 )
+frame_index = 2
+
+[node name="Block64" parent="." instance=ExtResource( 4 )]
+position = Vector2( 512, 288 )
+frame_index = 2
+
+[node name="Block65" parent="." instance=ExtResource( 4 )]
+position = Vector2( 64, 320 )
+frame_index = 2
+
+[node name="Block66" parent="." instance=ExtResource( 4 )]
+position = Vector2( 128, 320 )
+frame_index = 2
+
+[node name="Block67" parent="." instance=ExtResource( 4 )]
+position = Vector2( 192, 320 )
+frame_index = 2
+
+[node name="Block68" parent="." instance=ExtResource( 4 )]
+position = Vector2( 256, 320 )
+frame_index = 2
+
+[node name="Block69" parent="." instance=ExtResource( 4 )]
+position = Vector2( 320, 320 )
+frame_index = 2
+
+[node name="Block70" parent="." instance=ExtResource( 4 )]
+position = Vector2( 384, 320 )
+frame_index = 2
+
+[node name="Block71" parent="." instance=ExtResource( 4 )]
+position = Vector2( 448, 320 )
+frame_index = 2
+
+[node name="Block72" parent="." instance=ExtResource( 4 )]
+position = Vector2( 512, 320 )
+frame_index = 2
