@@ -23,6 +23,8 @@ animations = [ {
 extents = Vector2( 28, 20 )
 
 [node name="Enemy" type="Area2D" groups=["Enemys"]]
+collision_layer = 4
+collision_mask = 3
 script = ExtResource( 2 )
 __meta__ = {
 "_edit_group_": true

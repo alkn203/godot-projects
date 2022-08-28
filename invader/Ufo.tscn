@@ -23,6 +23,8 @@ animations = [ {
 extents = Vector2( 28, 16 )
 
 [node name="Ufo" type="Area2D" groups=["Ufos"]]
+collision_layer = 16
+collision_mask = 0
 script = ExtResource( 2 )
 
 [node name="AnimatedSprite" type="AnimatedSprite" parent="."]

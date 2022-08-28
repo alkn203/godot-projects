@@ -7,6 +7,7 @@
 extents = Vector2( 8, 24 )
 
 [node name="Beam" type="Area2D"]
+collision_layer = 8
 script = ExtResource( 2 )
 
 [node name="Sprite" type="Sprite" parent="."]
