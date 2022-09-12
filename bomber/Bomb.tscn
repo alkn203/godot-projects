@@ -33,3 +33,5 @@ centered = false
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 position = Vector2( 32, 32 )
 shape = SubResource( 4 )
+
+[connection signal="body_exited" from="." to="." method="_on_Bomb_body_exited"]
