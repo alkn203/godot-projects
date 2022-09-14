@@ -11,8 +11,7 @@ onready var stage = get_node("/root/Main/Stage1")
 func _ready():
         # 3秒後に爆発
 	yield(get_tree().create_timer(3.0), "timeout")
-        stage.explode(pos)
-        queue_free()
+        stage.explode(self)
 
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
