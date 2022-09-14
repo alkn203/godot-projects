@@ -30,6 +30,8 @@ func _physics_process(delta):
 		set_bomb() 
 
 func set_bomb(): 
+        set_collision_mask_bit(2, false)
+
 	var bomb_area = bomb_area_scene.instance()
 	bomb_area.tile_pos = tilemap.global_to_map(position)
 	bomb_area.position = tilemap.map_to_global(bomb_area.tile_pos)
