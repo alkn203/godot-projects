@@ -19,6 +19,6 @@ func _ready():
 
 func _on_BombArea_body_exited(body):
 	if body.name == "Player":
-        # bit 2:Bombとの当たり判定を有効に
-	body.set_collision_mask_bit(2, true)
-        queue_free() 
+		# bit 2:Bombとの当たり判定を有効に
+		body.set_collision_mask_bit(2, true)
+		queue_free() 

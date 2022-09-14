@@ -1,19 +1,20 @@
-extends StaticBody2D
+extends Node2D
 
 
 # Declare member variables here. Examples:
-var tile_pos = Vector2(0, 0)
-
-onready var stage = get_node("/root/Main/Stage1")
+# var a = 2
+# var b = "text"
 
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
-		# 3秒後に爆発
-	yield(get_tree().create_timer(3.0), "timeout")
-	stage.explode(self)
+	pass # Replace with function body.
 
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 #func _process(delta):
 #	pass
+
+func explode(bomb):
+	print(bomb.position)
+	bomb.queue_free()

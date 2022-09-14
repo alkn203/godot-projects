@@ -15,6 +15,7 @@ func _ready():
 #func _process(delta):
 #	pass
 
+
 func global_to_map(pos):
 	var local_pos = to_local(pos)
 	var map_pos = world_to_map(local_pos)
