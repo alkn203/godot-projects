@@ -21,63 +21,63 @@ func _ready():
 
 
 func explode(bomb):
-        var tile_pos = bomb.tilePos;
-        var pos = bomb.position
-        var power = bomb.power;
-        #
-        bomb.queue_free()
-        #
-        var explode_count = 1;
-        # 中心の爆発
-        var explosion = explosion_scene.instance()
-        main.locate_object(explosion, tile_pos)
-        explosion_layer.add_child(explosion)
-        explosion.play("center")
-        # 四方向ループ
-        for item in DIR_ARRAY:
-                # 次の方向
-                var dir = item[0]
-                # 爆発のグラフィック回転方向
-                var rot = item[1]
-                # 次の位置
-                var next_pos = pos + dir
-                # 爆発処理
-                _explode_next(next_pos, dir, rot, power, explode_count);  
+	var tile_pos = bomb.tile_pos;
+	var pos = bomb.position
+	var power = bomb.power;
+	#
+	bomb.queue_free()
+	#
+	var explode_count = 1;
+	# 中心の爆発
+	var explosion = explosion_scene.instance()
+	locate_object(explosion, tile_pos)
+	explosion_layer.add_child(explosion)
+	explosion.get_node("AnimatedSprite").play("center")
+	# 四方向ループ
+	for item in DIR_ARRAY:
+		# 次の方向
+		var dir = item[0]
+		# 爆発のグラフィック回転方向
+		var rot = item[1]
+		# 次の位置
+		var next_pos = pos + dir
+		# 爆発処理
+		#_explode_next(next_pos, dir, rot, power, explode_count);  
 
-func explode_next(tile_pos, dir, rot, power, explode_count):
-        # 指定した位置のタイルをチェック
-        var tile = tilemap.checkTileByIndex(pos.x, pos.y);
-        # 壁
-        if tile == WALL:
-               return
-        # ブロック
-        if tile == BLOCK:
-               # 破壊エフェクト
-               #obj.disable()
-               return
-        # 爆発の端
-        if power == explode_count:
-               var edge = explosion_scene.instance()
-               main.locate_object(edge, tile_pos)
-               explosion_layer.add_child(edge)
-               edge.play("edge")
-               return
-        # カウントアップ
-        explode_count += 1
-        # 途中の爆発
-        var middle = explosion_scene.instance()
-        middle.position = position
-        main.locate_object(middle, tile_pos)
-        explosion_layer.add_child(middle)
-        middle.play("middle")
-        #
-        var next_pos = pos + dir
-        # 同方向に１マス進めて再帰呼び出し
-        explode_next(next_pos, dir, rot, power, explode_count)
+func _explode_next(tile_pos, dir, rot, power, explode_count):
+	# 指定した位置のタイルをチェック
+	#var tile = tilemap.checkTileByIndex(pos.x, pos.y);
+	# 壁
+	#if tile == WALL:
+	#	return
+	# ブロック
+	#if tile == BLOCK:
+		# 破壊エフェクト
+		#obj.disable()
+	#	return
+	# 爆発の端
+	if power == explode_count:
+		var edge = explosion_scene.instance()
+		locate_object(edge, tile_pos)
+		explosion_layer.add_child(edge)
+		edge.play("edge")
+		return
+	# カウントアップ
+	explode_count += 1
+	# 途中の爆発
+	var middle = explosion_scene.instance()
+	middle.position = position
+	locate_object(middle, tile_pos)
+	explosion_layer.add_child(middle)
+	middle.play("middle")
+	#
+	var next_pos = tile_pos + dir
+	# 同方向に１マス進めて再帰呼び出し
+	_explode_next(next_pos, dir, rot, power, explode_count)
 
 func locate_object(obj, pos):
-        obj.tile_pos = pos
-        obj.position = map_to_global(pos)
+	obj.tile_pos = pos
+	obj.position = map_to_global(pos)
 
 func global_to_map(pos):
 	var local_pos = tilemap.to_local(pos)
