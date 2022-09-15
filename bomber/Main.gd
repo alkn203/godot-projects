@@ -7,7 +7,7 @@ extends Node2D
 var DIR_ARRAY = [[Vector2(-1, 0), 270], [Vector2(1, 0), 90], [Vector2(0, -1), 0], [Vector2(0, 1), 180]]
 onready var tilemap = get_node("/root/Main/TileMap")
 onready var explosion_scene = preload("res://Explosion.tscn")
-onready var explosion_layer = get_node("/root/Main/Stage1/ExplosionLayer")
+onready var explosion_layer = get_node("/root/Main/ExplosionLayer")
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
