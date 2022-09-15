@@ -4,8 +4,10 @@ extends Node2D
 # Declare member variables here. Examples:
 # var a = 2
 # var b = "text"
+var DIR_ARRAY = [[Vector2(-1, 0), 270], [Vector2(1, 0), 90], [Vector2(0, -1), 0], [Vector2(0, 1), 180]]
 onready var tilemap = get_node("/root/Main/TileMap")
-
+onready var explosion_scene = preload("res://Explosion.tscn")
+onready var explosion_layer = get_node("/root/Main/Stage1/ExplosionLayer")
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
@@ -16,9 +18,6 @@ func _ready():
 #func _process(delta):
 #	pass
 
-var DIR_ARRAY = [[Vector2(-1, 0), 270], [Vector2(1, 0), 90], [Vector2(0, -1), 0], [Vector2(0, 1), 180]]
-onready var explosion_scene = preload("res://Explosion.tscn")
-onready var explosion_layer = get_node("/root/Main/Stage1/ExplosionLayer")
 
 func explode(bomb):
         var tile_pos = bomb.tilePos;
