@@ -4,8 +4,7 @@ export (int) var speed = 200
 
 var velocity = Vector2()
 
-onready var bomb_
-area_scene = preload("res://BombArea.tscn")
+onready var bomb_area_scene = preload("res://BombArea.tscn")
 onready var bomb_scene = preload("res://Bomb.tscn")
 onready var bombarea_layer = get_node("/root/Main/BombAreaLayer")
 onready var bomb_layer = get_node("/root/Main/BombLayer")
