@@ -6,12 +6,11 @@ var velocity = Vector2()
 
 onready var bomb_area_scene = preload("res://BombArea.tscn")
 onready var bomb_scene = preload("res://Bomb.tscn")
-onready var bomb_area_layer = get_node("/root/Main/Stage1/BombAreaLayer")
-onready var bomb_layer = get_node("/root/Main/Stage1/BombLayer")
-onready var tilemap = get_node("/root/Main/Stage1/TileMap")
+onready var bombarea_layer = get_node("/root/Main/BombAreaLayer")
+onready var bomb_layer = get_node("/root/Main/BombLayer")
+onready var tilemap = get_node("/root/Main/TileMap")
 
-func get_move_input():
-	velocity = Vector2()
+func get_move_input()
 	if Input.is_action_pressed("ui_right"):
 		velocity.x += 1
 	if Input.is_action_pressed("ui_left"):
@@ -24,18 +23,18 @@ func get_move_input():
 
 func _physics_process(delta):
 	get_move_input()
-	velocity = move_and_collide(velocity * delta)
+	var collision = move_and_collide(velocity * delta)
 	
 	if Input.is_action_just_pressed("ui_z"):
 		set_bomb() 
 
 func set_bomb(): 
-	var bomb_area = bomb_area_scene.instance()
-	bomb_area.tile_pos = tilemap.global_to_map(position)
-	bomb_area.position = tilemap.map_to_global(bomb_area.tile_pos)
-	bomb_area_layer.add_child(bomb_area)
+		set_collision_mask_bit(2, false)
+
+	var bombarea = bombarea_scene.instance()
+	main.locate_object(bombarea, main.global_to_map(position))
+	bombarea_layer.add_child(bombarea)
 
 	var bomb = bomb_scene.instance()
-	bomb.tile_pos = tilemap.global_to_map(position)
-	bomb.position = tilemap.map_to_global(bomb.tile_pos)
+		main.locate_object(bomb, main.global_to_map(position))
 	bomb_layer.add_child(bomb)
