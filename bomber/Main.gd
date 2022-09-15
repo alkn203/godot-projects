@@ -43,6 +43,37 @@ func explode(bomb):
                 # 爆発処理
                 _explode_next(next_pos, dir, rot, power, explode_count);  
 
+func explode_next(tile_pos, dir, rot, power, explode_count):
+        # 指定した位置のタイルをチェック
+        var tile = tilemap.checkTileByIndex(pos.x, pos.y);
+        # 壁
+        if tile == WALL:
+               return
+        # ブロック
+        if tile == BLOCK:
+               # 破壊エフェクト
+               #obj.disable()
+               return
+        # 爆発の端
+        if power == explode_count:
+               var edge = explosion_scene.instance()
+               main.locate_object(edge, tile_pos)
+               explosion_layer.add_child(edge)
+               edge.play("edge")
+               return
+        # カウントアップ
+        explode_count += 1
+        # 途中の爆発
+        var middle = explosion_scene.instance()
+        middle.position = position
+        main.locate_object(middle, tile_pos)
+        explosion_layer.add_child(middle)
+        middle.play("middle")
+        #
+        var next_pos = pos + dir
+        # 同方向に１マス進めて再帰呼び出し
+        explode_next(next_pos, dir, rot, power, explode_count)
+
 func locate_object(obj, pos):
         obj.tile_pos = pos
         obj.position = map_to_global(pos)
