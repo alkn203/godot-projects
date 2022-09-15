@@ -4,7 +4,6 @@ extends Node2D
 # Declare member variables here. Examples:
 # var a = 2
 # var b = "text"
-var TILE_SIZE = 64
 
 
 # Called when the node enters the scene tree for the first time.
@@ -19,5 +18,14 @@ func _ready():
 
 func locate_object(obj, pos):
         obj.tile_pos = pos
-        obj.position.x = pos.x * TILE_SIZE
-        obj.position.y = pos.y * TILE_SIZE
+        obj.position = map_to_global(pos)
+
+func global_to_map(pos):
+	var local_pos = tilemap.to_local(pos)
+	var map_pos = tilemap.world_to_map(local_pos)
+	return map_pos
+
+func map_to_global(pos):
+	var local_pos = tilemap.map_to_world(pos)
+	var global_pos = tilemap.to_global(local_pos)
+	return global_pos
