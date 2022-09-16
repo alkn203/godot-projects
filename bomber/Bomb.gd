@@ -1,8 +1,9 @@
 extends StaticBody2D
 
-# Declare member variables here. Examples:
+# タイルマップでの位置
 var tile_pos = Vector2(0, 0)
-var power = 1
+# 爆弾の威力
+export (int) var power = 1
 
 onready var main = get_node("/root/Main")
 
