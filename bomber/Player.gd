@@ -10,7 +10,6 @@ onready var bomb_scene = preload("res://Bomb.tscn")
 onready var main = get_node("/root/Main")
 onready var bombarea_layer = get_node("/root/Main/BombAreaLayer")
 onready var bomb_layer = get_node("/root/Main/BombLayer")
-onready var tilemap = get_node("/root/Main/TileMap")
 
 
 func _physics_process(delta):

@@ -16,7 +16,7 @@ func _ready():
 #func _process(delta):
 #	pass
 
-
+# Areaから出たNodeを検出
 func _on_BombArea_body_exited(body):
 	if body.name == "Player":
 		# bit 2:Bombとの当たり判定を有効に

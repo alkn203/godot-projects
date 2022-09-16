@@ -42,7 +42,7 @@ region = Rect2( 320, 0, 64, 64 )
 [sub_resource type="SpriteFrames" id=19]
 animations = [ {
 "frames": [ SubResource( 1 ), SubResource( 2 ), SubResource( 3 ) ],
-"loop": true,
+"loop": false,
 "name": "center",
 "speed": 5.0
 }, {
@@ -66,10 +66,8 @@ script = ExtResource( 2 )
 [node name="AnimatedSprite" type="AnimatedSprite" parent="."]
 frames = SubResource( 19 )
 animation = "center"
-frame = 1
-playing = true
-centered = false
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
-position = Vector2( 32, 32 )
 shape = SubResource( 20 )
+
+[connection signal="animation_finished" from="AnimatedSprite" to="." method="_on_AnimatedSprite_animation_finished"]

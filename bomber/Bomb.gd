@@ -1,6 +1,5 @@
 extends StaticBody2D
 
-
 # Declare member variables here. Examples:
 var tile_pos = Vector2(0, 0)
 var power = 1

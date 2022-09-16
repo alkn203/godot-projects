@@ -1,6 +1,5 @@
 extends Area2D
 
-
 # Declare member variables here. Examples:
 var tile_pos = Vector2(0, 0)
 
@@ -13,3 +12,7 @@ func _ready():
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 #func _process(delta):
 #	pass
+
+# フレームアニメーションが終わったら自身を削除
+func _on_AnimatedSprite_animation_finished():
+	queue_free()
