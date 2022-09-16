@@ -91,6 +91,10 @@ func _explode_next(tile_pos, dir, rot, power, explode_count):
 	# 同方向に１マス進めて再帰呼び出し
 	_explode_next(next_pos, dir, rot, power, explode_count)
 
+func _set_explosion(tile_pos, type, rotation):
+        
+
+
 func locate_object(obj, pos):
 	obj.tile_pos = pos
 	obj.position = map_to_global(pos)
