@@ -79,9 +79,9 @@ func _explode_next(tile_pos, dir, rot, power, explode_count):
 	_explode_next(next_pos, dir, rot, power, explode_count)
 
 # 爆発を配置
-func _set_explosion(tile_position, type, rotation):
-	var explosion = explosion_scene.instance()
-	explosion.tile_pos = tile_position
+func _set_explosion(tile_pos, type, rotation):
+	var explosion = Explosion.instance()
+	explosion.tile_pos = tile_pos
 	# センター寄せのため位置調整
 	explosion.position = map_to_global(tile_position) + Vector2(32, 32)
 	explosion_layer.add_child(explosion)
