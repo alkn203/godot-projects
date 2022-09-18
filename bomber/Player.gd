@@ -1,25 +1,28 @@
 extends KinematicBody2D
 
+# プレイヤーの速度
 export (int) var speed = 120
-
+# 移動方向ベクトル
 var velocity = Vector2(0, 0)
-
-onready var bombarea_scene = preload("res://BombArea.tscn")
-onready var bomb_scene = preload("res://Bomb.tscn")
-
+# シーン
+const BombArea = preload("res://BombArea.tscn")
+const Bomb = preload("res://Bomb.tscn")
+# ノード
 onready var main = get_node("/root/Main")
 onready var bombarea_layer = get_node("/root/Main/BombAreaLayer")
 onready var bomb_layer = get_node("/root/Main/BombLayer")
 
-
+# 毎フレーム処理
 func _physics_process(delta):
-	get_move_input()
+	_get_move_input()
+        # 移動と当たり判定
 	var collision = move_and_collide(velocity * delta)
-	
+	# 爆弾セット
 	if Input.is_action_just_pressed("ui_z"):
-		set_bomb() 
+		_set_bomb() 
 
-func get_move_input():
+# 移動検知
+func _get_move_input():
 	velocity = Vector2(0, 0)
 	
 	if Input.is_action_pressed("ui_right"):
@@ -33,13 +36,15 @@ func get_move_input():
 		
 	velocity = velocity.normalized() * speed
 
-
-func set_bomb(): 
+# 爆弾セット処理
+func _set_bomb():
+        # プレイヤーとの当たり判定をなしにする 
 	set_collision_mask_bit(2, false)
-	var bombarea = bombarea_scene.instance()
+	# ダミーの当たり判定
+        var bombarea = BombArea.instance()
 	main.locate_object(bombarea, main.global_to_map(position))
 	bombarea_layer.add_child(bombarea)
-
-	var bomb = bomb_scene.instance()
+        # 爆弾
+	var bomb = Bomb.instance()
 	main.locate_object(bomb, main.global_to_map(position))
 	bomb_layer.add_child(bomb)
