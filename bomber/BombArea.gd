@@ -1,9 +1,7 @@
 extends Area2D
 
-
 # タイルマップでの位置
 var tile_pos = Vector2(0, 0)
-
 
 # Areaから出たNodeを検出
 func _on_BombArea_body_exited(body):
