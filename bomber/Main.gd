@@ -8,18 +8,9 @@ const DIR_ARRAY = [Vector2(-1, 0), Vector2(1, 0), Vector2(0, -1), Vector2(0, 1)]
 const Explosion = preload("res://Explosion.tscn")
 const Block = preload("res://Block.tscn")
 # ノード
-onready var tilemap = get_node("/root/Main/TileMap")
+onready var tilemap = get_node("/root/Main/TileMapLayer/TileMap")
 onready var explosion_layer = get_node("/root/Main/ExplosionLayer")
 onready var block_layer = get_node("/root/Main/BlockLayer")
-
-# Called when the node enters the scene tree for the first time.
-func _ready():
-	pass # Replace with function body.
-
-
-# Called every frame. 'delta' is the elapsed time since the previous frame.
-#func _process(delta):
-#	pass
 
 # 爆発処理
 func explode(bomb):
@@ -63,7 +54,9 @@ func _explode_next(tile_pos, dir, rot, power, explode_count):
 		# タイルを床に置き換える
 		tilemap.set_cellv(tile_pos, NONE)
 		# ブロック破壊エフェクト
-		#obj.disable()
+		var block = Block.instance()
+		locate_object(block, tile_pos)
+		block_layer.add_child(block)
 		return
 	# 爆発の端
 	if power == explode_count:
@@ -83,14 +76,14 @@ func _set_explosion(tile_pos, type, rotation):
 	var explosion = Explosion.instance()
 	explosion.tile_pos = tile_pos
 	# センター寄せのため位置調整
-	explosion.position = map_to_global(tile_position) + Vector2(32, 32)
+	explosion.position = map_to_global(tile_pos) + Vector2(32, 32)
 	explosion_layer.add_child(explosion)
 	# アニメーション指定
 	explosion.get_node("AnimatedSprite").play(type)
 	# 回転角度設定
 	explosion.rotation_degrees = rotation
 
-#
+# オブジェクト配置用
 func locate_object(obj, pos):
 	obj.tile_pos = pos
 	obj.position = map_to_global(pos)

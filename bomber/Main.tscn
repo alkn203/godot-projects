@@ -91,7 +91,9 @@ func _ready():
 [node name="Main" type="Node2D"]
 script = ExtResource( 4 )
 
-[node name="TileMap" type="TileMap" parent="."]
+[node name="TileMapLayer" type="CanvasLayer" parent="."]
+
+[node name="TileMap" type="TileMap" parent="TileMapLayer"]
 tile_set = SubResource( 4 )
 collision_mask = 2
 format = 1
@@ -99,14 +101,23 @@ tile_data = PoolIntArray( 0, 1, 0, 1, 1, 0, 2, 1, 0, 3, 1, 0, 4, 1, 0, 5, 1, 0, 
 script = SubResource( 5 )
 
 [node name="BombAreaLayer" type="CanvasLayer" parent="."]
+layer = 2
 
 [node name="BombLayer" type="CanvasLayer" parent="."]
+layer = 3
 
 [node name="ExplosionLayer" type="CanvasLayer" parent="."]
+layer = 4
 
-[node name="Player" parent="." instance=ExtResource( 2 )]
-position = Vector2( 96, 96 )
-speed = 100
+[node name="BlockLayer" type="CanvasLayer" parent="."]
+layer = 5
 
 [node name="Block" parent="." instance=ExtResource( 1 )]
 position = Vector2( 67, 574 )
+
+[node name="PlayerLayer" type="CanvasLayer" parent="."]
+layer = 6
+
+[node name="Player" parent="PlayerLayer" instance=ExtResource( 2 )]
+position = Vector2( 96, 96 )
+speed = 100
