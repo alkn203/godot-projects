@@ -1,14 +1,16 @@
 extends Node2D
 
-
+# タイル番号
+enum {NONE, WALL, BLOCK}
 # 方向
-var DIR_ARRAY = [Vector2(-1, 0), Vector2(1, 0), Vector2(0, -1), Vector2(0, 1)]
-
-onready var explosion_scene = preload("res://Explosion.tscn")
+const DIR_ARRAY = [Vector2(-1, 0), Vector2(1, 0), Vector2(0, -1), Vector2(0, 1)]
+# シーン
+const Explosion = preload("res://Explosion.tscn")
+const Block = preload("res://Block.tscn")
+# ノード
 onready var tilemap = get_node("/root/Main/TileMap")
 onready var explosion_layer = get_node("/root/Main/ExplosionLayer")
-# タイル番号
-enum { NONE, WALL, BLOCK }
+onready var block_layer = get_node("/root/Main/BlockLayer")
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
