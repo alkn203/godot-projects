@@ -15,8 +15,17 @@ onready var bomb_layer = get_node("/root/Main/BombLayer")
 # 毎フレーム処理
 func _physics_process(delta):
 	_get_move_input()
-		# 移動と当たり判定
+        # 移動と当たり判定
 	var collision = move_and_collide(velocity * delta)
+        # Confirm the colliding body is a TileMap
+        if collision.collider is TileMap:
+                # Find the character's position in tile coordinates
+                var tile_pos = collision.collider.world_to_map(position)
+                # Find the colliding tile position
+                tile_pos -= collision.normal
+                # Get the tile id
+                var tile_id = collision.collider.get_cellv(tile_pos)
+                
 	# 爆弾セット
 	if Input.is_action_just_pressed("ui_z"):
 		_set_bomb() 
