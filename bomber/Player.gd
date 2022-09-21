@@ -8,24 +8,25 @@ var velocity = Vector2(0, 0)
 const BombArea = preload("res://BombArea.tscn")
 const Bomb = preload("res://Bomb.tscn")
 # ノード
-onready var main = get_node("/root/Main")
+onready var tilemap = get_node("/root/Main/TileMapLayer/TileMap")
 onready var bombarea_layer = get_node("/root/Main/BombAreaLayer")
 onready var bomb_layer = get_node("/root/Main/BombLayer")
 
 # 毎フレーム処理
 func _physics_process(delta):
 	_get_move_input()
-        # 移動と当たり判定
+		# 移動と当たり判定
 	var collision = move_and_collide(velocity * delta)
-        # Confirm the colliding body is a TileMap
-        if collision.collider is TileMap:
-                # Find the character's position in tile coordinates
-                var tile_pos = collision.collider.world_to_map(position)
-                # Find the colliding tile position
-                tile_pos -= collision.normal
-                # Get the tile id
-                var tile_id = collision.collider.get_cellv(tile_pos)
-                
+	# Confirm the colliding body is a TileMap
+	if collision:
+		if collision.collider is TileMap:
+			# Find the character's position in tile coordinates
+			var tile_pos = collision.collider.world_to_map(position)
+			# Find the colliding tile position
+			tile_pos -= collision.normal
+			# Get the tile id
+			var tile_id = collision.collider.get_cellv(tile_pos)
+				
 	# 爆弾セット
 	if Input.is_action_just_pressed("ui_z"):
 		_set_bomb() 
@@ -47,13 +48,15 @@ func _get_move_input():
 
 # 爆弾セット処理
 func _set_bomb():
-		# プレイヤーとの当たり判定をなしにする 
+	# プレイヤーとの当たり判定をなしにする 
 	set_collision_mask_bit(2, false)
 	# ダミーの当たり判定
 	var bombarea = BombArea.instance()
-	main.locate_object(bombarea, main.global_to_map(position))
+	bombarea.tile_pos = tilemap.world_to_map(position)
+	bombarea.position = tilemap.map_to_world(bombarea.tile_pos)
 	bombarea_layer.add_child(bombarea)
 	# 爆弾
 	var bomb = Bomb.instance()
-	main.locate_object(bomb, main.global_to_map(position))
+	bomb.tile_pos = tilemap.world_to_map(position)
+	bomb.position = tilemap.map_to_world(bomb.tile_pos)
 	bomb_layer.add_child(bomb)

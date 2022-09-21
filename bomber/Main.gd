@@ -55,7 +55,8 @@ func _explode_next(tile_pos, dir, rot, power, explode_count):
 		tilemap.set_cellv(tile_pos, NONE)
 		# ブロック破壊エフェクト
 		var block = Block.instance()
-		locate_object(block, tile_pos)
+		block.tile_pos = tile_pos
+		block.position = tilemap.map_to_world(tile_pos)
 		block_layer.add_child(block)
 		return
 	# 爆発の端
@@ -76,26 +77,9 @@ func _set_explosion(tile_pos, type, rotation):
 	var explosion = Explosion.instance()
 	explosion.tile_pos = tile_pos
 	# センター寄せのため位置調整
-	explosion.position = map_to_global(tile_pos) + Vector2(32, 32)
+	explosion.position = tilemap.map_to_world(tile_pos) + Vector2(32, 32)
 	explosion_layer.add_child(explosion)
 	# アニメーション指定
 	explosion.get_node("AnimatedSprite").play(type)
 	# 回転角度設定
 	explosion.rotation_degrees = rotation
-
-# オブジェクト配置用
-func locate_object(obj, pos):
-	obj.tile_pos = pos
-	obj.position = map_to_global(pos)
-
-# 絶対座標からタイルマップ位置に変換
-func global_to_map(pos):
-	var local_pos = tilemap.to_local(pos)
-	var map_pos = tilemap.world_to_map(local_pos)
-	return map_pos
-
-# タイルマップ位置から絶対座標に変換
-func map_to_global(pos):
-	var local_pos = tilemap.map_to_world(pos)
-	var global_pos = tilemap.to_global(local_pos)
-	return global_pos
