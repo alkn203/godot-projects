@@ -26,6 +26,7 @@ tracks/0/keys = {
 script = ExtResource( 2 )
 
 [node name="Sprite" type="Sprite" parent="."]
+modulate = Color( 1, 1, 1, 0 )
 texture = ExtResource( 1 )
 centered = false
 hframes = 4
@@ -36,6 +37,7 @@ position = Vector2( 32, 32 )
 shape = SubResource( 1 )
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+playback_speed = 2.0
 anims/fadeout = SubResource( 2 )
 
 [connection signal="animation_finished" from="AnimationPlayer" to="." method="_on_AnimationPlayer_animation_finished"]
