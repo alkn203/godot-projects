@@ -12,3 +12,7 @@ func _physics_process(delta):
 	var velocity = vec * speed
         # 移動と当たり判定
 	var collision = move_and_collide(velocity * delta)
+        #
+        if collision:
+                
+
