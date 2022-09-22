@@ -1,5 +1,6 @@
-[gd_scene load_steps=8 format=2]
+[gd_scene load_steps=9 format=2]
 
+[ext_resource path="res://Enemy1.tscn" type="PackedScene" id=1]
 [ext_resource path="res://Player.tscn" type="PackedScene" id=2]
 [ext_resource path="res://assets/tile.png" type="Texture" id=3]
 [ext_resource path="res://Main.gd" type="Script" id=4]
@@ -120,3 +121,6 @@ speed = 100
 
 [node name="EnemyLayer" type="CanvasLayer" parent="."]
 layer = 7
+
+[node name="Enemy1" parent="EnemyLayer" instance=ExtResource( 1 )]
+position = Vector2( 352, 96 )
