@@ -4,13 +4,25 @@ extends Node2D
 enum {NONE, WALL, BLOCK}
 # 方向
 const DIR_ARRAY = [Vector2(-1, 0), Vector2(1, 0), Vector2(0, -1), Vector2(0, 1)]
+# 敵の位置
+const ENEMY_ARRAY = [Vector2(5, 1)]
 # シーン
 const Explosion = preload("res://Explosion.tscn")
 const Block = preload("res://Block.tscn")
+const Enemy = preload("res://Enemy1.tscn")
 # ノード
 onready var tilemap = get_node("/root/Main/TileMapLayer/TileMap")
 onready var explosion_layer = get_node("/root/Main/ExplosionLayer")
 onready var block_layer = get_node("/root/Main/BlockLayer")
+onready var enemy_layer = get_node("/root/Main/EnemyLayer")
+
+#
+func _ready():
+	# 敵を配置
+	for pos in ENEMY_ARRAY:
+		var enemy = Enemy.instance()
+		enemy.position = tilemap.map_to_world(pos)
+		enemy_layer.add_child(enemy)
 
 # 爆発処理
 func explode(bomb):
