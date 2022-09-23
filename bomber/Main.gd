@@ -16,7 +16,7 @@ onready var explosion_layer = get_node("/root/Main/ExplosionLayer")
 onready var block_layer = get_node("/root/Main/BlockLayer")
 onready var enemy_layer = get_node("/root/Main/EnemyLayer")
 
-#
+# 初期化処理
 func _ready():
 	# 敵を配置
 	for pos in ENEMY_ARRAY:
