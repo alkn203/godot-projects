@@ -28,7 +28,7 @@ func _physics_process(delta):
 		if (collider is TileMap) or (collider.name == "Bomb"):
 			direction = direction.bounce(collision.normal)
 
-#
+# やられ処理
 func disable():
 	# コリジョンを無効化
 	get_node("CollisionShape2D").set_deferred("disabled", true)
