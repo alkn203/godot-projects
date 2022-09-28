@@ -9,7 +9,7 @@ const ENEMY_ARRAY = [Vector2(5, 1)]
 # シーン
 const Explosion = preload("res://Explosion.tscn")
 const Block = preload("res://Block.tscn")
-const Enemy = preload("res://Enemy1.tscn")
+const Enemy = preload("res://Enemy.tscn")
 # ノード
 onready var tilemap = get_node("/root/Main/TileMapLayer/TileMap")
 onready var explosion_layer = get_node("/root/Main/ExplosionLayer")
