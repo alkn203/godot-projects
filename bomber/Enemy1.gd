@@ -21,10 +21,13 @@ func _physics_process(delta):
 	var collision = move_and_collide(velocity * delta)
 	# ヒットあり
 	if collision:
+                var collider = collision.collider
 		# タイルマップか爆弾なら反転移動
-		if collision.collider is TileMap:
+		if (collider is TileMap) or (collider.name == "Bomb"):
 			direction = direction.bounce(collision.normal)
-		if collision.collider.name == "Bomb":
-			direction = direction.bounce(collision.normal)
-				
+		if collider.name == "Explosion":
+                        get_node("CollisionShape2D").set_deferred("disabled", true)
+			sprite.frame = 2
+                        yield(get_tree().create_timer(1.5), "timeout")
+                        queue_free()
 
