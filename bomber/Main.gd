@@ -5,7 +5,7 @@ enum {NONE, WALL, BLOCK}
 # 方向
 const DIR_ARRAY = [Vector2(-1, 0), Vector2(1, 0), Vector2(0, -1), Vector2(0, 1)]
 # 敵の位置
-const ENEMY_ARRAY = [Vector2(5, 1), Vector2(8, 5), Vector2(5, 9), Vector2(2, 12)]
+const ENEMY_ARRAY = [Vector2(5, 1), Vector2(8, 5), Vector2(5, 9), Vector2(2, 13)]
 # シーン
 const Explosion = preload("res://Explosion.tscn")
 const Block = preload("res://Block.tscn")

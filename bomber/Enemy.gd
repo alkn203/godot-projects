@@ -11,17 +11,15 @@ onready var sprite = get_node("Sprite")
 onready var enemy_layer = get_node("/root/Main/EnemyLayer")
 
 # 毎フレーム処理
-func _physics_prosess:
-        # やられていたら何もしない
-        if defeated:
-                return
+func _physics_process(delta):
+	# やられていたら何もしない
+	if defeated:
+		return
 	# 移動方向でフレームを変更
 	if direction.x == -1:
 		sprite.frame = 0
 	elif direction.x == 1:
 		sprite.frame = 1
-	elif direction.x == 0:
-		sprite.frame = 2
 
 	var velocity = direction * speed
 	# 移動と当たり判定
@@ -35,14 +33,14 @@ func _physics_prosess:
 
 # やられ処理
 func disable():
-        # やられフラグセット
-        defeated = true
+	# やられフラグセット
+	defeated = true
 	# コリジョンを無効化
 	get_node("CollisionShape2D").set_deferred("disabled", true)
 	# 移動を停止
 	direction = Vector2(0, 0)
-        # フレームインデックス変更
-        sprite.frame = 3
+	# フレームインデックス変更
+	sprite.frame = 2
 	# 一定時間後に削除
 	yield(get_tree().create_timer(1.5), "timeout")
 	queue_free()

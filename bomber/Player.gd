@@ -3,9 +3,9 @@ extends KinematicBody2D
 # プレイヤーの速度
 export (int) var speed = 150
 # 移動方向ベクトル
-var direction= Vector2(0, 0)
+var velocity = Vector2(0, 0)
 # やられたかのフラグ
-var defeated = fslse
+var defeated = false
 # シーン
 const BombArea = preload("res://BombArea.tscn")
 const Bomb = preload("res://Bomb.tscn")
@@ -16,8 +16,8 @@ onready var bomb_layer = get_node("/root/Main/BombLayer")
 
 # やられ処理
 func disable():
-        # やられフラグセット
-        defeated = true
+	# やられフラグセット
+	defeated = true
 	# コリジョンを無効化
 	get_node("CollisionShape2D").set_deferred("disabled", true)
 	# 一定時間後に
@@ -25,32 +25,32 @@ func disable():
 
 # 毎フレーム処理
 func _physics_process(delta):
-        # やられていたら何もしない
-        if defeated:
-                return
-        # 移動入力受付
+	# やられていたら何もしない
+	if defeated:
+		return
+	# 移動入力受付
 	_get_move_input()
 	# 移動と当たり判定
 	var collision = move_and_collide(velocity * delta)
 	# 爆弾がなければ爆弾セット
-        if bomb_layer.get_child_count() == 0:
-                if Input.is_action_just_pressed("ui_z"):
-		        _set_bomb() 
+	if bomb_layer.get_child_count() == 0:
+		if Input.is_action_just_pressed("ui_z"):
+			_set_bomb() 
 
 # 移動検知
 func _get_move_input():
-	direction = Vector2(0, 0)
+	velocity = Vector2(0, 0)
 	
 	if Input.is_action_pressed("ui_right"):
-		direction.x += 1
+		velocity.x += 1
 	if Input.is_action_pressed("ui_left"):
-		direction.x -= 1
+		velocity.x -= 1
 	if Input.is_action_pressed("ui_down"):
-		direction.y += 1
+		velocity.y += 1
 	if Input.is_action_pressed("ui_up"):
-		direction.y -= 1
+		velocity.y -= 1
 		
-	velocity = direction.normalized() * speed
+	velocity = velocity.normalized() * speed
 
 # 爆弾セット処理
 func _set_bomb():
