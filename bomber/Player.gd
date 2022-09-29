@@ -17,9 +17,10 @@ func _physics_process(delta):
 	_get_move_input()
 	# 移動と当たり判定
 	var collision = move_and_collide(velocity * delta)
-	# 爆弾セット
-	if Input.is_action_just_pressed("ui_z"):
-		_set_bomb() 
+	# 爆弾がなければ爆弾セット
+        if bomb_layer.get_child_count() == 0:
+                if Input.is_action_just_pressed("ui_z"):
+		        _set_bomb() 
 
 # 移動検知
 func _get_move_input():
