@@ -4,12 +4,17 @@ extends KinematicBody2D
 export (int) var speed = 50
 # 移動方向ベクトル
 var direction = Vector2(-1, 0)
+# やられたかのフラグ
+var defeated = false
 # ノード
 onready var sprite = get_node("Sprite")
 onready var enemy_layer = get_node("/root/Main/EnemyLayer")
 
 # 毎フレーム処理
-func _physics_process(delta):
+func _physics_prosess:
+        # やられていたら何もしない
+        if defeated:
+                return
 	# 移動方向でフレームを変更
 	if direction.x == -1:
 		sprite.frame = 0
@@ -30,10 +35,14 @@ func _physics_process(delta):
 
 # やられ処理
 func disable():
+        # やられフラグセット
+        defeated = true
 	# コリジョンを無効化
 	get_node("CollisionShape2D").set_deferred("disabled", true)
 	# 移動を停止
 	direction = Vector2(0, 0)
+        # フレームインデックス変更
+        sprite.frame = 3
 	# 一定時間後に削除
 	yield(get_tree().create_timer(1.5), "timeout")
 	queue_free()
