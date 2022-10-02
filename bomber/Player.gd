@@ -13,6 +13,7 @@ const Bomb = preload("res://Bomb.tscn")
 onready var tilemap = get_node("/root/Main/TileMapLayer/TileMap")
 onready var bombarea_layer = get_node("/root/Main/BombAreaLayer")
 onready var bomb_layer = get_node("/root/Main/BombLayer")
+onready var animated_sprite = get_node("AnimatedSprite")
 
 # やられ処理
 func disable():
@@ -41,14 +42,18 @@ func _physics_process(delta):
 func _get_move_input():
 	velocity = Vector2(0, 0)
 	
-	if Input.is_action_pressed("ui_right"):
-		velocity.x += 1
-	if Input.is_action_pressed("ui_left"):
-		velocity.x -= 1
 	if Input.is_action_pressed("ui_down"):
+		animated_sprite.play("down")
 		velocity.y += 1
 	if Input.is_action_pressed("ui_up"):
+		animated_sprite.play("up")
 		velocity.y -= 1
+	if Input.is_action_pressed("ui_left"):
+		animated_sprite.play("left")
+		velocity.x -= 1
+	if Input.is_action_pressed("ui_right"):
+		animated_sprite.play("right")
+		velocity.x += 1
 		
 	velocity = velocity.normalized() * speed
 
