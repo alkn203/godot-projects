@@ -32,8 +32,7 @@ func disable():
 
 #
 func _ready():
-        animated_sprite.play("ui_down_stop
-")
+        animated_sprite.play("ui_down_stop")
 
 # 毎フレーム処理
 func _physics_process(delta):
