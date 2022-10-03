@@ -1,5 +1,10 @@
 extends KinematicBody2D
 
+const KEY_ARRAY = [
+        ["ui_down", Vector2(0, 1)],
+        ["ui_up", Vector2(0, -1)],
+        ["ui_left", Vector2(-1, 0)],
+        ["ui_right", Vector2(1, 0)]]
 # プレイヤーの速度
 export (int) var speed = 150
 # 移動方向ベクトル
@@ -40,22 +45,15 @@ func _physics_process(delta):
 
 # 移動検知
 func _get_move_input():
-	velocity = Vector2(0, 0)
+	for elem in DIR_ARRAY:
+                var dir = elem[0]
+                #
+                if Input.is_action_pressed(dir):
+		        animated_sprite.play(dir.erase(0, 3))
+		        velocity = elem[1]
 	
-	if Input.is_action_pressed("ui_down"):
-		animated_sprite.play("down")
-		velocity.y += 1
-	if Input.is_action_pressed("ui_up"):
-		animated_sprite.play("up")
-		velocity.y -= 1
-	if Input.is_action_pressed("ui_left"):
-		animated_sprite.play("left")
-		velocity.x -= 1
-	if Input.is_action_pressed("ui_right"):
-		animated_sprite.play("right")
-		velocity.x += 1
-		
-	velocity = velocity.normalized() * speed
+        #
+        velocity = velocity.normalized() * speed
 
 # 爆弾セット処理
 func _set_bomb():
