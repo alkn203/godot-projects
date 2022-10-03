@@ -26,8 +26,14 @@ func disable():
 	defeated = true
 	# コリジョンを無効化
 	get_node("CollisionShape2D").set_deferred("disabled", true)
-	# 一定時間後に
+	# 一定時間後にやられアニメーション
 	yield(get_tree().create_timer(1.5), "timeout")
+        animated_sprite.play("defeated")
+
+#
+func _ready():
+        animated_sprite.play("ui_down_stop
+")
 
 # 毎フレーム処理
 func _physics_process(delta):
@@ -49,12 +55,16 @@ func _get_move_input():
                 var dir = elem[0]
                 #
                 if Input.is_action_pressed(dir):
-		        animated_sprite.play(dir.erase(0, 3))
+		        animated_sprite.play(dir)
 		        velocity = elem[1]
-	
-        #
+	#
         velocity = velocity.normalized() * speed
 
+        for elem in DIR_ARRAY:
+                var dir = elem[0]
+                #
+                if Input.is_action_released(dir):
+		        animated_sprite.play(dir + "_stop")
 # 爆弾セット処理
 func _set_bomb():
 	# プレイヤーとの当たり判定をなしにする 
