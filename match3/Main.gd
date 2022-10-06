@@ -39,7 +39,6 @@ func init_gem():
         var num = randi() % 7
         gem.get_node("Sprite").frame = num
         gem.num = num
-        gem.mark = "normal"
       
       init_gem()
 
@@ -52,7 +51,9 @@ func init_hidden_gem():
     for gem in gem_layer.get_child():
       if gem.position.y < 0:
         gem.queue_free()
-    
+
+    # シード値変更
+    randomize()
     # ジェム配置
     for i in GEM_NUM_X:
 	for j in GEM_NUM_X:
@@ -61,6 +62,10 @@ func init_hidden_gem():
                 # 画面分上にずらす
                 gem.position -= Vector2(0, SCREEN_HEIGHT)
 		gem_layer.add_child(gem)
+                # ランダムな色
+                var num = randi() % 7
+                gem.get_node("Sprite").frame = num
+                gem.num = num
 
 # ペア選択処理
 func select_pair(gem):
