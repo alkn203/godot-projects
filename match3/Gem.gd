@@ -1,12 +1,16 @@
 extends Area2D
 
+# 変数
+var num
+var mark
 # ノード取得
 onready var main = get_node("/root/Main")
 
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
-	pass # Replace with function body.
+	num = 0
+        mark = "normal"
 
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
