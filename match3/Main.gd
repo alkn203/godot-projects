@@ -26,6 +26,20 @@ func _ready():
 #func _process(delta):
 #	pass
 
+# ジェム初期化
+func init_gem:
+    # 3つ並び以上があれば仕切り直し
+    if exist_match3():
+      for gem in gem_layer.get_child():
+        # ランダムな色
+        gem.get_node("Sprite").frame = Random.randint(0, 6);
+        gem.mark = "normal";
+      
+      init_gem()
+
+    # 画面外ジェム配置
+    init_hidden_gem()
+
 # ペア選択処理
 func select_pair(gem):
 	print(gem.name)
