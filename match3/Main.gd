@@ -15,7 +15,7 @@ onready var gem_layer = get_node("GemLayer")
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
-	# ジェム配置
+        # ジェム配置
 	for i in GEM_NUM_X:
 		for j in GEM_NUM_X:
 			var gem = Gem.instance()
@@ -42,6 +42,22 @@ func init_gem:
 
     # 画面外ジェム配置
     init_hidden_gem()
+
+# 画面外のジェム配置
+func init_hidden_gem:
+    # 一旦消す
+    for gem in gem_layer.get_child():
+      if gem.position.y < 0:
+        gem.queue_free()
+    
+    # ジェム配置
+    for i in GEM_NUM_X:
+	for j in GEM_NUM_X:
+		var gem = Gem.instance()
+		gem.position = Vector2(i * GEM_SIZE, j * GEM_SIZE) + Vector2(GEM_OFFSET, GEM_OFFSET)
+                # 画面分上にずらす
+                gem.position -= Vector2(0, SCREEN_HEIGHT)
+		gem_layer.add_child(gem)
 
 # ペア選択処理
 func select_pair(gem):
