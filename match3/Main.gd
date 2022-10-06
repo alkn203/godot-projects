@@ -1,6 +1,7 @@
 extends Node2D
 
 # 定数
+const SCREEN_HEIGHT = 640
 const GEM_SIZE = 80
 const GEM_OFFSET = GEM_SIZE / 2
 const GEM_NUM_X = 8
@@ -35,7 +36,9 @@ func init_gem():
       # 作り直し
       for gem in gem_layer.get_child():
         # ランダムな色
-        gem.get_node("Sprite").frame = randi() % 7;
+        var num = randi() % 7
+        gem.get_node("Sprite").frame = num
+        gem.num = num
         gem.mark = "normal"
       
       init_gem()
