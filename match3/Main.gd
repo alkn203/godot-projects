@@ -30,10 +30,13 @@ func _ready():
 func init_gem:
     # 3つ並び以上があれば仕切り直し
     if exist_match3():
+      # シード値変更
+      randomize()
+      # 作り直し
       for gem in gem_layer.get_child():
         # ランダムな色
-        gem.get_node("Sprite").frame = Random.randint(0, 6);
-        gem.mark = "normal";
+        gem.get_node("Sprite").frame = randi() % 7;
+        gem.mark = "normal"
       
       init_gem()
 
