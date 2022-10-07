@@ -98,23 +98,19 @@ func select_pair(gem):
 
 # 隣り合わせ以外を選択不可にする
 _selectable_next():
-    var gem = pair[0]
     # 一旦全てを選択不可に
     for gem in gem_layer.get_children():
-      gem.setInteractive(false);
+      gem.get_node("CollisionShape2D").set_deferred("disabled", true)
     
-    this.gemGroup.children.each(function(target) {
-      var dx = Math.abs(gem.x - target.x);
-      var dy = Math.abs(gem.y - target.y);
-      // 上下左右隣り合わせだけを選択可に
-      if (gem.x === target.x && dy === GRID_SIZE) {
-        target.setInteractive(true);
-      }
-      if (gem.y === target.y && dx === GRID_SIZE) {
-        target.setInteractive(true);
-      }
-    });
-  },
+    var gem = pair[0]
+    for target in gem_layer.get_children():
+      var dx = abs(gem.posotion.x - target.position.x)
+      var dy = abs(gem.position.y - target.position.y)
+      # 上下左右隣り合わせだけを選択可に
+      if gem.position.x == target.position.x and dy == GEM_SIZE:
+        gem.get_node("CollisionShape2D").set_deferred("disabled", false)
+      if gem.position.y == target.position.y and dx == GEM_SIZE:
+        gem.get_node("CollisionShape2D").set_deferred("disabled", false)
 
 # 3つ並び以上存在チェック
 func _exist_match3():
