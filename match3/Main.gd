@@ -7,9 +7,10 @@ const GEM_OFFSET = GEM_SIZE / 2
 const GEM_NUM_X = 8
 
 # 変数
-# ペア格納用配列
 var pair = []
 var match_count = 0
+var swap_count = 0
+var second_swap = false
 # シーン
 const Gem = preload("res://Gem.tscn")
 # レイヤー
@@ -111,6 +112,46 @@ _selectable_next():
         gem.get_node("CollisionShape2D").set_deferred("disabled", false)
       if gem.position.y == target.position.y and dx == GEM_SIZE:
         gem.get_node("CollisionShape2D").set_deferred("disabled", false)
+
+# ジェム入れ替え処理
+_swap_gem():
+    var g1 = pair[0]
+    var g2 = pair[1]
+    # 1回目
+    if !second_swap:
+      _set_gem_collision_disble(true)
+      #this.cursorGroup.children.clear()
+
+    swap_count = 2
+    # 入れ替えアニメーション
+    var tween1 = get_tree().create_tween()
+    tween1.tween_property(g1, "position", g2.position, 2.0)
+    tween1.tween_callback(self, "_after_swap")
+
+    var tween2 = get_tree().create_tween()
+    tween2.tween_property(g2, "position", g1.position, 2.0)
+    tween2.tween_callback(self, "_after_swap")
+
+func _after_swap():
+  #
+  swap_count -= 1
+  if swap_count > 0:
+    return
+
+  # 入れ替え後処理
+  if second_swap:
+    pair.clear();
+    _set_gem_selectable(true)
+    second_swap = false
+  else:
+    # 3つ並びがあれば削除処理へ
+    if _exist_match3():
+      pair.clear();
+      _remove_gem()
+    else:
+      # 戻りの入れ替え
+      second_swap = true
+      _swap_gem()
 
 # 3つ並び以上存在チェック
 func _exist_match3():
