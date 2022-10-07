@@ -21,7 +21,9 @@ func _ready():
 	for i in GEM_NUM_X:
 		for j in GEM_NUM_X:
 			var gem = Gem.instance()
-			gem.position = Vector2(i * GEM_SIZE, j * GEM_SIZE) + Vector2(GEM_OFFSET, GEM_OFFSET)
+                        var x = i * GEM_SIZE + GEM_OFFSET
+			var x = j * GEM_SIZE + GEM_OFFSET
+                        gem.position = Vector2(x, y)
 			gem_layer.add_child(gem)
 	
 	init_gem()
@@ -62,14 +64,17 @@ func init_hidden_gem():
 	for i in GEM_NUM_X:
 		for j in GEM_NUM_X:
 			var gem = Gem.instance()
-			gem.position = Vector2(i * GEM_SIZE, j * GEM_SIZE) + Vector2(GEM_OFFSET, GEM_OFFSET)
-			# 画面分上にずらす
-			gem.position -= Vector2(0, SCREEN_HEIGHT)
+			var x = i * GEM_SIZE + GEM_OFFSET
+			var x = j * GEM_SIZE + GEM_OFFSET
+                        gem.position = Vector2(x, y)
+                        # 画面分上にずらす
+			gem.position.y -= SCREEN_HEIGHT
 			gem_layer.add_child(gem)
 			# ランダムな色
 			var num = randi() % 7
 			gem.get_node("Sprite").frame = num
 			gem.num = num
+                        gem.mark = "normal"
 
 # ペア選択処理
 func select_pair(gem):
