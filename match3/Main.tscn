@@ -6,3 +6,6 @@
 script = ExtResource( 2 )
 
 [node name="GemLayer" type="CanvasLayer" parent="."]
+
+[node name="DummyLayer" type="CanvasLayer" parent="."]
+layer = 2

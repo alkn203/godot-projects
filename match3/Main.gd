@@ -16,6 +16,7 @@ var second_swap = false
 const Gem = preload("res://Gem.tscn")
 # レイヤー
 onready var gem_layer = get_node("GemLayer")
+onready var dummy_layer = get_node("DummyLayer")
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
@@ -50,7 +51,7 @@ func init_gem():
       
     init_gem()
   # 画面外ジェム配置
-  #init_hidden_gem()
+  init_hidden_gem()
 
 # 画面外のジェム配置
 func init_hidden_gem():
@@ -205,6 +206,46 @@ func _set_mark():
   
   match_count = 0
 
+# ジェムの削除処理
+func _remove_gem():
+  for gem in gem_layer.get_children():
+    if gem.mark == "rmv":
+      # 削除対象ジェムより上にあるジェムに落下回数をセット
+      for target in gem_layer.get_children():
+        if (target.position.y < gem.position.y) and (target.x == gem.x):
+          target.dropCnt += 1
+     
+      # 消去アニメーション用ダミー作成
+      var dummy = Gem.instance()
+      dummy.position = Vector2(gem.x, gem.y)
+      dummy.get_node("Sprite").frame = gem.get_node("Sprite").frame
+      
+    // ジェム削除
+    this.gemGroup.children.eraseIfAll(function(gem) {
+      if (gem.mark === "rmv") {
+        return true;
+      }
+    });
+    // flowで非同期処理
+    var flow = Flow(function(resolve) {
+      // ダミーをアニメーション
+      self.dummyGroup.children.each(function(dummy) {
+        dummy.tweener.clear()
+                     .to({scaleX: 0.2, scaleY: 0.2, ahpha: 0.2}, 200)
+                     .call(function() {
+                       dummy.remove();
+                       // アニメーション後
+                       if (self.dummyGroup.children.length === 0) {
+                         resolve('removed');
+                       }
+                     });
+      });
+    });
+    
+    flow.then(function(message) {
+      self.dropGems();
+    });
+  },
 # Gemの選択可不可を決定
 func _set_gem_collision_disble(b):
   for gem in gem_layer.get_children():
