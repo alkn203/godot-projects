@@ -13,6 +13,7 @@ var match_count = 0
 var swap_count = 0
 var second_swap = false
 var remove_count = 0
+var drop_count = 0
 # シーン
 const Gem = preload("res://Gem.tscn")
 # レイヤー
@@ -149,7 +150,6 @@ func _after_swap():
     # 3つ並びがあれば削除処理へ
     if _exist_match3():
       pair.clear();
-      print("match3")
       _remove_gem()
     else:
       # 戻りの入れ替え
@@ -241,8 +241,36 @@ func _after_remove():
   if remove_count > 0:
     return
   
-  print("all removed")
+  _drop_gem()
   
+# ジェムの落下処理
+func _drop_gem():
+  for gem in gem_layer.get_children():
+    # 落下フラグがあるジェムを落下させる
+    if gem.drop_count > 0:
+      print(gem.drop_count)
+      # 落下ジェム数カウント
+      drop_count += 1
+      # 落下アニメーション
+      var tween = get_tree().create_tween()
+      tween.tween_property(gem, "position", Vector2(gem.position.x, gem.position.y + gem.drop_count * GEM_SIZE), gem.drop_count * SWAP_DURATIOM)
+      tween.tween_callback(self, "_after_drop")
+
+func _after_drop():
+  #gem.dropCnt = 0;
+  drop_count -= 1
+  if drop_count > 0:
+    return
+    
+  # 画面外のジェムを作り直す
+  #self.initHiddenGems();
+  # 3並び再チェック
+  if _exist_match3():
+    pass
+    #_remove_gem()
+  else:
+    _set_gem_collision_disble(false)
+    
 # Gemの選択可不可を決定
 func _set_gem_collision_disble(b):
   for gem in gem_layer.get_children():
