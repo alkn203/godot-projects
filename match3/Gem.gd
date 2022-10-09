@@ -3,6 +3,7 @@ extends Area2D
 # 変数
 var num
 var mark
+var drop_count
 # ノード取得
 onready var main = get_node("/root/Main")
 
@@ -11,6 +12,7 @@ onready var main = get_node("/root/Main")
 func _ready():
   num = 0
   mark = "normal"
+  drop_count = 0
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 #func _process(delta):

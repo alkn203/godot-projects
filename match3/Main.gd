@@ -12,6 +12,7 @@ var pair = []
 var match_count = 0
 var swap_count = 0
 var second_swap = false
+var remove_count = 0
 # シーン
 const Gem = preload("res://Gem.tscn")
 # レイヤー
@@ -149,7 +150,7 @@ func _after_swap():
     if _exist_match3():
       pair.clear();
       print("match3")
-      #_remove_gem()
+      _remove_gem()
     else:
       # 戻りの入れ替え
       second_swap = true
@@ -212,40 +213,36 @@ func _remove_gem():
     if gem.mark == "rmv":
       # 削除対象ジェムより上にあるジェムに落下回数をセット
       for target in gem_layer.get_children():
-        if (target.position.y < gem.position.y) and (target.x == gem.x):
-          target.dropCnt += 1
+        if (target.position.y < gem.position.y) and (target.position.x == gem.position.x):
+          target.drop_count += 1
      
       # 消去アニメーション用ダミー作成
       var dummy = Gem.instance()
-      dummy.position = Vector2(gem.x, gem.y)
+      dummy.position = gem.position
       dummy.get_node("Sprite").frame = gem.get_node("Sprite").frame
+      dummy_layer.add_child(dummy)
       
-    // ジェム削除
-    this.gemGroup.children.eraseIfAll(function(gem) {
-      if (gem.mark === "rmv") {
-        return true;
-      }
-    });
-    // flowで非同期処理
-    var flow = Flow(function(resolve) {
-      // ダミーをアニメーション
-      self.dummyGroup.children.each(function(dummy) {
-        dummy.tweener.clear()
-                     .to({scaleX: 0.2, scaleY: 0.2, ahpha: 0.2}, 200)
-                     .call(function() {
-                       dummy.remove();
-                       // アニメーション後
-                       if (self.dummyGroup.children.length === 0) {
-                         resolve('removed');
-                       }
-                     });
-      });
-    });
-    
-    flow.then(function(message) {
-      self.dropGems();
-    });
-  },
+  # ジェム削除
+  for gem in gem_layer.get_children():
+    if gem.mark == "rmv":
+      gem.queue_free()
+      remove_count += 1
+        
+  # ダミーをアニメーション
+  for dummy in dummy_layer.get_children():
+    var tween = get_tree().create_tween()
+    tween.tween_property(dummy, "scale", Vector2(), SWAP_DURATIOM)
+    tween.tween_callback(dummy, "queue_free")
+    tween.tween_callback(self, "_after_remove")
+
+# 削除後の処理
+func _after_remove():
+  remove_count -= 1
+  if remove_count > 0:
+    return
+  
+  print("all removed")
+  
 # Gemの選択可不可を決定
 func _set_gem_collision_disble(b):
   for gem in gem_layer.get_children():
