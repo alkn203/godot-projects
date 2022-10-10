@@ -5,7 +5,7 @@ const SCREEN_HEIGHT = 640
 const GEM_SIZE = 80
 const GEM_OFFSET = GEM_SIZE / 2
 const GEM_NUM_X = 8
-const SWAP_DURATIOM = 0.25
+const SWAP_DURATION = 0.25
 
 # 変数
 var pair = []
@@ -128,11 +128,11 @@ func _swap_gem():
   swap_count = 2
   # 入れ替えアニメーション
   var tween1 = get_tree().create_tween()
-  tween1.tween_property(g1, "position", g2.position, SWAP_DURATIOM)
+  tween1.tween_property(g1, "position", g2.position, SWAP_DURATION)
   tween1.tween_callback(self, "_after_swap")
 
   var tween2 = get_tree().create_tween()
-  tween2.tween_property(g2, "position", g1.position, SWAP_DURATIOM)
+  tween2.tween_property(g2, "position", g1.position, SWAP_DURATION)
   tween2.tween_callback(self, "_after_swap")
 
 func _after_swap():
@@ -231,16 +231,17 @@ func _remove_gem():
   # ダミーをアニメーション
   for dummy in dummy_layer.get_children():
     var tween = get_tree().create_tween()
-    tween.tween_property(dummy, "scale", Vector2(), SWAP_DURATIOM)
+    tween.tween_property(dummy, "scale", Vector2(), SWAP_DURATION)
     tween.tween_callback(dummy, "queue_free")
     tween.tween_callback(self, "_after_remove")
 
 # 削除後の処理
 func _after_remove():
+  # 削除対象の全てのジェムが削除されてから
   remove_count -= 1
   if remove_count > 0:
     return
-  
+  # ジェムを落下させる
   _drop_gem()
   
 # ジェムの落下処理
@@ -248,26 +249,32 @@ func _drop_gem():
   for gem in gem_layer.get_children():
     # 落下フラグがあるジェムを落下させる
     if gem.drop_count > 0:
-      print(gem.drop_count)
       # 落下ジェム数カウント
       drop_count += 1
+      # 移動先座標
+      var x = gem.position.x
+      var y = gem.position.y + gem.drop_count * GEM_SIZE
+      var d = gem.drop_count * SWAP_DURATION
       # 落下アニメーション
       var tween = get_tree().create_tween()
-      tween.tween_property(gem, "position", Vector2(gem.position.x, gem.position.y + gem.drop_count * GEM_SIZE), gem.drop_count * SWAP_DURATIOM)
+      tween.tween_property(gem, "position", Vector2(x, y), d)
       tween.tween_callback(self, "_after_drop")
 
 func _after_drop():
-  #gem.dropCnt = 0;
+  # 落下対象の全てのジェムが確実に落ちてから
   drop_count -= 1
   if drop_count > 0:
     return
+  # ジェムの落下プラグリセット
+  for gem in gem_layer.get_children():
+    gem.drop_count = 0
     
   # 画面外のジェムを作り直す
-  #self.initHiddenGems();
+  init_hidden_gem()
   # 3並び再チェック
   if _exist_match3():
-    pass
-    #_remove_gem()
+    # 連鎖削除
+    _remove_gem()
   else:
     _set_gem_collision_disble(false)
     
