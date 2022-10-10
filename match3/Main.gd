@@ -16,9 +16,11 @@ var remove_count = 0
 var drop_count = 0
 # シーン
 const Gem = preload("res://Gem.tscn")
+const Cursor = preload("res://Cursor.tscn")
 # レイヤー
 onready var gem_layer = get_node("GemLayer")
 onready var dummy_layer = get_node("DummyLayer")
+onready var cursor_layer = get_node("CursorLayer")
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
@@ -85,8 +87,9 @@ func select_pair(gem):
   # 一つ目
   if pair.size() == 0:
     # カーソル表示
-    #var cursor1 = Cursor().addChildTo(this.cursorGroup);
-    #cursor1.setPosition(gem.x, gem.y);
+    var cursor1 = Cursor.instance()
+    cursor1.position = gem.position
+    cursor_layer.add_child(cursor1)
     pair.append(gem)
     # 隣り合わせ以外を選択不可にする
     _selectable_next()
@@ -94,8 +97,9 @@ func select_pair(gem):
 
   # 二つ目
   if pair.size() == 1:
-    #var cursor2 = Cursor().addChildTo(this.cursorGroup);
-    #cursor2.setPosition(gem.x, gem.y);
+    var cursor2 = Cursor.instance()
+    cursor2.position = gem.position
+    cursor_layer.add_child(cursor2)
     pair.append(gem)
     # 入れ替え処理
     _swap_gem()
@@ -123,7 +127,6 @@ func _swap_gem():
   # 1回目
   if !second_swap:
     _set_gem_collision_disble(true)
-    #this.cursorGroup.children.clear()
 
   swap_count = 2
   # 入れ替えアニメーション
@@ -146,11 +149,18 @@ func _after_swap():
     pair.clear();
     _set_gem_collision_disble(false)
     second_swap = false
+    
+    for cursor in cursor_layer.get_children():
+      cursor.queue_free()
+
   else:
     # 3つ並びがあれば削除処理へ
     if _exist_match3():
       pair.clear();
       _remove_gem()
+
+      for cursor in cursor_layer.get_children():
+        cursor.queue_free()
     else:
       # 戻りの入れ替え
       second_swap = true
