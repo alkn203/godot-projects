@@ -5,7 +5,7 @@ const SCREEN_HEIGHT = 640
 const GEM_SIZE = 80
 const GEM_OFFSET = GEM_SIZE / 2
 const GEM_NUM_X = 8
-const SWAP_DURATION = 0.25
+const DURATION = 0.25
 
 # 変数
 var pair = []
