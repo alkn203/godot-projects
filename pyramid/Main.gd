@@ -29,14 +29,14 @@ func _ready():
     card_index_array.append(i)
   # シャッフル
   card_index_array.shuffle()
-  # カード配置
+  # カード設定
   _set_pytamid_card()
   
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 #func _process(delta):
 #	pass
 
-# ピラミッド型のカード配置 
+# ピラミッド型のカード設定 
 func _set_pytamid_card():
   # 
   for card in pyramid_card_layer.get_children():
@@ -45,13 +45,7 @@ func _set_pytamid_card():
       #
       var index = card_index_array.pop_front()
       #
-       
-      var num = randi() % 7
-      gem.get_node("Sprite").frame = num
-      gem.num = num
-      gem.mark = "normal"
-      
-    init_gem()
-  # 画面外ジェム配置
-  init_hidden_gem()
-
+      card.set_index_num(index)
+      #
+      if i > 20:
+        card.flip() 
