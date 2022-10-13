@@ -10,10 +10,7 @@ const DURATION = 0.25
 # 変数
 var pair = []
 var match_count = 0
-var swap_count = 0
 var second_swap = false
-var remove_count = 0
-var drop_count = 0
 # シーン
 const Gem = preload("res://Gem.tscn")
 const Cursor = preload("res://Cursor.tscn")
@@ -128,44 +125,40 @@ func _swap_gem():
   if !second_swap:
     _set_gem_collision_disble(true)
 
-  swap_count = 2
   # 入れ替えアニメーション
-  var tween1 = get_tree().create_tween()
-  tween1.tween_property(g1, "position", g2.position, DURATION)
-  tween1.tween_callback(self, "_after_swap")
+  var tween = get_tree().create_tween()
+  tween.set_parallel(true)
+  tween.tween_property(g1, "position", g2.position, DURATION)
+  tween.tween_property(g2, "position", g1.position, DURATION)
+  tween.set_parallel(false)
+  tween.tween_callback(self, "_after_swap")
 
-  var tween2 = get_tree().create_tween()
-  tween2.tween_property(g2, "position", g1.position, DURATION)
-  tween2.tween_callback(self, "_after_swap")
-
+# 入れ替え後処理
 func _after_swap():
-  # 確実に入れ替えが行われた後に実行
-  swap_count -= 1
-  if swap_count > 0:
-    return
-
-  # 入れ替え後処理
+  # 戻りの入れ替えなら
   if second_swap:
     pair.clear();
     _set_gem_collision_disble(false)
     second_swap = false
-    
-    for cursor in cursor_layer.get_children():
-      cursor.queue_free()
-
+    # カーソル削除 
+    _remove_cursor()
   else:
     # 3つ並びがあれば削除処理へ
     if _exist_match3():
       pair.clear();
+      _remove_cursor()
       _remove_gem()
-
-      for cursor in cursor_layer.get_children():
-        cursor.queue_free()
     else:
       # 戻りの入れ替え
       second_swap = true
       _swap_gem()
 
+# カーソル削除
+func _remove_cursor():
+  for cursor in cursor_layer.get_children():
+    cursor_layer.remove_child(cursor)
+    cursor.queue_free()
+  
 # 3つ並び以上存在チェック
 func _exist_match3():
   for gem in gem_layer.get_children():
@@ -236,49 +229,48 @@ func _remove_gem():
   for gem in gem_layer.get_children():
     if gem.mark == "rmv":
       gem.queue_free()
-      remove_count += 1
         
   # ダミーをアニメーション
-  for dummy in dummy_layer.get_children():
-    var tween = get_tree().create_tween()
-    tween.tween_property(dummy, "scale", Vector2(), DURATION)
-    tween.tween_callback(dummy, "queue_free")
-    tween.tween_callback(self, "_after_remove")
+  var tween = get_tree().create_tween()
+  tween.set_parallel(true)
 
+  for dummy in dummy_layer.get_children():
+    tween.tween_property(dummy, "scale", Vector2(), DURATION)
+
+  tween.set_parallel(false)
+  tween.tween_callback(self, "_after_remove")
+  
 # 削除後の処理
 func _after_remove():
-  # 削除対象の全てのジェムが削除されてから
-  remove_count -= 1
-  if remove_count > 0:
-    return
+  # ダミーを削除
+  for dummy in dummy_layer.get_children():
+    dummy_layer.remove_child(dummy)
+    dummy.queue_free()
   # ジェムを落下させる
   _drop_gem()
   
 # ジェムの落下処理
 func _drop_gem():
+  var tween = get_tree().create_tween()
+  tween.set_parallel(true)
+  
   for gem in gem_layer.get_children():
     # 落下フラグがあるジェムを落下させる
     if gem.drop_count > 0:
-      # 落下ジェム数カウント
-      drop_count += 1
       # 移動先座標
       var x = gem.position.x
       var y = gem.position.y + gem.drop_count * GEM_SIZE
       var d = gem.drop_count * DURATION
       # 落下アニメーション
-      var tween = get_tree().create_tween()
       tween.tween_property(gem, "position", Vector2(x, y), d)
-      tween.tween_callback(self, "_after_drop")
+  
+  tween.set_parallel(false)
+  tween.tween_callback(self, "_after_drop")
 
 func _after_drop():
-  # 落下対象の全てのジェムが確実に落ちてから
-  drop_count -= 1
-  if drop_count > 0:
-    return
   # ジェムの落下プラグリセット
   for gem in gem_layer.get_children():
     gem.drop_count = 0
-    
   # 画面外のジェムを作り直す
   init_hidden_gem()
   # 3並び再チェック
