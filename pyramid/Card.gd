@@ -1,20 +1,21 @@
 extends Area2D
 
 # 変数
+var index
 var num
-var mark
-var drop_count
+
 # ノード取得
 onready var main = get_node("/root/Main")
 
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
+  index = 0
   num = 0
-  mark = "normal"
-  drop_count = 0
+  # 最初は裏返し
+  get_node("Sprite").frame = INDEX_BACK
 
-# Called every frame. 'delta' is the elapsed time since the previous frame.
+# Called every frame. 'delta' is time since the previous frame.
 #func _process(delta):
 #	pass
 
@@ -24,4 +25,9 @@ func _on_Gem_input_event(viewport, event, shape_idx):
     # マウスボタンの押下イベント
     if event.is_pressed():
       # Mainの関数に自身を渡す
-      main.select_pair(self)
+      main.select_pair(self)）
+
+# インデックスと数字セット
+func set_index_number(idx):
+  index = idx
+  num = index % 13 + 1
