@@ -131,11 +131,11 @@ func _swap_gem():
   swap_count = 2
   # 入れ替えアニメーション
   var tween1 = get_tree().create_tween()
-  tween1.tween_property(g1, "position", g2.position, SWAP_DURATION)
+  tween1.tween_property(g1, "position", g2.position, DURATION)
   tween1.tween_callback(self, "_after_swap")
 
   var tween2 = get_tree().create_tween()
-  tween2.tween_property(g2, "position", g1.position, SWAP_DURATION)
+  tween2.tween_property(g2, "position", g1.position, DURATION)
   tween2.tween_callback(self, "_after_swap")
 
 func _after_swap():
@@ -241,7 +241,7 @@ func _remove_gem():
   # ダミーをアニメーション
   for dummy in dummy_layer.get_children():
     var tween = get_tree().create_tween()
-    tween.tween_property(dummy, "scale", Vector2(), SWAP_DURATION)
+    tween.tween_property(dummy, "scale", Vector2(), DURATION)
     tween.tween_callback(dummy, "queue_free")
     tween.tween_callback(self, "_after_remove")
 
@@ -264,7 +264,7 @@ func _drop_gem():
       # 移動先座標
       var x = gem.position.x
       var y = gem.position.y + gem.drop_count * GEM_SIZE
-      var d = gem.drop_count * SWAP_DURATION
+      var d = gem.drop_count * DURATION
       # 落下アニメーション
       var tween = get_tree().create_tween()
       tween.tween_property(gem, "position", Vector2(x, y), d)
