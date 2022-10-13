@@ -22,30 +22,25 @@ onready var post_card_layer = get_node("PostCardLayer")
 
 # 初期化
 func _ready():
+  # 乱数シード値
+  randomize()
+  # カードインデックス配列
+  for i in range(CARD_NUM):
+    card_index_array.append(i)
+  # シャッフル
+  card_index_array.shuffle()
   # カード配置
-  for i in GEM_NUM_X:
-    for j in GEM_NUM_X:
-      var gem = Gem.instance()
-      var x = i * GEM_SIZE + GEM_OFFSET
-      var y = j * GEM_SIZE + GEM_OFFSET
-      gem.position = Vector2(x, y)
-      gem_layer.add_child(gem)
-  
-  init_gem()
+  _set_pytamid_card()
   
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 #func _process(delta):
 #	pass
 
-# ジェム初期化
-func init_gem():
-  # 3つ並び以上があれば仕切り直し
-  if _exist_match3():
-    # シード値変更
-    randomize()
-    # 作り直し
-    for gem in gem_layer.get_children():
-      # ランダムな色
+# ピラミッド型のカード配置 
+func _set_pytamid_card():
+  # 
+  for card in pyramid_card_layergem_layer.get_children():
+      # 
       var num = randi() % 7
       gem.get_node("Sprite").frame = num
       gem.num = num
