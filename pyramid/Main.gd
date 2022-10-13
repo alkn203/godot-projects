@@ -39,8 +39,13 @@ func _ready():
 # ピラミッド型のカード配置 
 func _set_pytamid_card():
   # 
-  for card in pyramid_card_layergem_layer.get_children():
-      # 
+  for card in pyramid_card_layer.get_children():
+      #
+      var i = card.get_index()
+      #
+      var index = card_index_array.pop_front()
+      #
+       
       var num = randi() % 7
       gem.get_node("Sprite").frame = num
       gem.num = num
