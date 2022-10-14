@@ -12,8 +12,6 @@ onready var main = get_node("/root/Main")
 func _ready():
   index = 0
   num = 0
-  # 最初は裏返し
-  get_node("Sprite").frame = INDEX_BACK
 
 # Called every frame. 'delta' is time since the previous frame.
 #func _process(delta):
@@ -25,7 +23,7 @@ func _on_Gem_input_event(viewport, event, shape_idx):
     # マウスボタンの押下イベント
     if event.is_pressed():
       # Mainの関数に自身を渡す
-      main.select_pair(self)）
+      main.select_pair(self)
 
 # インデックスと数字セット
 func set_index_number(idx):

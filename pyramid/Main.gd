@@ -13,7 +13,7 @@ var card_index_array = []
 
 # シーン
 const Card = preload("res://Card.tscn")
-const Cursor = preload("res://Cursor.tscn")
+#const Cursor = preload("res://Cursor.tscn")
 
 # レイヤー
 onready var pyramid_card_layer = get_node("PyramidCardLayer")
@@ -24,12 +24,12 @@ onready var post_card_layer = get_node("PostCardLayer")
 func _ready():
   # 乱数シード値
   randomize()
-  # カードインデックス配列
+  # カードインデックス配列作成
   for i in range(CARD_NUM):
     card_index_array.append(i)
   # シャッフル
   card_index_array.shuffle()
-  # カード設定
+  # ピラミッドのカード設定
   _set_pytamid_card()
   
 # Called every frame. 'delta' is the elapsed time since the previous frame.
@@ -38,14 +38,13 @@ func _ready():
 
 # ピラミッド型のカード設定 
 func _set_pytamid_card():
-  # 
+  # 配置されたカードに対して
   for card in pyramid_card_layer.get_children():
-      #
-      var i = card.get_index()
-      #
-      var index = card_index_array.pop_front()
-      #
-      card.set_index_num(index)
-      #
-      if i > 20:
-        card.flip() 
+    # カードインデックス配列から先頭を取る
+    var index = card_index_array.pop_front()
+    # インデックス・数字の設定
+    card.set_index_num(index)
+    # 最下段は開いておく
+    if card.get_index() > 20:
+      pass
+      #card.flip() 
