@@ -18,7 +18,7 @@ const Card = preload("res://Card.tscn")
 # レイヤー
 onready var pyramid_card_layer = get_node("PyramidCardLayer")
 onready var hand_card_layer = get_node("HandCardLayer")
-onready var post_card_layer = get_node("PostCardLayer")
+onready var post_card_layer = get_node("DropCardLayer")
 
 # 初期化
 func _ready():
@@ -30,14 +30,14 @@ func _ready():
   # シャッフル
   card_index_array.shuffle()
   # ピラミッドのカード設定
-  _set_pytamid_card()
+  _set_pyramid_card()
   
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 #func _process(delta):
 #	pass
 
 # ピラミッド型のカード設定 
-func _set_pytamid_card():
+func _set_pyramid_card():
   # 配置されたカードに対して
   for card in pyramid_card_layer.get_children():
     # カードインデックス配列から先頭を取る
@@ -46,5 +46,5 @@ func _set_pytamid_card():
     card.set_index_num(index)
     # 最下段は開いておく
     if card.get_index() > 20:
-      pass
+      print(card.get_index())
       #card.flip() 

@@ -26,6 +26,6 @@ func _on_Gem_input_event(viewport, event, shape_idx):
       main.select_pair(self)
 
 # インデックスと数字セット
-func set_index_number(idx):
+func set_index_num(idx):
   index = idx
   num = index % 13 + 1
