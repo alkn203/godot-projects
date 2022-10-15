@@ -5,7 +5,6 @@ const CARD_WIDTH = 64
 const CARD_HEIGHT = 128
 const CARD_NUM = 52
 const TARGET_NUM = 13
-const DURATION = 0.25
 
 # 変数
 var pair = []
@@ -46,5 +45,8 @@ func _set_pyramid_card():
     card.set_index_num(index)
     # 最下段は開いておく
     if card.get_index() > 20:
-      print(card.get_index())
-      #card.flip() 
+      card.flip() 
+
+# カード選択
+func add_pair(card):
+  pass
