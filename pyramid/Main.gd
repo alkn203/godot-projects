@@ -30,6 +30,8 @@ func _ready():
   card_index_array.shuffle()
   # ピラミッドのカード設定
   _set_pyramid_card()
+  # 手元カードの配置
+  _set_hand_card()
   
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 #func _process(delta):
@@ -47,6 +49,21 @@ func _set_pyramid_card():
     if card.get_index() > 20:
       card.flip() 
 
+# 手札配置
+func _set_hand_card():
+    # カード切れ
+    if card_index_array.size() < 1:
+      return;
+    # カード配列から１つ取る
+    var index = card_index_array.pop_front()
+    var card = Card.instance()
+    card.position = Vector2(512, 480 + CARD_HEIGHT * 1.5)
+    hand_card_layer.add_child(card)
+    # インデックス・数字の設定
+    card.set_index_num(index)
+    # クリック可能にする
+    card.set_selectable()
+    
 # カード選択
 func add_pair(card):
-  pass
+  print(card.num)

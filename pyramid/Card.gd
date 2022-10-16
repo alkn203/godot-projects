@@ -1,7 +1,7 @@
 extends Area2D
 
 # 定数
-const DURATION = 0.25
+const DURATION = 0.15
 
 # 変数
 var index
@@ -9,7 +9,6 @@ var num
 
 # ノード取得
 onready var main = get_node("/root/Main")
-
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
@@ -41,7 +40,13 @@ func flip():
   tween.tween_property(self, "scale", Vector2(0.1, 1.0), DURATION)
   tween.tween_callback(self, "_set_frame_index")
   tween.tween_property(self, "scale", Vector2(1.0, 1.0), DURATION)
+  tween.tween_callback(self, "set_selectable")
+
+# クリックイベントを有効にして選択可能にする
+func set_selectable():
+  get_node("CollisionShape2D").set_deferred("disabled", false)
 
 # カード表の画像フレームをセット
 func _set_frame_index():
   get_node("Sprite").frame = index
+
