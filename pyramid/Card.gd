@@ -40,11 +40,11 @@ func flip():
   tween.tween_property(self, "scale", Vector2(0.1, 1.0), DURATION)
   tween.tween_callback(self, "_set_frame_index")
   tween.tween_property(self, "scale", Vector2(1.0, 1.0), DURATION)
-  tween.tween_callback(self, "set_selectable")
+  tween.tween_callback(self, "set_selectable", [true])
 
-# クリックイベントを有効にして選択可能にする
-func set_selectable():
-  get_node("CollisionShape2D").set_deferred("disabled", false)
+# ヘアとして選択可能にするかどうか
+func set_selectable(b):
+  selectable = b
 
 # カード表の画像フレームをセット
 func _set_frame_index():
