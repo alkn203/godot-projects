@@ -25,8 +25,12 @@ func _on_Card_input_event(viewport, event, shape_idx):
   if event is InputEventMouseButton:
     # マウスボタンの押下イベント
     if event.is_pressed():
-      # Mainの関数に自身を渡す
-      main.add_pair(self)
+      # 開いてない手札の場合
+      if is_in_group("hands"):
+        main.open_hand_card()
+      # ペアとして選択可能な場合
+      if is_in_group("selects"):
+        main.add_pair(self)
 
 # インデックスと数字セット
 func set_index_num(idx):
@@ -40,21 +44,23 @@ func flip():
   tween.tween_property(self, "scale", Vector2(0.1, 1.0), DURATION)
   tween.tween_callback(self, "_set_frame_index")
   tween.tween_property(self, "scale", Vector2(1.0, 1.0), DURATION)
-  tween.tween_callback(self, "set_selectable")
+  tween.tween_callback(self, "add_to_group", ["selects"])
 
-# 手札カード返し処理
-func move_and_flip(dx):
-  # アニメーション：移動して絵柄のフレームにする
+# 移動とカード返し処理
+func slide_and_flip(pos):
+  # アニメーション：移動して裏返し選択可能にする
   var tween = get_tree().create_tween()
-  tween.tween_property(self, "position", position + Vector2(dx, 0), DURATION)
+  tween.tween_property(self, "position", pos, DURATION)
   tween.tween_property(self, "scale", Vector2(0.1, 1.0), DURATION)
   tween.tween_callback(self, "_set_frame_index")
   tween.tween_property(self, "scale", Vector2(1.0, 1.0), DURATION)
-  tween.tween_callback(self, "set_selectable")
+  tween.tween_callback(self, "add_to_group", ["selects"])
 
-# クリックイベントを有効にして選択可能にする
-func set_selectable():
-  get_node("CollisionShape2D").set_deferred("disabled", false)
+# 移動処理
+func slide_to(pos):
+  # アニメーション：指定された位置に移動する
+  var tween = get_tree().create_tween()
+  tween.tween_property(self, "position", pos, DURATION)
 
 # カード表の画像フレームをセット
 func _set_frame_index():

@@ -15,9 +15,7 @@ const Card = preload("res://Card.tscn")
 #const Cursor = preload("res://Cursor.tscn")
 
 # レイヤー
-onready var pyramid_card_layer = get_node("PyramidCardLayer")
-onready var hand_card_layer = get_node("HandCardLayer")
-onready var post_card_layer = get_node("DropCardLayer")
+onready var card_layer = get_node("CardLayer")
 
 # 初期化
 func _ready():
@@ -40,11 +38,13 @@ func _ready():
 # ピラミッド型のカード設定 
 func _set_pyramid_card():
   # 配置されたカードに対して
-  for card in pyramid_card_layer.get_children():
+  for card in card_layer.get_children():
     # カードインデックス配列から先頭を取る
     var index = card_index_array.pop_front()
     # インデックス・数字の設定
     card.set_index_num(index)
+    # グループに追加
+    card.add_to_group("pyramids")
     # 最下段は開いておく
     if card.get_index() > 20:
       card.flip() 
@@ -58,12 +58,30 @@ func _set_hand_card():
     var index = card_index_array.pop_front()
     var card = Card.instance()
     card.position = Vector2(512, 480 + CARD_HEIGHT * 1.5)
-    hand_card_layer.add_child(card)
+    card_layer.add_child(card)
     # インデックス・数字の設定
     card.set_index_num(index)
-    # クリック可能にする
-    card.set_selectable()
-    
+    # グループに追加
+    card.add_to_group("hands")
+
+# 手札をめくる
+func _open_hand_card():
+  var opend_arr = get_tree().get_nodes_in_group("open_hands")
+  # 開いた手札があれば
+  if opened_arr.size() > 0:
+    # 捨て札グループに追加
+    opened_arr[0].add_to_group("drop_hands")
+    opened_arr[0].remove_from_group("open_hands")
+    opened.slide_to(Vector2())
+
+  # 手札から開いた手札へ
+  var hand_arr = get_tree().get_nodes_in_group("hands")
+  hand_arr[0].add_to_group("open_hands")
+  hand_arr[0].remove_from_group("hands")
+  hand.slide_and_flip(Vector2())
+  # 次の手札配置
+  _set_hand_card()
+   
 # カード選択
 func add_pair(card):
   print(card.num)
