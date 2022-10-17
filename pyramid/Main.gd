@@ -88,4 +88,22 @@ func open_hand_card():
    
 # カード選択
 func add_pair(card):
-  print(card.num)
+  # 13なら無条件で消去
+  if card.num == TARGET_NUM:
+    #card.disable();
+    #this.flipNextCards();
+    return 
+  
+  # １枚目
+  if pair.size() == 0:
+    pair.append(card)
+    print(card.num)
+    # 枠追加
+    #Frame().addChildTo(card);
+  else:
+    # ２枚目
+    if pair.size() == 1:
+      pair.append(card)
+      print(card.num)
+      # ペアの数字をチェック
+      #_check_pair()
