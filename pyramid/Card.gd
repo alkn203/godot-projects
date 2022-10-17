@@ -58,6 +58,12 @@ func slide_and_flip(pos):
   tween.tween_property(self, "scale", Vector2(1.0, 1.0), DURATION)
   tween.tween_callback(self, "set_selectable", [true])
 
+# 移動処理
+func slide_to(pos):
+  # アニメーション：指定された位置に移動する
+  var tween = get_tree().create_tween()
+  tween.tween_property(self, "position", pos, DURATION)
+
 # ヘアとして選択可能にするかどうか
 func set_selectable(b):
   selectable = b
