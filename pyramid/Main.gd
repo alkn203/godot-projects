@@ -5,6 +5,9 @@ const CARD_WIDTH = 64
 const CARD_HEIGHT = 128
 const CARD_NUM = 52
 const TARGET_NUM = 13
+const HAND_POSITION = Vector2(512, 480 + CARD_HEIGHT * 1.5)
+const OPENED_POSITION = Vector2(512 - 64, 480 + CARD_HEIGHT * 1.5)
+const DROP_POSITON = Vector2(128, 480 + CARD_HEIGHT * 1.5)
 
 # 変数
 var pair = []
@@ -57,7 +60,7 @@ func _set_hand_card():
     # カード配列から１つ取る
     var index = card_index_array.pop_front()
     var card = Card.instance()
-    card.position = Vector2(512, 480 + CARD_HEIGHT * 1.5)
+    card.position = HAND_POSITION
     card_layer.add_child(card)
     # インデックス・数字の設定
     card.set_index_num(index)
@@ -65,20 +68,21 @@ func _set_hand_card():
     card.add_to_group("hands")
 
 # 手札をめくる
-func _open_hand_card():
-  var opend_arr = get_tree().get_nodes_in_group("open_hands")
+func open_hand_card():
+  var opened_arr = get_tree().get_nodes_in_group("open_hands")
   # 開いた手札があれば
   if opened_arr.size() > 0:
     # 捨て札グループに追加
-    opened_arr[0].add_to_group("drop_hands")
-    opened_arr[0].remove_from_group("open_hands")
-    opened.slide_to(Vector2())
+    var opened = opened_arr.front()
+    opened.add_to_group("drop_hands")
+    opened.remove_from_group("open_hands")
+    opened.slide_to(DROP_POSITON)
 
   # 手札から開いた手札へ
   var hand_arr = get_tree().get_nodes_in_group("hands")
   hand_arr[0].add_to_group("open_hands")
   hand_arr[0].remove_from_group("hands")
-  hand.slide_and_flip(Vector2())
+  hand_arr[0].slide_and_flip(OPENED_POSITION)
   # 次の手札配置
   _set_hand_card()
    

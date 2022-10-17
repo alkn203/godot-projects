@@ -6,92 +6,88 @@
 [node name="Main" type="Node2D"]
 script = ExtResource( 1 )
 
-[node name="PyramidCardLayer" type="CanvasLayer" parent="."]
+[node name="CardLayer" type="CanvasLayer" parent="."]
 
-[node name="Card01" parent="PyramidCardLayer" instance=ExtResource( 2 )]
+[node name="Card01" parent="CardLayer" instance=ExtResource( 2 )]
 position = Vector2( 320, 192 )
 
-[node name="Card02" parent="PyramidCardLayer" instance=ExtResource( 2 )]
+[node name="Card02" parent="CardLayer" instance=ExtResource( 2 )]
 position = Vector2( 288, 240 )
 
-[node name="Card03" parent="PyramidCardLayer" instance=ExtResource( 2 )]
+[node name="Card03" parent="CardLayer" instance=ExtResource( 2 )]
 position = Vector2( 352, 240 )
 
-[node name="Card04" parent="PyramidCardLayer" instance=ExtResource( 2 )]
+[node name="Card04" parent="CardLayer" instance=ExtResource( 2 )]
 position = Vector2( 320, 288 )
 
-[node name="Card05" parent="PyramidCardLayer" instance=ExtResource( 2 )]
+[node name="Card05" parent="CardLayer" instance=ExtResource( 2 )]
 position = Vector2( 256, 288 )
 
-[node name="Card06" parent="PyramidCardLayer" instance=ExtResource( 2 )]
+[node name="Card06" parent="CardLayer" instance=ExtResource( 2 )]
 position = Vector2( 384, 288 )
 
-[node name="Card07" parent="PyramidCardLayer" instance=ExtResource( 2 )]
+[node name="Card07" parent="CardLayer" instance=ExtResource( 2 )]
 position = Vector2( 288, 336 )
 
-[node name="Card08" parent="PyramidCardLayer" instance=ExtResource( 2 )]
+[node name="Card08" parent="CardLayer" instance=ExtResource( 2 )]
 position = Vector2( 352, 336 )
 
-[node name="Card09" parent="PyramidCardLayer" instance=ExtResource( 2 )]
+[node name="Card09" parent="CardLayer" instance=ExtResource( 2 )]
 position = Vector2( 224, 336 )
 
-[node name="Card10" parent="PyramidCardLayer" instance=ExtResource( 2 )]
+[node name="Card10" parent="CardLayer" instance=ExtResource( 2 )]
 position = Vector2( 416, 336 )
 
-[node name="Card11" parent="PyramidCardLayer" instance=ExtResource( 2 )]
+[node name="Card11" parent="CardLayer" instance=ExtResource( 2 )]
 position = Vector2( 320, 384 )
 
-[node name="Card12" parent="PyramidCardLayer" instance=ExtResource( 2 )]
+[node name="Card12" parent="CardLayer" instance=ExtResource( 2 )]
 position = Vector2( 256, 384 )
 
-[node name="Card13" parent="PyramidCardLayer" instance=ExtResource( 2 )]
+[node name="Card13" parent="CardLayer" instance=ExtResource( 2 )]
 position = Vector2( 384, 384 )
 
-[node name="Card14" parent="PyramidCardLayer" instance=ExtResource( 2 )]
+[node name="Card14" parent="CardLayer" instance=ExtResource( 2 )]
 position = Vector2( 192, 384 )
 
-[node name="Card15" parent="PyramidCardLayer" instance=ExtResource( 2 )]
+[node name="Card15" parent="CardLayer" instance=ExtResource( 2 )]
 position = Vector2( 448, 384 )
 
-[node name="Card16" parent="PyramidCardLayer" instance=ExtResource( 2 )]
+[node name="Card16" parent="CardLayer" instance=ExtResource( 2 )]
 position = Vector2( 288, 432 )
 
-[node name="Card17" parent="PyramidCardLayer" instance=ExtResource( 2 )]
+[node name="Card17" parent="CardLayer" instance=ExtResource( 2 )]
 position = Vector2( 224, 432 )
 
-[node name="Card18" parent="PyramidCardLayer" instance=ExtResource( 2 )]
+[node name="Card18" parent="CardLayer" instance=ExtResource( 2 )]
 position = Vector2( 352, 432 )
 
-[node name="Card19" parent="PyramidCardLayer" instance=ExtResource( 2 )]
+[node name="Card19" parent="CardLayer" instance=ExtResource( 2 )]
 position = Vector2( 160, 432 )
 
-[node name="Card20" parent="PyramidCardLayer" instance=ExtResource( 2 )]
+[node name="Card20" parent="CardLayer" instance=ExtResource( 2 )]
 position = Vector2( 416, 432 )
 
-[node name="Card21" parent="PyramidCardLayer" instance=ExtResource( 2 )]
+[node name="Card21" parent="CardLayer" instance=ExtResource( 2 )]
 position = Vector2( 480, 432 )
 
-[node name="Card22" parent="PyramidCardLayer" instance=ExtResource( 2 )]
+[node name="Card22" parent="CardLayer" instance=ExtResource( 2 )]
 position = Vector2( 320, 480 )
 
-[node name="Card23" parent="PyramidCardLayer" instance=ExtResource( 2 )]
+[node name="Card23" parent="CardLayer" instance=ExtResource( 2 )]
 position = Vector2( 256, 480 )
 
-[node name="Card24" parent="PyramidCardLayer" instance=ExtResource( 2 )]
+[node name="Card24" parent="CardLayer" instance=ExtResource( 2 )]
 position = Vector2( 192, 480 )
 
-[node name="Card25" parent="PyramidCardLayer" instance=ExtResource( 2 )]
+[node name="Card25" parent="CardLayer" instance=ExtResource( 2 )]
 position = Vector2( 128, 480 )
 
-[node name="Card26" parent="PyramidCardLayer" instance=ExtResource( 2 )]
+[node name="Card26" parent="CardLayer" instance=ExtResource( 2 )]
 position = Vector2( 384, 480 )
 
-[node name="Card27" parent="PyramidCardLayer" instance=ExtResource( 2 )]
+[node name="Card27" parent="CardLayer" instance=ExtResource( 2 )]
 position = Vector2( 448, 480 )
 
-[node name="Card28" parent="PyramidCardLayer" instance=ExtResource( 2 )]
+[node name="Card28" parent="CardLayer" instance=ExtResource( 2 )]
 position = Vector2( 512, 480 )
-
-[node name="HandCardLayer" type="CanvasLayer" parent="."]
-
-[node name="DropCardLayer" type="CanvasLayer" parent="."]

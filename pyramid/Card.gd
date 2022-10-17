@@ -29,7 +29,7 @@ func _on_Card_input_event(viewport, event, shape_idx):
       if is_in_group("hands"):
         main.open_hand_card()
       # ペアとして選択可能な場合
-      if is_in_group("selects"):
+      if is_in_group("selectables"):
         main.add_pair(self)
 
 # インデックスと数字セット
@@ -44,7 +44,7 @@ func flip():
   tween.tween_property(self, "scale", Vector2(0.1, 1.0), DURATION)
   tween.tween_callback(self, "_set_frame_index")
   tween.tween_property(self, "scale", Vector2(1.0, 1.0), DURATION)
-  tween.tween_callback(self, "add_to_group", ["selects"])
+  tween.tween_callback(self, "add_to_group", ["selectables"])
 
 # 移動とカード返し処理
 func slide_and_flip(pos):
@@ -54,7 +54,7 @@ func slide_and_flip(pos):
   tween.tween_property(self, "scale", Vector2(0.1, 1.0), DURATION)
   tween.tween_callback(self, "_set_frame_index")
   tween.tween_property(self, "scale", Vector2(1.0, 1.0), DURATION)
-  tween.tween_callback(self, "add_to_group", ["selects"])
+  tween.tween_callback(self, "add_to_group", ["selectables"])
 
 # 移動処理
 func slide_to(pos):
