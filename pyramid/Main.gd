@@ -15,9 +15,7 @@ const Card = preload("res://Card.tscn")
 #const Cursor = preload("res://Cursor.tscn")
 
 # レイヤー
-onready var pyramid_card_layer = get_node("PyramidCardLayer")
-onready var hand_card_layer = get_node("HandCardLayer")
-onready var drop_card_layer = get_node("DropCardLayer")
+onready var card_layer = get_node("CardLayer")
 
 # 初期化
 func _ready():
@@ -60,13 +58,11 @@ func _set_hand_card():
     var index = card_index_array.pop_front()
     var card = Card.instance()
     card.position = Vector2(512, 480 + CARD_HEIGHT * 1.5)
-    hand_card_layer.add_child(card)
+    card_layer.add_child(card)
     # インデックス・数字の設定
     card.set_index_num(index)
     # グループに追加
     card.add_to_group("hands")
-    # 選択可能にする
-    card.add_to_group("selects")
 
 # 手札をめくる
 func _open_hand_card():
