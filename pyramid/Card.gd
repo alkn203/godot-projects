@@ -6,7 +6,6 @@ const DURATION = 0.15
 # 変数
 var index
 var num
-var selectable
 
 # ノード取得
 onready var main = get_node("/root/Main")
@@ -15,7 +14,6 @@ onready var main = get_node("/root/Main")
 func _ready():
   index = 0
   num = 0
-  selectable = false
 
 # Called every frame. 'delta' is time since the previous frame.
 #func _process(delta):
@@ -28,10 +26,10 @@ func _on_Card_input_event(viewport, event, shape_idx):
     # マウスボタンの押下イベント
     if event.is_pressed():
       # 開いてない手札の場合
-      if get_parent().name == "HandCardLayer":
+      if is_in_group("hands"):
         main.open_hand_card()
       # ペアとして選択可能な場合
-      if selectable:
+      if is_in_group("selects"):
         main.add_pair(self)
 
 # インデックスと数字セット
@@ -46,7 +44,7 @@ func flip():
   tween.tween_property(self, "scale", Vector2(0.1, 1.0), DURATION)
   tween.tween_callback(self, "_set_frame_index")
   tween.tween_property(self, "scale", Vector2(1.0, 1.0), DURATION)
-  tween.tween_callback(self, "set_selectable", [true])
+  tween.tween_callback(self, "add_to_group", ["selects"])
 
 # 移動とカード返し処理
 func slide_and_flip(pos):
@@ -56,17 +54,13 @@ func slide_and_flip(pos):
   tween.tween_property(self, "scale", Vector2(0.1, 1.0), DURATION)
   tween.tween_callback(self, "_set_frame_index")
   tween.tween_property(self, "scale", Vector2(1.0, 1.0), DURATION)
-  tween.tween_callback(self, "set_selectable", [true])
+  tween.tween_callback(self, "add_to_group", ["selects"])
 
 # 移動処理
 func slide_to(pos):
   # アニメーション：指定された位置に移動する
   var tween = get_tree().create_tween()
   tween.tween_property(self, "position", pos, DURATION)
-
-# ヘアとして選択可能にするかどうか
-func set_selectable(b):
-  selectable = b
 
 # カード表の画像フレームをセット
 func _set_frame_index():
