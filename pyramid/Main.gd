@@ -79,10 +79,10 @@ func open_hand_card():
     opened.slide_to(DROP_POSITON)
 
   # 手札から開いた手札へ
-  var hand_arr = get_tree().get_nodes_in_group("hands")
-  hand_arr[0].add_to_group("open_hands")
-  hand_arr[0].remove_from_group("hands")
-  hand_arr[0].slide_and_flip(OPENED_POSITION)
+  var hand = get_tree().get_nodes_in_group("hands").front()
+  hand.add_to_group("open_hands")
+  hand.remove_from_group("hands")
+  hand.slide_and_flip(OPENED_POSITION)
   # 次の手札配置
   _set_hand_card()
    
