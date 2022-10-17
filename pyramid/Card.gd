@@ -42,6 +42,16 @@ func flip():
   tween.tween_property(self, "scale", Vector2(1.0, 1.0), DURATION)
   tween.tween_callback(self, "set_selectable")
 
+# 手札カード返し処理
+func move_and_flip(dx):
+  # アニメーション：移動して絵柄のフレームにする
+  var tween = get_tree().create_tween()
+  tween.tween_property(self, "position", position + Vector2(dx, 0), DURATION)
+  tween.tween_property(self, "scale", Vector2(0.1, 1.0), DURATION)
+  tween.tween_callback(self, "_set_frame_index")
+  tween.tween_property(self, "scale", Vector2(1.0, 1.0), DURATION)
+  tween.tween_callback(self, "set_selectable")
+
 # クリックイベントを有効にして選択可能にする
 func set_selectable():
   get_node("CollisionShape2D").set_deferred("disabled", false)
