@@ -77,7 +77,7 @@ func _flip_hand_card():
   # 手札から開いた手札へ
   var hand = hand_card_layer.get_children().pop_front()
   open_hand_card_layer.add_child(hand)
-  hand.flip_and_slide(Vector2())
+  hand.slide_and_flip(Vector2())
   # 次の手札配置
   _set_hand_card()
    
