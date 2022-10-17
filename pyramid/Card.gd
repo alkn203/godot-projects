@@ -29,7 +29,7 @@ func _on_Card_input_event(viewport, event, shape_idx):
     if event.is_pressed():
       # 開いてない手札の場合
       if get_parent().name == "HandCardLayer":
-        main.open_hand_card(self)
+        main.open_hand_card()
       # ペアとして選択可能な場合
       if selectable:
         main.add_pair(self)
@@ -43,6 +43,16 @@ func set_index_num(idx):
 func flip():
   # アニメーション：絵柄のフレームにして選択可能にする
   var tween = get_tree().create_tween()
+  tween.tween_property(self, "scale", Vector2(0.1, 1.0), DURATION)
+  tween.tween_callback(self, "_set_frame_index")
+  tween.tween_property(self, "scale", Vector2(1.0, 1.0), DURATION)
+  tween.tween_callback(self, "set_selectable", [true])
+
+# 移動とカード返し処理
+func slide_and_flip(pos):
+  # アニメーション：移動して裏返し選択可能にする
+  var tween = get_tree().create_tween()
+  tween.tween_property(self, "position", pos, DURATION)
   tween.tween_property(self, "scale", Vector2(0.1, 1.0), DURATION)
   tween.tween_callback(self, "_set_frame_index")
   tween.tween_property(self, "scale", Vector2(1.0, 1.0), DURATION)
