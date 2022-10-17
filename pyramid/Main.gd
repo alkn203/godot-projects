@@ -63,7 +63,22 @@ func _set_hand_card():
     card.set_index_num(index)
     # クリック可能にする
     card.set_selectable()
-    
+
+#
+func _flip_hand_card():
+  var opend_arr = open_hand_card_layer.get_children()
+  # 開いた手札があれば
+  if opened_arr.size() > 0:
+    # 捨て札に移動
+    var opened = opened_arr.pop_front()
+    drop_card_layer.add_child(opened)
+    opened.slide_to(Vector2())
+
+  # 手札から開いた手札へ
+  var hand = hand_card_layer.get_children().pop_front()
+  open_hand_card_layer.add_child(hand)
+  hand.flip_and_slide(Vector2())
+   
 # カード選択
 func add_pair(card):
   print(card.num)
