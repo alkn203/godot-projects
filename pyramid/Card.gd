@@ -25,8 +25,12 @@ func _on_Card_input_event(viewport, event, shape_idx):
   if event is InputEventMouseButton:
     # マウスボタンの押下イベント
     if event.is_pressed():
-      # Mainの関数に自身を渡す
-      main.add_pair(self)
+      # 開いてない手札の場合
+      if get_parent().name == "HandCardLayer":
+        main.open_hand_card(self)
+      # ペアとして選択可能な場合
+      if selectable:
+        main.add_pair(self)
 
 # インデックスと数字セット
 func set_index_num(idx):
