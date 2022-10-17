@@ -6,6 +6,7 @@ const DURATION = 0.15
 # 変数
 var index
 var num
+var selectable
 
 # ノード取得
 onready var main = get_node("/root/Main")
@@ -14,6 +15,7 @@ onready var main = get_node("/root/Main")
 func _ready():
   index = 0
   num = 0
+  selectable = false
 
 # Called every frame. 'delta' is time since the previous frame.
 #func _process(delta):
