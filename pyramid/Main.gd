@@ -62,9 +62,9 @@ func _set_hand_card():
     # インデックス・数字の設定
     card.set_index_num(index)
     # クリック可能にする
-    card.set_selectable()
+    card.set_selectable(true)
 
-#
+# 手札をめくる
 func _flip_hand_card():
   var opend_arr = open_hand_card_layer.get_children()
   # 開いた手札があれば
@@ -78,6 +78,8 @@ func _flip_hand_card():
   var hand = hand_card_layer.get_children().pop_front()
   open_hand_card_layer.add_child(hand)
   hand.flip_and_slide(Vector2())
+  # 次の手札配置
+  _set_hand_card()
    
 # カード選択
 func add_pair(card):
