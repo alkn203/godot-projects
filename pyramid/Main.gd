@@ -113,10 +113,10 @@ func _check_pair():
   var p1 = pair[0];
   var p2 = pair[1];
   # 手札と捨て札のセットは不可
-  if p1.is_in_group("hands") and p2.is_in_group("drops"):
+  if p1.is_in_group("open_hands") and p2.is_in_group("drop_hands"):
     pair.clear()
     return
-  if p1.is_in_group("drops") and p1.is_in_group("hands"):
+  if p1.is_in_group("drop_hands") and p1.is_in_group("open_hands"):
     pair.clear()
     return
   
