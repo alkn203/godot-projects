@@ -54,18 +54,18 @@ func _set_pyramid_card():
 
 # 手札配置
 func _set_hand_card():
-    # カード切れ
-    if card_index_array.size() < 1:
-      return;
-    # カード配列から１つ取る
-    var index = card_index_array.pop_front()
-    var card = Card.instance()
-    card.position = HAND_POSITION
-    card_layer.add_child(card)
-    # インデックス・数字の設定
-    card.set_index_num(index)
-    # グループに追加
-    card.add_to_group("hands")
+  # カード切れ
+  if card_index_array.size() < 1:
+    return;
+  # カード配列から１つ取る
+  var index = card_index_array.pop_front()
+  var card = Card.instance()
+  card.position = HAND_POSITION
+  card_layer.add_child(card)
+  # インデックス・数字の設定
+  card.set_index_num(index)
+  # グループに追加
+  card.add_to_group("hands")
 
 # 手札をめくる
 func open_hand_card():
@@ -90,7 +90,7 @@ func open_hand_card():
 func add_pair(card):
   # 13なら無条件で消去
   if card.num == TARGET_NUM:
-    #card.disable();
+    card.disable();
     #this.flipNextCards();
     return 
   
@@ -106,4 +106,32 @@ func add_pair(card):
       pair.append(card)
       print(card.num)
       # ペアの数字をチェック
-      #_check_pair()
+      _check_pair()
+
+# ペアのチェック
+func _check_pair():
+  var p1 = pair[0];
+  var p2 = pair[1];
+  # 手札と捨て札のセットは不可
+  if p1.is_in_group("hands") and p2.is_in_group("drops"):
+    pair.clear()
+    return
+  if p1.is_in_group("drops") and p1.is_in_group("hands"):
+    pair.clear()
+    return
+  
+  # 数字の合計が13なら取り除く
+  if p1.num + p2.num == TARGET_NUM:
+    p1.disable();
+    p2.disable();
+    # 裏返せるカードを裏返す
+    #this.flipNextCards();
+    # 捨て札の一番上のガードを選択可能にする
+    #this.enableDropTop();
+  else:
+    pass
+    # 枠削除
+    #p1.children.first.remove();
+
+  # ペア情報クリア
+  pair.clear()

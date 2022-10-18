@@ -62,6 +62,13 @@ func slide_to(pos):
   var tween = get_tree().create_tween()
   tween.tween_property(self, "position", pos, DURATION)
 
+# 消去処理
+func disable():
+  # アニメーション：縮小して削除
+  var tween = get_tree().create_tween()
+  tween.tween_property(self, "scale", Vector2(), DURATION)
+  tween.tween_callback(self, "queue_free")
+  
 # カード表の画像フレームをセット
 func _set_frame_index():
   get_node("Sprite").frame = index
