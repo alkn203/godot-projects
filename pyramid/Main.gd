@@ -125,7 +125,7 @@ func _check_pair():
     p1.disable();
     p2.disable();
     # 裏返せるカードを裏返す
-    #this.flipNextCards();
+    _flip_next_card()
     # 捨て札の一番上のガードを選択可能にする
     #this.enableDropTop();
   else:
@@ -135,3 +135,13 @@ func _check_pair():
 
   # ペア情報クリア
   pair.clear()
+
+# 裏返せるカードを裏返す
+func _flip_next_card():
+  var pyramid_arr = get_tree().get_nodes_in_group("pyramids")
+  # カードを総当たりチェック
+  for card in pyramid_arr:
+    # 選択不可（裏面）であれば
+    if !card.is_in_group("selectable"):
+      pass
+      # 位置的に下、左下、右下にカードがあるか調べる処理

@@ -72,4 +72,3 @@ func disable():
 # カード表の画像フレームをセット
 func _set_frame_index():
   get_node("Sprite").frame = index
-
