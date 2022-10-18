@@ -97,14 +97,12 @@ func add_pair(card):
   # １枚目
   if pair.size() == 0:
     pair.append(card)
-    print(card.num)
     # 枠追加
     #Frame().addChildTo(card);
   else:
     # ２枚目
     if pair.size() == 1:
       pair.append(card)
-      print(card.num)
       # ペアの数字をチェック
       _check_pair()
 
@@ -125,6 +123,7 @@ func _check_pair():
     p1.disable();
     p2.disable();
     # 裏返せるカードを裏返す
+    yield(get_tree().create_timer(0.5), "timeout")
     _flip_next_card()
     # 捨て札の一番上のガードを選択可能にする
     #this.enableDropTop();
@@ -142,6 +141,21 @@ func _flip_next_card():
   # カードを総当たりチェック
   for card in pyramid_arr:
     # 選択不可（裏面）であれば
-    if !card.is_in_group("selectable"):
-      pass
-      # 位置的に下、左下、右下にカードがあるか調べる処理
+    if !card.is_in_group("selectables"):
+      # 下方向にカードがあるか
+      if !_is_card_blow(card):
+        card.flip()
+
+# カードの左下と右下に別のカードがあるか調べる
+func _is_card_blow(card):
+  var pyramid_arr = get_tree().get_nodes_in_group("pyramids")
+  
+  for target in pyramid_arr:
+    # 左下
+    if (target.position == (card.position + Vector2(-CARD_WIDTH / 2, 48))):
+      return true
+    # 右下
+    if (target.position == (card.position + Vector2(CARD_WIDTH / 2, 48))):
+      return true
+      
+  return false
