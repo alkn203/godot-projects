@@ -174,7 +174,7 @@ func selectable_drop_top():
   var last = drop_arr.back()
   last.add_to_group("selectable")
 
-# 一定時間待つタイマー
-func _wait_time(duration):
-  yield(get_tree().create_timer(duration), "timeout")
+# ペアを削除
+func _disable_pair():
+  pass
 
