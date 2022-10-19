@@ -95,6 +95,7 @@ func add_pair(card):
     # 裏返せるカードを裏返す
     _wait_time(DURATION)
     _flip_next_card()
+    _selectable_drop_top()
     return 
   
   # １枚目
@@ -129,7 +130,7 @@ func _check_pair():
     _wait_time(DURATION)
     _flip_next_card()
     # 捨て札の一番上のカードを選択可能にする
-    #this.enableDropTop();
+    _selectable_drop_top()
   else:
     pass
     # 枠削除
