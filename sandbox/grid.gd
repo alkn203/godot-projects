@@ -1,66 +1,32 @@
 extends Node2D
 
-;(function() {
+class_name Grid
 
-  /**
-   * @class phina.util.Grid
-   * tick management class
-   */
-  phina.define('phina.util.Grid', {
+# 幅
+var width
+# 列数
+var columns
+# オフセット値
+var offset
+# 1ユニットのサイズ
+var unit_width
 
-    /** 幅 */
-    width: 640,
-    /** 列数 */
-    columns: 12,
-    /** ループ */
-    loop: false,
-    /** オフセット値 */
-    offset: 0,
+# コンストラクタ
+func _init: function() {
+  width = w
+  columns = col
+  offset = off
+  unit_width = width / columns
 
-    /**
-     * @constructor
-     */
-    init: function() {
-      if (typeof arguments[0] === 'object') {
-        var param = arguments[0];
-        var width = param.width || 640;
-        var columns = param.columns || 12;
-        var loop = param.loop || false;
-        var offset = param.offset || 0;
-      }
-      else {
-        var width   = arguments[0] || 640;
-        var columns = arguments[1] || 12;
-        var loop    = arguments[2] || false;
-        var offset = arguments[3] || 0;
-      }
+# スパン指定で値を取得(負数もok)
+func span(index):
+  return (unit_width * index) + offset
 
-      this.width = width;
-      this.columns = columns;
-      this.loop = loop;
-      this.offset = offset;
-      this.unitWidth = this.width/this.columns;
-    },
+# グリッドの1単位の幅
+func unit():
+  return unit_width
 
-    // スパン指定で値を取得(負数もok)
-    span: function(index) {
-      if (this.loop) {
-        index += this.columns;
-        index %= this.columns;
-      }
-      return this.unitWidth * index + this.offset;
-    },
-
-    //
-    unit: function() {
-      return this.unitWidth;
-    },
-
-    center: function(offset) {
-      var index = offset || 0;
-      return (this.width/2) + (this.unitWidth * index);
-    },
-
-  });
-
-})();
+# グリッドの中心からの相対位置で値を取得
+center: function(offset) {
+  var index = offset
+  return (width / 2) + (unit_width * index)
