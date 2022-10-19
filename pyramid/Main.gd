@@ -162,6 +162,32 @@ func _is_card_blow(card):
       
   return false
 
+// 捨て札の１番上だけを選択可能にする
+  enableDropTop: function() {
+    var drops = this.dropGroup.children;
+    // 一旦全て選択不可に
+    drops.each(function(card) {
+      card.interactive = false;
+      card.selectable = false;
+    });
+
+    var len = drops.length;
+    var last = drops.last;
+
+    if (last) {
+      // 一番上が消去中の時はその１つ前
+      if (last.disapper && len > 1) {
+        var before = drops[len - 2];
+        before.setInteractive(true);
+        before.selectable = true;
+      }
+      else {
+        last.setInteractive(true);
+        last.selectable = true;
+      }
+    }
+  },
+
 # 一定時間待つタイマー
 func _wait_time(duration):
   yield(get_tree().create_timer(duration), "timeout")
