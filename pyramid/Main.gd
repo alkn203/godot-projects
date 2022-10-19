@@ -8,6 +8,7 @@ const TARGET_NUM = 13
 const HAND_POSITION = Vector2(512, 480 + CARD_HEIGHT * 1.5)
 const OPENED_POSITION = Vector2(512 - 64, 480 + CARD_HEIGHT * 1.5)
 const DROP_POSITON = Vector2(128, 480 + CARD_HEIGHT * 1.5)
+const DURATION = 0.15
 
 # 変数
 var pair = []
@@ -91,17 +92,19 @@ func add_pair(card):
   # 13なら無条件で消去
   if card.num == TARGET_NUM:
     card.disable();
-    #this.flipNextCards();
+    # 裏返せるカードを裏返す
+    _wait_time(DURATION)
+    _flip_next_card()
     return 
   
   # １枚目
-  if pair.size() == 0:
+  if pair.size() < 1:
     pair.append(card)
     # 枠追加
     #Frame().addChildTo(card);
   else:
     # ２枚目
-    if pair.size() == 1:
+    if pair.size() < 2:
       pair.append(card)
       # ペアの数字をチェック
       _check_pair()
@@ -123,7 +126,7 @@ func _check_pair():
     p1.disable();
     p2.disable();
     # 裏返せるカードを裏返す
-    yield(get_tree().create_timer(0.5), "timeout")
+    _wait_time(DURATION)
     _flip_next_card()
     # 捨て札の一番上のカードを選択可能にする
     #this.enableDropTop();
@@ -158,3 +161,8 @@ func _is_card_blow(card):
       return true
       
   return false
+
+# 一定時間待つタイマー
+func _wait_time(duration):
+  yield(get_tree().create_timer(duration), "timeout")
+
