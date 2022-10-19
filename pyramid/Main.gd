@@ -187,3 +187,4 @@ func _disable_pair():
   tween.tween_callback(p1, "queue_free")
   tween.tween_callback(p2, "queue_free")
   tween.tween_callback(self, "_flip_next_card")
+  tween.tween_callback(self, "_selectable_drop_top")
