@@ -176,5 +176,14 @@ func selectable_drop_top():
 
 # ペアを削除
 func _disable_pair():
-  pass
-
+  var p1 = pair[0]
+  var p2 = pair[1]
+  # アニメーション：縮小して削除
+  var tween = get_tree().create_tween()
+  tween.set_paralel(true)
+  tween.tween_property(p1, "scale", Vector2(), DURATION)
+  tween.tween_property(p2, "scale", Vector2(), DURATION)
+  tween.set_paralel(false)
+  tween.tween_callback(p1, "queue_free")
+  tween.tween_callback(p2, "queue_free")
+  tween.tween_callback(self, "_flip_next_card")
