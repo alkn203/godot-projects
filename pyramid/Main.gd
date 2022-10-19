@@ -47,7 +47,7 @@ func _set_pyramid_card():
     # インデックス・数字の設定
     card.set_index_num(index)
     # グループに追加
-    card.add_to_group("pyramids")
+    card.add_to_group("pyramid")
     # 最下段は開いておく
     if card.get_index() > 20:
       card.flip() 
@@ -65,23 +65,23 @@ func _set_hand_card():
   # インデックス・数字の設定
   card.set_index_num(index)
   # グループに追加
-  card.add_to_group("hands")
+  card.add_to_group("hand")
 
 # 手札をめくる
 func open_hand_card():
-  var opened_arr = get_tree().get_nodes_in_group("open_hands")
+  var opened_arr = get_tree().get_nodes_in_group("open_hand")
   # 開いた手札があれば
   if opened_arr.size() > 0:
     # 捨て札グループに追加
     var opened = opened_arr.front()
-    opened.add_to_group("drop_hands")
-    opened.remove_from_group("open_hands")
+    opened.add_to_group("drop_hand")
+    opened.remove_from_group("open_hand")
     opened.slide_to(DROP_POSITON)
 
   # 手札から開いた手札へ
   var hand = get_tree().get_nodes_in_group("hands").front()
-  hand.add_to_group("open_hands")
-  hand.remove_from_group("hands")
+  hand.add_to_group("open_hand")
+  hand.remove_from_group("hand")
   hand.slide_and_flip(OPENED_POSITION)
   # 次の手札配置
   _set_hand_card()
@@ -111,10 +111,10 @@ func _check_pair():
   var p1 = pair[0];
   var p2 = pair[1];
   # 手札と捨て札のセットは不可
-  if p1.is_in_group("open_hands") and p2.is_in_group("drop_hands"):
+  if p1.is_in_group("open_hand") and p2.is_in_group("drop_hand"):
     pair.clear()
     return
-  if p1.is_in_group("drop_hands") and p1.is_in_group("open_hands"):
+  if p1.is_in_group("drop_hand") and p1.is_in_group("open_hand"):
     pair.clear()
     return
   
@@ -125,7 +125,7 @@ func _check_pair():
     # 裏返せるカードを裏返す
     yield(get_tree().create_timer(0.5), "timeout")
     _flip_next_card()
-    # 捨て札の一番上のガードを選択可能にする
+    # 捨て札の一番上のカードを選択可能にする
     #this.enableDropTop();
   else:
     pass
@@ -137,19 +137,18 @@ func _check_pair():
 
 # 裏返せるカードを裏返す
 func _flip_next_card():
-  var pyramid_arr = get_tree().get_nodes_in_group("pyramids")
+  var pyramid_arr = get_tree().get_nodes_in_group("pyramid")
   # カードを総当たりチェック
   for card in pyramid_arr:
     # 選択不可（裏面）であれば
-    if !card.is_in_group("selectables"):
+    if !card.is_in_group("selectable"):
       # 下方向にカードがあるか
       if !_is_card_blow(card):
         card.flip()
 
 # カードの左下と右下に別のカードがあるか調べる
 func _is_card_blow(card):
-  var pyramid_arr = get_tree().get_nodes_in_group("pyramids")
-  
+  var pyramid_arr = get_tree().get_nodes_in_group("pyramid")
   for target in pyramid_arr:
     # 左下
     if (target.position == (card.position + Vector2(-CARD_WIDTH / 2, 48))):
