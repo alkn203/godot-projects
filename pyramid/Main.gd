@@ -172,6 +172,26 @@ func selectable_drop_top():
   if last:
     last.add_to_group("selectable")
 
+# カード返し処理
+func _flip_card(card):
+  flip_count += 1
+  var tween = get_tree().create_tween()
+  # 縮小 
+  tween.tween_property(card, "scale", Vector2(0.1, 1.0), DURATION)
+  # 絵柄セット
+  tween.tween_callback(card, "_set_frame_index")
+  # 拡大
+  tween.tween_property(card, "scale", Vector2(1.0, 1.0), DURATION)
+  # 選択可能グループに追加
+  tween.tween_callback(card, "add_to_group", ["selectable"])
+  # 後処理に繋ぐ
+  tween.tween_callback(self, "_after_flip")
+
+# カード返し処理後
+func _after_flip():
+  
+
+
 # ペアを削除
 func _disable_pair():
   # アニメーション：縮小して削除
