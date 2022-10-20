@@ -8,7 +8,7 @@ const TARGET_NUM = 13
 const HAND_POSITION = Vector2(512, 480 + CARD_HEIGHT * 1.5)
 const OPENED_POSITION = Vector2(512 - 64, 480 + CARD_HEIGHT * 1.5)
 const DROP_POSITON = Vector2(128, 480 + CARD_HEIGHT * 1.5)
-const DURATION = 0.15
+const DURATION = 0.2
 
 # 変数
 var pair = []
@@ -76,29 +76,7 @@ func open_hand_card():
     # 捨て札グループに追加
     var opened = opened_arr.front()
     opened.add_to_group("drop_hand")
-    opened.remove_from_group("open_hand")
-    opened.slide_to(DROP_POSITON)
-
-  # 手札から開いた手札へ
-  var hand = get_tree().get_nodes_in_group("hands").front()
-  hand.add_to_group("open_hand")
-  hand.remove_from_group("hand")
-  hand.slide_and_flip(OPENED_POSITION)
-  # 次の手札配置
-  _set_hand_card()
-   
-# カード選択
-func add_pair(card):
-  # 13なら無条件で消去
-  if card.num == TARGET_NUM:
-    card.disable();
-    # 裏返せるカードを裏返す
-    _wait_time(DURATION)
-    _flip_next_card()
-    _selectable_drop_top()
-    return 
-  
-  # １枚目
+    opened.remove_from_group("open_hand")d  # 手札から開いた手札へd  hand.add_t  # １枚目
   if pair.size() < 1:
     pair.append(card)
     # 枠追加
@@ -112,8 +90,8 @@ func add_pair(card):
 
 # ペアのチェック
 func _check_pair():
-  var p1 = pair[0];
-  var p2 = pair[1];
+  var p1 = pair[0]
+  var p2 = pair[1]
   # 手札と捨て札のセットは不可
   if p1.is_in_group("open_hand") and p2.is_in_group("drop_hand"):
     pair.clear()
@@ -164,7 +142,7 @@ func _is_card_blow(card):
   return false
 
 # 捨て札の１番上だけを選択可能にする
-func selectable_drop_top():
+func _selectable_drop_top():
   var drop_arr = get_tree().get_nodes_in_group("drop")
   # 一旦全て選択不可に
   for card in drop_arr:
@@ -172,9 +150,19 @@ func selectable_drop_top():
 
   # 最後の要素だけ選択可能にする
   var last = drop_arr.back()
-  last.add_to_group("selectable")
+  if last:
+    last.add_to_group("selectable")
 
-# 一定時間待つタイマー
-func _wait_time(duration):
-  yield(get_tree().create_timer(duration), "timeout")
-
+# ペアを削除
+func disable_pair():
+  var p1 = pair[0]
+  var p2 = pair[1]
+  # アニメーション：縮小して削除
+  var tween = get_tree().create_tween()
+  tween.set_parallel(true)
+  tween.tween_property(p1, "scale", Vector2(), DURATION)
+  tween.tween_property(p2, "scale", Vector2(), DURATION)
+  tween.set_parallel(false)
+  tween.tween_callback(p1, "queue_free")
+  tween.tween_callback(p2, "queue_free")
+  tween.tween_callback(self, "_flip_next_card")
