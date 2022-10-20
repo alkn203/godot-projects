@@ -91,11 +91,7 @@ func open_hand_card():
 func add_pair(card):
   # 13なら無条件で消去
   if card.num == TARGET_NUM:
-    card.disable();
-    # 裏返せるカードを裏返す
-    _wait_time(DURATION)
-    _flip_next_card()
-    _selectable_drop_top()
+    _remove_card(card)
     return 
   
   # １枚目
@@ -125,9 +121,8 @@ func _check_pair():
   # 数字の合計が13なら
   if p1.num + p2.num == TARGET_NUM:
     # ペアを削除
-    _disable_pair()
-    # 捨て札の一番上だけを選択可能にする
-    _selectable_drop_top()
+    for card in pair:
+      _remove_card(card)
   else:
     pass
     # 枠削除
@@ -145,7 +140,7 @@ func _flip_next_card():
     if !card.is_in_group("selectable"):
       # 下方向にカードがなければ裏返す
       if !_is_card_blow(card):
-        card.flip()
+        _flip_card(card)
 
 # カードの左下と右下に別のカードがあるか調べる
 func _is_card_blow(card):
@@ -195,7 +190,6 @@ func _after_flip():
     # 捨て札の一番上だけ選択可能にする
     _selectable_drop_top()
 
-
 # カード削除処理
 func _remove_card(card):
   remove_count += 1
@@ -206,3 +200,11 @@ func _remove_card(card):
   tween.tween_callback(card, "queue_free")
   # 後処理に繋ぐ
   tween.tween_callback(self, "_after_remove")
+
+# カード削除処理後
+func _after_remove():
+  remove_count -= 1
+  # カードが削除されきってから次の処理
+  if remove_count == 0:
+    # 次に開けるカードがあるかチェック
+    _flip_next_card()
