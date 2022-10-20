@@ -36,38 +36,26 @@ func _on_Card_input_event(viewport, event, shape_idx):
 func set_index_num(idx):
   index = idx
   num = index % 13 + 1
-  
-# カード返し処理
-func flip():
-  # アニメーション：絵柄のフレームにして選択可能にする
-  var tween = get_tree().create_tween()
-  tween.tween_property(self, "scale", Vector2(0.1, 1.0), DURATION)
-  tween.tween_callback(self, "_set_frame_index")
-  tween.tween_property(self, "scale", Vector2(1.0, 1.0), DURATION)
-  tween.tween_callback(self, "add_to_group", ["selectable"])
 
 # 移動とカード返し処理
 func slide_and_flip(pos):
-  # アニメーション：移動して裏返し選択可能にする
   var tween = get_tree().create_tween()
+  # 指定した位置に移動
   tween.tween_property(self, "position", pos, DURATION)
+  # 縮小
   tween.tween_property(self, "scale", Vector2(0.1, 1.0), DURATION)
+  # 絵柄セット
   tween.tween_callback(self, "_set_frame_index")
+  # 拡大
   tween.tween_property(self, "scale", Vector2(1.0, 1.0), DURATION)
+  # 選択可能グループに追加
   tween.tween_callback(self, "add_to_group", ["selectable"])
 
 # 移動処理
 func slide_to(pos):
-  # アニメーション：指定された位置に移動する
   var tween = get_tree().create_tween()
+  # 指定した位置に移動
   tween.tween_property(self, "position", pos, DURATION)
-
-# 消去処理
-func disable():
-  # アニメーション：縮小して削除
-  var tween = get_tree().create_tween()
-  tween.tween_property(self, "scale", Vector2(), DURATION)
-  tween.tween_callback(self, "queue_free")
   
 # カード表の画像フレームをセット
 func _set_frame_index():
