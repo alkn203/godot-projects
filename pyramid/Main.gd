@@ -124,13 +124,7 @@ func _check_pair():
   
   # 数字の合計が13なら取り除く
   if p1.num + p2.num == TARGET_NUM:
-    p1.disable();
-    p2.disable();
-    # 裏返せるカードを裏返す
-    _wait_time(DURATION)
-    _flip_next_card()
-    # 捨て札の一番上のカードを選択可能にする
-    _selectable_drop_top()
+    _disable_pair()
   else:
     pass
     # 枠削除
@@ -172,19 +166,22 @@ func selectable_drop_top():
 
   # 最後の要素だけ選択可能にする
   var last = drop_arr.back()
-  last.add_to_group("selectable")
+  if last:
+    last.add_to_group("selectable")
 
 # ペアを削除
 func _disable_pair():
-  var p1 = pair[0]
-  var p2 = pair[1]
   # アニメーション：縮小して削除
   var tween = get_tree().create_tween()
   tween.set_paralel(true)
-  tween.tween_property(p1, "scale", Vector2(), DURATION)
-  tween.tween_property(p2, "scale", Vector2(), DURATION)
+
+  for card in pair:
+    tween.tween_property(card, "scale", Vector2(), DURATION)
+
   tween.set_paralel(false)
-  tween.tween_callback(p1, "queue_free")
-  tween.tween_callback(p2, "queue_free")
+
+  for card in pair:
+    tween.tween_callback(card, "queue_free")
+ 
   tween.tween_callback(self, "_flip_next_card")
   tween.tween_callback(self, "_selectable_drop_top")
