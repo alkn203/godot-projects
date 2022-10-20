@@ -13,6 +13,8 @@ const DURATION = 0.15
 # 変数
 var pair = []
 var card_index_array = []
+var flip_count = 0
+var remove_count = 0
 
 # シーン
 const Card = preload("res://Card.tscn")
