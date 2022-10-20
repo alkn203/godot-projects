@@ -189,7 +189,10 @@ func _flip_card(card):
 
 # カード返し処理後
 func _after_flip():
-  
+  flip_count -= 1
+  # カードが開ききってから次の処理
+  if flip_count == 0:
+    pass
 
 
 # ペアを削除
