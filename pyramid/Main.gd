@@ -196,18 +196,13 @@ func _after_flip():
     _selectable_drop_top()
 
 
-# ペアを削除
-func _disable_pair():
-  # アニメーション：縮小して削除
+# カード削除処理
+func _remove_card(card):
+  remove_count += 1
   var tween = get_tree().create_tween()
-  tween.set_paralel(true)
-
-  for card in pair:
-    tween.tween_property(card, "scale", Vector2(), DURATION)
-
-  tween.set_paralel(false)
-
-  for card in pair:
-    tween.tween_callback(card, "queue_free")
- 
-  tween.tween_callback(self, "_flip_next_card")
+  # 縮小
+  tween.tween_property(card, "scale", Vector2(), DURATION)
+  # 削除
+  tween.tween_callback(card, "queue_free")
+  # 後処理に繋ぐ
+  tween.tween_callback(self, "_after_remove")
