@@ -51,7 +51,7 @@ func _set_pyramid_card():
     card.add_to_group("pyramid")
     # 最下段は開いておく
     if card.get_index() > 20:
-      card.flip() 
+      _flip_card(card) 
 
 # 手札配置
 func _set_hand_card():
@@ -192,7 +192,8 @@ func _after_flip():
   flip_count -= 1
   # カードが開ききってから次の処理
   if flip_count == 0:
-    pass
+    # 捨て札の一番上だけ選択可能にする
+    _selectable_drop_top()
 
 
 # ペアを削除
