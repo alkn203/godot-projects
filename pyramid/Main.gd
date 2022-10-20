@@ -122,9 +122,12 @@ func _check_pair():
     pair.clear()
     return
   
-  # 数字の合計が13なら取り除く
+  # 数字の合計が13なら
   if p1.num + p2.num == TARGET_NUM:
+    # ペアを削除
     _disable_pair()
+    # 捨て札の一番上だけを選択可能にする
+    _selectable_drop_top()
   else:
     pass
     # 枠削除
@@ -136,15 +139,13 @@ func _check_pair():
 # 裏返せるカードを裏返す
 func _flip_next_card():
   var pyramid_arr = get_tree().get_nodes_in_group("pyramid")
-  var tween = get_tree().create_tween()
-  tween.set_paralel(true)
   # カードを総当たりチェック
   for card in pyramid_arr:
     # 選択不可（裏面）であれば
     if !card.is_in_group("selectable"):
       # 下方向にカードがなければ裏返す
       if !_is_card_blow(card):
-        
+        card.flip()
 
 # カードの左下と右下に別のカードがあるか調べる
 func _is_card_blow(card):
