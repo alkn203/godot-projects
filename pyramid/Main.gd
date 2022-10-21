@@ -199,7 +199,7 @@ func _remove_card(card):
   # 縮小
   tween.tween_property(card, "scale", Vector2(), DURATION)
   # 削除
-  tween.tween_callback(card, "queue_free")
+  tween.tween_callback(card_layer, "remove_child", [card])
   # 後処理に繋ぐ
   tween.tween_callback(self, "_after_remove")
 
