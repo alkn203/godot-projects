@@ -56,6 +56,8 @@ func slide_to(pos):
   var tween = get_tree().create_tween()
   # 指定した位置に移動
   tween.tween_property(self, "position", pos, DURATION)
+  # 
+  tween.tween_callback(main, "_selectable_drop_top")
   
 # カード表の画像フレームをセット
 func _set_frame_index():

@@ -82,7 +82,7 @@ func open_hand_card():
     opened.slide_to(DROP_POSITON)
 
   # 手札から開いた手札へ
-  var hand = get_tree().get_nodes_in_group("hands").front()
+  var hand = get_tree().get_nodes_in_group("hand").front()
   hand.add_to_group("open_hand")
   hand.remove_from_group("hand")
   hand.slide_and_flip(OPENED_POSITION)
@@ -91,6 +91,7 @@ func open_hand_card():
    
 # カード選択
 func add_pair(card):
+  print(pair)
   # 13なら無条件で消去
   if card.num == TARGET_NUM:
     _remove_card(card)
@@ -160,8 +161,8 @@ func _is_card_blow(card):
   return false
 
 # 捨て札の１番上だけを選択可能にする
-func selectable_drop_top():
-  var drop_arr = get_tree().get_nodes_in_group("drop")
+func _selectable_drop_top():
+  var drop_arr = get_tree().get_nodes_in_group("drop_hand")
   # 一旦全て選択不可に
   for card in drop_arr:
     card.remove_from_group("selectable")
@@ -192,7 +193,7 @@ func _after_flip():
   # カードが開ききってから次の処理
   if flip_count == 0:
     # 捨て札の一番上だけ選択可能にする
-    _selectable_drop_top()
+    pass
 
 # カード削除処理
 func _remove_card(card):
