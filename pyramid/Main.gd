@@ -95,7 +95,7 @@ func add_pair(card):
   if card.num == TARGET_NUM:
     _remove_card(card)
     return 
-  
+
   # １枚目
   if pair.size() < 1:
     pair.append(card)
@@ -112,6 +112,7 @@ func add_pair(card):
 func _check_pair():
   var p1 = pair[0];
   var p2 = pair[1];
+
   # 手札と捨て札のセットは不可
   if p1.is_in_group("open_hand") and p2.is_in_group("drop_hand"):
     pair.clear()
@@ -119,7 +120,7 @@ func _check_pair():
   if p1.is_in_group("drop_hand") and p1.is_in_group("open_hand"):
     pair.clear()
     return
-  
+
   # 数字の合計が13なら
   if p1.num + p2.num == TARGET_NUM:
     # ペアを削除
@@ -129,7 +130,7 @@ func _check_pair():
     pass
     # 枠削除
     #p1.children.first.remove();
-
+  
   # ペア情報クリア
   pair.clear()
 
@@ -147,6 +148,7 @@ func _flip_next_card():
 # カードの左下と右下に別のカードがあるか調べる
 func _is_card_blow(card):
   var pyramid_arr = get_tree().get_nodes_in_group("pyramid")
+
   for target in pyramid_arr:
     # 左下
     if (target.position == (card.position + Vector2(-CARD_WIDTH / 2, 48))):
