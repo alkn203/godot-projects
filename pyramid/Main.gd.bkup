@@ -95,7 +95,7 @@ func add_pair(card):
   if card.num == TARGET_NUM:
     _remove_card(card)
     return 
-
+  
   # １枚目
   if pair.size() < 1:
     pair.append(card)
@@ -112,7 +112,6 @@ func add_pair(card):
 func _check_pair():
   var p1 = pair[0];
   var p2 = pair[1];
-
   # 手札と捨て札のセットは不可
   if p1.is_in_group("open_hand") and p2.is_in_group("drop_hand"):
     pair.clear()
@@ -120,23 +119,27 @@ func _check_pair():
   if p1.is_in_group("drop_hand") and p1.is_in_group("open_hand"):
     pair.clear()
     return
-
+  
   # 数字の合計が13なら
   if p1.num + p2.num == TARGET_NUM:
     # ペアを削除
+    card_layer.remove_child(p1)
+    card_layer.remove_child(p2)
+    
     for card in pair:
       _remove_card(card)
   else:
     pass
     # 枠削除
     #p1.children.first.remove();
-  
+
   # ペア情報クリア
   pair.clear()
 
 # 裏返せるカードを裏返す
 func _flip_next_card():
   var pyramid_arr = get_tree().get_nodes_in_group("pyramid")
+  print(pyramid_arr.size())
   # カードを総当たりチェック
   for card in pyramid_arr:
     # 選択不可（裏面）であれば
@@ -148,7 +151,6 @@ func _flip_next_card():
 # カードの左下と右下に別のカードがあるか調べる
 func _is_card_blow(card):
   var pyramid_arr = get_tree().get_nodes_in_group("pyramid")
-
   for target in pyramid_arr:
     # 左下
     if (target.position == (card.position + Vector2(-CARD_WIDTH / 2, 48))):
@@ -156,11 +158,11 @@ func _is_card_blow(card):
     # 右下
     if (target.position == (card.position + Vector2(CARD_WIDTH / 2, 48))):
       return true
-      
+    
   return false
 
 # 捨て札の１番上だけを選択可能にする
-func selectable_drop_top():
+func _selectable_drop_top():
   var drop_arr = get_tree().get_nodes_in_group("drop")
   # 一旦全て選択不可に
   for card in drop_arr:
@@ -196,19 +198,23 @@ func _after_flip():
 
 # カード削除処理
 func _remove_card(card):
-  remove_count += 1
-  var tween = get_tree().create_tween()
-  # 縮小
-  tween.tween_property(card, "scale", Vector2(), DURATION)
-  # 削除
-  tween.tween_callback(card_layer, "remove_child", [card])
-  # 後処理に繋ぐ
-  tween.tween_callback(self, "_after_remove")
+  var pyramid_arr = get_tree().get_nodes_in_group("pyramid")
+  pyramid_arr.clear()
+  #card.queue_free()
+#  remove_count += 1
+#  var tween = get_tree().create_tween()
+#  # 縮小
+#  tween.tween_property(card, "scale", Vector2(), DURATION)
+#  # 削除
+#  tween.tween_callback(card, "queue_free")
+#  # 後処理に繋ぐ
+#  tween.tween_callback(self, "_after_remove")
+  _after_remove()
 
 # カード削除処理後
 func _after_remove():
-  remove_count -= 1
+#  remove_count -= 1
   # カードが削除されきってから次の処理
-  if remove_count == 0:
+#  if remove_count == 0:
     # 次に開けるカードがあるかチェック
     _flip_next_card()
