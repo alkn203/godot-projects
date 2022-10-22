@@ -18,7 +18,7 @@ var remove_count = 0
 
 # シーン
 const Card = preload("res://Card.tscn")
-#const Cursor = preload("res://Cursor.tscn")
+const Cursor = preload("res://Cursor.tscn")
 
 # レイヤー
 onready var card_layer = get_node("CardLayer")
