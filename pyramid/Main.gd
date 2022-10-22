@@ -24,7 +24,6 @@ const Cursor = preload("res://Cursor.tscn")
 onready var card_layer = get_node("CardLayer")
 onready var cursor_layer = get_node("CursorLayer")
 
-
 # 初期化
 func _ready():
   # 乱数シード値
@@ -38,10 +37,6 @@ func _ready():
   _set_pyramid_card()
   # 手元カードの配置
   _set_hand_card()
-  
-# Called every frame. 'delta' is the elapsed time since the previous frame.
-#func _process(delta):
-#	pass
 
 # ピラミッド型のカード設定 
 func _set_pyramid_card():
@@ -93,7 +88,6 @@ func open_hand_card():
    
 # カード選択
 func add_pair(card):
-  print(pair)
   # 13なら無条件で消去
   if card.num == TARGET_NUM:
     _remove_card(card)
@@ -103,7 +97,7 @@ func add_pair(card):
   if pair.size() < 1:
     pair.append(card)
     # 枠追加
-    var cursor = Cursor.inatance()
+    var cursor = Cursor.instance()
     cursor.position = card.position
     cursor_layer.add_child(cursor)
   else:
@@ -117,6 +111,9 @@ func add_pair(card):
 func _check_pair():
   var p1 = pair[0];
   var p2 = pair[1];
+  # 枠削除
+  var cursor = cursor_layer.get_children().front()
+  cursor.queue_free()
 
   # 手札と捨て札のセットは不可
   if p1.is_in_group("open_hand") and p2.is_in_group("drop_hand"):
@@ -128,9 +125,6 @@ func _check_pair():
 
   # 数字の合計が13なら
   if p1.num + p2.num == TARGET_NUM:
-    # 枠削除
-    var cursor = cursor.layer.get_children().front()
-    cursor_queue_free()
     # ペアを削除
     for card in pair:
       _remove_card(card)
