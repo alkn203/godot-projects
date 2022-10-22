@@ -18,10 +18,12 @@ var remove_count = 0
 
 # シーン
 const Card = preload("res://Card.tscn")
-#const Cursor = preload("res://Cursor.tscn")
+const Cursor = preload("res://Cursor.tscn")
 
 # レイヤー
 onready var card_layer = get_node("CardLayer")
+onready var cursor_layer = get_node("CursorLayer")
+
 
 # 初期化
 func _ready():
@@ -101,7 +103,9 @@ func add_pair(card):
   if pair.size() < 1:
     pair.append(card)
     # 枠追加
-    #Frame().addChildTo(card);
+    var cursor = Cursor.inatance()
+    cursor.position = card.position
+    curdor
   else:
     # ２枚目
     if pair.size() < 2:
