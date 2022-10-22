@@ -105,7 +105,7 @@ func add_pair(card):
     # 枠追加
     var cursor = Cursor.inatance()
     cursor.position = card.position
-    curdor
+    cursor_layer.add_child(cursor)
   else:
     # ２枚目
     if pair.size() < 2:
@@ -128,14 +128,12 @@ func _check_pair():
 
   # 数字の合計が13なら
   if p1.num + p2.num == TARGET_NUM:
+    # 枠削除
+    var cursor = cursor.layer.get_children().front()
+    cursor_queue_free()
     # ペアを削除
     for card in pair:
       _remove_card(card)
-  else:
-    pass
-    # 枠削除
-    #p1.children.first.remove();
-  
   # ペア情報クリア
   pair.clear()
 
