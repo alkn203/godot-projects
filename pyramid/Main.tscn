@@ -5,7 +5,7 @@
 [ext_resource path="res://mp_theme.tres" type="Theme" id=3]
 
 [sub_resource type="StyleBoxFlat" id=1]
-bg_color = Color( 0.254902, 0.0431373, 0.505882, 1 )
+bg_color = Color( 0.0862745, 0.596078, 0.713726, 1 )
 
 [node name="Main" type="Node2D"]
 script = ExtResource( 1 )
@@ -107,10 +107,10 @@ position = Vector2( 512, 480 )
 layer = 3
 
 [node name="Button" type="Button" parent="."]
-margin_left = 296.0
-margin_top = 824.0
-margin_right = 360.0
-margin_bottom = 856.0
+margin_left = 256.0
+margin_top = 792.0
+margin_right = 448.0
+margin_bottom = 858.0
 theme = ExtResource( 3 )
 custom_styles/normal = SubResource( 1 )
 text = "RETRY"
