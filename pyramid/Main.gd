@@ -22,6 +22,8 @@ const Cursor = preload("res://Cursor.tscn")
 
 # レイヤー
 onready var card_layer = get_node("CardLayer")
+onready var cursor_layer = get_node("CursorLayer")
+
 
 # 初期化
 func _ready():
@@ -101,7 +103,9 @@ func add_pair(card):
   if pair.size() < 1:
     pair.append(card)
     # 枠追加
-    #Frame().addChildTo(card);
+    var cursor = Cursor.inatance()
+    cursor.position = card.position
+    cursor_layer.add_child(cursor)
   else:
     # ２枚目
     if pair.size() < 2:
@@ -124,14 +128,12 @@ func _check_pair():
 
   # 数字の合計が13なら
   if p1.num + p2.num == TARGET_NUM:
+    # 枠削除
+    var cursor = cursor.layer.get_children().front()
+    cursor_queue_free()
     # ペアを削除
     for card in pair:
       _remove_card(card)
-  else:
-    pass
-    # 枠削除
-    #p1.children.first.remove();
-  
   # ペア情報クリア
   pair.clear()
 
