@@ -24,4 +24,6 @@ func _physics_process(delta):
   var collision = move_and_collide(velocity * delta)
 
   if Input.is_action_just_pressed(dir):
-    velocity = velocity
+    velocity = Vector2(0, -JUMP_POWER)
+
+  velocity += Vector2(0, GRAVITY)
