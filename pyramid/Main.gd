@@ -209,3 +209,7 @@ func _after_remove():
   if remove_count == 0:
     # 次に開けるカードがあるかチェック
     _flip_next_card()
+
+
+func _on_Button_pressed():
+  get_tree().change_scene("res://Main.tscn")
