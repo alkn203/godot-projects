@@ -21,12 +21,10 @@ func _ready():
 # 毎フレーム処理
 func _physics_process(delta):
   # 移動と当たり判定
-  var collision = move_and_collide(velocity * delta)
-  # ブロックに乗ったらアニメーション変更
-  if collision:
+  velocity = move_and_slide(velocity)
+  # 床の上ならアニメーション変更
+  if on_floor():
     animated_sprite.play("default")
-    # ブロック乗っているフラグ立て
-    
   # 左クリックでジャンプ
   if Input.is_action_just_pressed("ui_left_click"):
     velocity = Vector2(0, -JUMP_POWER)
