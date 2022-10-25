@@ -1,0 +1,26 @@
+[gd_scene load_steps=3 format=2]
+
+[ext_resource path="res://Brick.tscn" type="PackedScene" id=1]
+[ext_resource path="res://Player.tscn" type="PackedScene" id=2]
+
+[node name="OneWayCollision" type="Node2D"]
+
+[node name="FloorLayer" type="CanvasLayer" parent="."]
+
+[node name="Brick" parent="FloorLayer" instance=ExtResource( 1 )]
+position = Vector2( 320, 592 )
+
+[node name="Brick2" parent="FloorLayer" instance=ExtResource( 1 )]
+position = Vector2( 320, 736 )
+
+[node name="Brick3" parent="FloorLayer" instance=ExtResource( 1 )]
+position = Vector2( 320, 448 )
+
+[node name="Brick4" parent="FloorLayer" instance=ExtResource( 1 )]
+position = Vector2( 320, 304 )
+
+[node name="PlayerLayer" type="CanvasLayer" parent="."]
+layer = 2
+
+[node name="Player" parent="PlayerLayer" instance=ExtResource( 2 )]
+position = Vector2( 320, 672 )
