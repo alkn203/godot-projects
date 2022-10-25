@@ -25,7 +25,8 @@ func _physics_process(delta):
   # 床の上なら
   if is_on_floor():
     # アニメーション変更
-    animated_sprite.play("default")
+    if animated_sprite.animation != "default":
+      animated_sprite.play("default")
     # 左クリックでジャンプ
     if Input.is_action_just_pressed("ui_left_click"):
       velocity = Vector2(0, -JUMP_POWER)
