@@ -4,7 +4,7 @@ extends KinematicBody2D
 # 重力
 const GRAVITY = 9.8 / 2 
 # ジャンプ力
-var JUMP_POWER = 300
+const JUMP_POWER = 304
 
 # 変数
 # 移動方向ベクトル
@@ -16,14 +16,21 @@ onready var animated_sprite = get_node("AnimatedSprite")
 # 初期化処理
 func _ready():
   # 最初のアニメーション
-  animated_sprite.play()
+  animated_sprite.play("default")
 
 # 毎フレーム処理
 func _physics_process(delta):
-  # 移動と当たり判定んふ
+  # 移動と当たり判定
   var collision = move_and_collide(velocity * delta)
-
+  # ブロックに乗ったらアニメーション変更
+  if collision:
+    animated_sprite.play("default")
+    # ブロック乗っているフラグ立て
+    
+  # 左クリックでジャンプ
   if Input.is_action_just_pressed("ui_left_click"):
     velocity = Vector2(0, -JUMP_POWER)
-
+    # アニメーション変更
+    animated_sprite.play("jump")
+  # 重力を加算
   velocity += Vector2(0, GRAVITY)
