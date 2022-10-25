@@ -21,7 +21,7 @@ func _ready():
 # 毎フレーム処理
 func _physics_process(delta):
   # 移動と当たり判定
-  velocity = move_and_slide(velocity)
+  velocity = move_and_slide(velocity, Vector2(0, -1)
   # 床の上ならアニメーション変更
   if on_floor():
     animated_sprite.play("default")
