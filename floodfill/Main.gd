@@ -1,7 +1,7 @@
 extends Node2D
 
 # 定数
-const DIR_ARRAY = [Vector2(1, 0), Vector2(-1, 0), Vector2(0, 1), Vector2(0, -1)]
+const DIR_ARRAY = [Vector2.UP, Vector2.DOWN, Vector2.LEFT, Vector2.RIGHT]
 
 # enum
 enum {WALL, FLOOR, WATER}
