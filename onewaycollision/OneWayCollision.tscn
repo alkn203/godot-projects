@@ -24,3 +24,9 @@ layer = 2
 
 [node name="Player" parent="PlayerLayer" instance=ExtResource( 2 )]
 position = Vector2( 320, 672 )
+
+[node name="ColorRect" type="ColorRect" parent="."]
+margin_right = 640.0
+margin_bottom = 960.0
+mouse_filter = 2
+color = Color( 0.627451, 0.847059, 0.937255, 1 )
