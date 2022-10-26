@@ -1,103 +1,26 @@
 extends Node2D
 
+# 定数
+var UNIT = 64
+var TARGET_INDEX = 2
 
-# Declare member variables here. Examples:
-onready var screen_size = get_viewport_rect().size
-onready var ufo_scene = preload("res://Ufo.tscn")
-onready var ufo_layer = find_node("UfoLayer")
-onready var ufo_timer = find_node("UfoTimer") 
+# ノード
+onready var tilemap = get_node("TileMap") 
 
-
-# Called when the node enters the scene tree for the first time.
+# 初期化
 func _ready():
-	pass # Replace with function body.
+  pass # Replace with function body.
 
-
-# Called every frame. 'delta' is the elapsed time since the previous frame.
+# 毎フレーム処理
 func _process(delta):
-	#
-	if ufo_timer.is_stopped():
-		var ufo = ufo_scene.instance()
-		ufo.position = Vector2(screen_size.x, 64)
-		ufo_layer.add_child(ufo)
-		ufo_timer.start()
+  # タッチ位置取得
+  
+  if (this.map.checkTileByIndex(i, j) === TARGET_COLOR) {
+    # タッチした位置から塗りつぶし開始
+    _fill(i, j)
 
-// グローバルに展開
-phina.globalize();
-// アセット
-var ASSETS = {
-  // 画像
-  image: {
-    'tile': 'https://cdn.jsdelivr.net/gh/alkn203/tomapiko_run@master/assets/tile.png',
-    'tile_sea': 'https://cdn.jsdelivr.net/gh/alkn203/assets_etc@master/pipo-map001_at-umi.png',
-  },
-};
-// 定数
-var UNIT = 64;
-var TARGET_COLOR = 1;
-/*
- * メインシーン
- */
-phina.define("MainScene", {
-  // 継承
-  superClass: 'DisplayScene',
-  // コンストラクタ
-  init: function() {
-    // 親クラス初期化
-    this.superInit();
-    
-    var data = [
-      [2,2,2,2,2,2,2,2,2,2],
-      [2,1,1,1,1,1,1,1,1,2],
-      [2,2,2,2,2,2,2,1,1,2],
-      [2,1,1,1,1,1,2,1,1,2],
-      [2,1,1,1,1,1,2,1,1,2],
-      [2,1,1,2,1,1,2,1,1,2],
-      [2,1,1,2,1,1,1,1,1,2],
-      [2,1,1,2,1,1,1,1,1,2],
-      [2,1,1,2,1,1,1,1,1,2],
-      [2,1,1,2,1,1,1,2,2,2],
-      [2,1,1,1,1,1,1,1,1,2],
-      [2,1,1,1,1,2,1,1,1,2],
-      [2,1,2,2,2,2,2,1,1,2],
-      [2,1,1,1,1,1,1,1,1,2],
-      [2,2,2,2,2,2,2,2,2,2]
-    ];
-
-    this.map = phina.util.Map({
-      tileWidth: UNIT,
-      tileHeight: UNIT,
-      imageName: 'tile',
-      mapData: data,
-    }).addChildTo(this);
-    
-    this.waterGroup = DisplayElement().addChildTo(this);
-    // タッチ時
-    this.onpointend = function(e) {
-      // タッチ位置からインデックス計算
-      var i = (e.pointer.x / UNIT) | 0;
-      var j = (e.pointer.y / UNIT) | 0;
-      // 
-      if (this.map.checkTileByIndex(i, j) === TARGET_COLOR) {
-        this.setInteractive(false);
-        // タッチした位置から塗りつぶし開始
-        this.fill(i, j);
-        this.showWater();
-      }
-    };    
-  },
-  // 水表示
-  showWater: function() {
-    this.waterGroup.children.each(function(water, i) {
-      // 時間差で表示
-      water.tweener.wait(100 * i)
-                   .call(function() {
-                     water.show();
-                   }).play();
-    });
-  },
-  // 塗りつぶし
-  fill: function(i, j) {
+# 塗りつぶし処理
+_fill(i, j):
     var map = this.map;
     var arr = [[1, 0], [-1, 0], [0, 1], [0, -1]];
     var self = this;
