@@ -1,15 +1,13 @@
 extends Node2D
 
 # 定数
-var UNIT = 64
-var TARGET_INDEX = 2
+const DIR_ARRAY = [Vector2(1, 0), Vector2(-1, 0), Vector2(0, 1), Vector2(0, -1)]
+
+# enum
+enum {WALL, FLOOR, WATER}
 
 # ノード
 onready var tilemap = get_node("TileMap") 
-
-# 初期化
-func _ready():
-  pass # Replace with function body.
 
 # イベント取得
 func _input(event):
@@ -17,22 +15,21 @@ func _input(event):
   if event is InputEventMouseButton:
     # クリック
     if event.pressed:
-      # マウス位置取得
+      # マウス位置をタイル位置に変換
       var pos = event.position
-      # タッチした位置から塗りつぶし開始
-      if (this.map.checkTileByIndex(i, j) === TARGET_COLOR) {
+      var tile_pos = tilemap.world_to_map(pos)
+      # タッチした位置が床なら塗りつぶし開始
+      if tilemap.get_cellv(tile_pos) == FLOOR:
         _fill(i, j) 
 
 # 塗りつぶし処理
-_fill(i, j):
-  var arr = [[1, 0], [-1, 0], [0, 1], [0, -1]];
+_fill(tile_pos):
   # タイル情報更新
-  map.setTileByIndex(i, j, -1)
+  tilemap.set_cellv(tile_pos, WATER)
   # 上下左右隣のタイルを調べる
-    arr.each(function(elem) {
-      var di = i + elem[0];
-      var dj = j + elem[1];
-      # 塗りつぶせる場所があれば
-      if (map.checkTileByIndex(di, dj) === TARGET_COLOR) {
-        # 再起呼び出し
-        _fill(di, dj)
+  for dir in DIR_ARRAY:
+    var next_pos = tile_pos + dir
+    # 塗りつぶせる場所があれば
+    if tilemap.get_cellv(tile_pos) == FLOOR:
+      # 再起呼び出し
+      _fill(next_pos)
