@@ -20,10 +20,10 @@ func _input(event):
       var tile_pos = tilemap.world_to_map(pos)
       # タッチした位置が床なら塗りつぶし開始
       if tilemap.get_cellv(tile_pos) == FLOOR:
-        _fill(i, j) 
+        _fill(tile_pos) 
 
 # 塗りつぶし処理
-_fill(tile_pos):
+func _fill(tile_pos):
   # タイル情報更新
   tilemap.set_cellv(tile_pos, WATER)
   # 上下左右隣のタイルを調べる
