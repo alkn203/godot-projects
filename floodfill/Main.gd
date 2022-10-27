@@ -24,12 +24,14 @@ func _input(event):
 
 # 塗りつぶし処理
 _fill(tile_pos):
+  # 段階的に塗る
+  #yield(get_tree().create_timer(0.2), "timeout")
   # タイル情報更新
   tilemap.set_cellv(tile_pos, WATER)
   # 上下左右隣のタイルを調べる
   for dir in DIR_ARRAY:
     var next_pos = tile_pos + dir
     # 塗りつぶせる場所があれば
-    if tilemap.get_cellv(tile_pos) == FLOOR:
+    if tilemap.get_cellv(next_pos) == FLOOR:
       # 再起呼び出し
       _fill(next_pos)
