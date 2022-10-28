@@ -34,6 +34,13 @@ func _fill(tile_pos):
   while buffer.size() > 0:
     # シードを１つ取り出す
     var point = buffer.pop_front()
+    # 塗れる左端
+    var left_x = point.x
+    # 塗れる右端
+    var right_x = point.y
+    # 既に塗られていたらスキップ
+    if tilemap.get_cellv(tile_pos) == WATER:
+      continue
 
 
   // 塗りつぶし
