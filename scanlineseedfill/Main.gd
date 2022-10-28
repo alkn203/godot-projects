@@ -3,6 +3,10 @@ extends Node2D
 # 定数
 const DIR_ARRAY = [Vector2.UP, Vector2.DOWN, Vector2.LEFT, Vector2.RIGHT]
 
+# 変数
+# シードバッファ
+var buffer = []
+
 # enum
 enum {WALL, FLOOR, WATER}
 
@@ -24,94 +28,14 @@ func _input(event):
 
 # 塗りつぶし処理
 func _fill(tile_pos):
-  # 時間差で段階的に塗る
-  yield(get_tree().create_timer(0.2), "timeout")
-  # タイル情報更新
-  tilemap.set_cellv(tile_pos, WATER)
-  # 上下左右隣のタイルを調べる
-  for dir in DIR_ARRAY:
-    var next_pos = tile_pos + dir
-    # 塗りつぶせる場所があれば
-    if tilemap.get_cellv(next_pos) == FLOOR:
-      # 再起呼び出し
-      _fill(next_pos)
+  # バッファにスタック
+  buffer.append(tile_pos)
+  # バッファにシードがある限り
+  while buffer.size() > 0:
+    # シードを１つ取り出す
+    var point = buffer.pop_front()
 
-// グローバルに展開
-phina.globalize();
-// アセット
-var ASSETS = {
-  // 画像
-  image: {
-    'tile': 'https://cdn.jsdelivr.net/gh/alkn203/tomapiko_run@master/assets/tile.png',
-    'tile_sea': 'https://cdn.jsdelivr.net/gh/alkn203/assets_etc@master/pipo-map001_at-umi.png',
-  },
-};
-// 定数
-var UNIT = 64;
-var TARGET_COLOR = 1;
-/*
- * メインシーン
- */
-phina.define("MainScene", {
-  // 継承
-  superClass: 'DisplayScene',
-  // コンストラクタ
-  init: function() {
-    // 親クラス初期化
-    this.superInit();
-    
-    var data = [
-      [2,2,2,2,2,2,2,2,2,2],
-      [2,1,1,1,1,1,1,1,1,2],
-      [2,2,2,2,2,2,2,1,1,2],
-      [2,1,1,1,1,1,2,1,1,2],
-      [2,1,1,1,1,1,2,1,1,2],
-      [2,1,1,2,1,1,2,1,1,2],
-      [2,1,1,2,1,1,1,1,1,2],
-      [2,1,1,2,1,1,1,1,1,2],
-      [2,1,1,2,1,1,1,1,1,2],
-      [2,1,1,2,1,1,1,2,2,2],
-      [2,1,1,1,1,1,1,1,1,2],
-      [2,1,1,1,1,2,1,1,1,2],
-      [2,1,2,2,2,2,2,1,1,2],
-      [2,1,1,1,1,1,1,1,1,2],
-      [2,2,2,2,2,2,2,2,2,2]
-    ];
 
-    this.map = phina.util.Map({
-      tileWidth: UNIT,
-      tileHeight: UNIT,
-      imageName: 'tile',
-      mapData: data,
-    }).addChildTo(this);
-    
-    this.waterGroup = DisplayElement().addChildTo(this);
-    
-    var self = this;
-    // タッチ時
-    this.onpointend = function(e) {
-      // タッチ位置からインデックス計算
-      var i = (e.pointer.x / UNIT) | 0;
-      var j = (e.pointer.y / UNIT) | 0;
-      // 
-      if (this.map.checkTileByIndex(i, j) === TARGET_COLOR) {
-        this.setInteractive(false);
-        // タッチした位置から塗りつぶし開始
-        this.fill(i, j);
-        this.showWater();
-      }
-    };
-  },
-  // 水表示
-  showWater: function() {
-    this.waterGroup.children.each(function(water, i) {
-      // 時間差で表示
-      water.tweener.wait(100 * i)
-                   .call(function() {
-                     water.show();
-                   }).play();
-    });
-  },
   // 塗りつぶし
   fill: function(i, j) {
     var map = this.map;
@@ -202,19 +126,4 @@ phina.define("MainScene", {
     }
   },
 });
-/*
- * メイン処理
- */
-phina.main(function() {
-  // アプリケーションを生成
-  var app = GameApp({
-    // MainScene から開始
-    startLabel: 'main',
-    // アセット読み込み
-    assets: ASSETS,
-  });
-  // fps表示
-  //app.enableStats();
-  // 実行
-  app.run();
-});
+
