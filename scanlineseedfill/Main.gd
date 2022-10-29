@@ -53,6 +53,7 @@ func _fill(tile_pos):
       right_x += 1
     # 横方向を塗る
     _paint_horizontal(left_x, right_x, point.y)
+    yield(get_tree().create_timer(0.2), "timeout")
     # 上下のラインをサーチ
     if (point.y + 1) < 14:
       _scan_line(left_x, right_x, point.y + 1)
@@ -65,6 +66,7 @@ func _paint_horizontal(left_x, right_x, y):
   for x in range(left_x, right_x + 1):
     # タイル情報更新
     tilemap.set_cellv(Vector2(x, y), WATER)
+    yield(get_tree().create_timer(0.2), "timeout")
   
 # ライン上でシードをスキャンする
 func _scan_line(left_x, right_x, y):
