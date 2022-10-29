@@ -39,7 +39,7 @@ func _fill(tile_pos):
     # 塗れる右端
     var right_x = point.x
     # 既に塗られていたらスキップ
-    if tilemap.get_cellv(tile_pos) == WATER:
+    if tilemap.get_cellv(point) == WATER:
       continue
     # 左端を特定
     while left_x > 0:
@@ -53,6 +53,12 @@ func _fill(tile_pos):
       right_x += 1
     # 横方向を塗る
     _paint_horizontal(left_x, right_x, point.y)
+    # 上下のラインをサーチ
+    if (point.y + 1) < 14:
+      _scan_line(left_x, right_x, point.y + 1)
+      
+    if (point.y - 1) >= 0:
+      _scan_line(left_x, right_x, point.y - 1)
 
 # 指定された直線範囲を塗りつぶす
 func _paint_horizontal(left_x, right_x, y):
@@ -60,111 +66,30 @@ func _paint_horizontal(left_x, right_x, y):
     # タイル情報更新
     tilemap.set_cellv(Vector2(x, y), WATER)
   
-  
-  
-  
-#    var map = this.map;
-#
-#    for (var i = leftI; i <= rightI; i++) {
-#       // タイル情報更新
-#      map.setTileByIndex(i, j, -1);
-#      // 指定したインデックスの子要素を得る
-#      var target = map.getChildByIndex(i, j);
-#      // 水スプライト・一旦非表示
-#      var sea = Sprite('tile_sea', 32, 32).addChildTo(this.waterGroup);
-#      sea.setPosition(target.x, target.y);
-#      sea.setFrameIndex(4).hide();
-#      sea.setSize(64, 64);
-#    }
-#  },
-#  // 塗りつぶし
-#  fill: function(i, j) {
-#    var map = this.map;
-#    var self = this;
-#    // シードバッファ
-#    this.buffer = [];
-#    // バッファにスタック
-#    this.buffer.push({ i : i, j : j });
-#    // バッファにシードがある限り
-#    while (this.buffer.length > 0) {
-#      // シードを１つ取り出す
-#      var point = this.buffer.pop();
-#      // 塗れる左端
-#      var leftI = point.i;
-#      // 塗れる右端
-#      var rightI = point.i;
-#      // 既に塗られていたらスキップ
-#      if (map.checkTileByIndex(point.i, point.j) === -1) {
-#        continue;
-#      }
-#      // 左端を特定
-#      for (; 0 < leftI; leftI--) {
-#        if (map.checkTileByIndex(leftI - 1, point.j) !== TARGET_COLOR) {
-#          break;
-#        }
-#      }
-#      // 右端をよ特定
-#      for (; rightI < 9; rightI++) {
-#        if (map.checkTileByIndex(rightI + 1, point.j) !== TARGET_COLOR) {
-#          break;
-#        }
-#      }
-#      // 横方向を塗る
-#      this.paintHorizontal(leftI, rightI, point.j);
-#      // 上下のラインをサーチ
-#      if (point.j + 1 < 14) {
-#        this.scanLine(leftI, rightI, point.j + 1);
-#      }
-#      if (point.j - 1 >= 0) {
-#        this.scanLine(leftI, rightI, point.j - 1);
-#      }
-#    }
-#  },
-#  // 指定された直線範囲を塗りつぶす
-#  paintHorizontal: function(leftI, rightI, j) {
-#    var map = this.map;
-#
-#    for (var i = leftI; i <= rightI; i++) {
-#       // タイル情報更新
-#      map.setTileByIndex(i, j, -1);
-#      // 指定したインデックスの子要素を得る
-#      var target = map.getChildByIndex(i, j);
-#      // 水スプライト・一旦非表示
-#      var sea = Sprite('tile_sea', 32, 32).addChildTo(this.waterGroup);
-#      sea.setPosition(target.x, target.y);
-#      sea.setFrameIndex(4).hide();
-#      sea.setSize(64, 64);
-#    }
-#  },
-#  // ライン上でシードをスキャンする
-#  scanLine: function(leftI, rightI, j) {
-#    var map = this.map;
-#    //
-#    while (leftI <= rightI) {
-#      // 塗れる最初の場所
-#      for (; leftI <= rightI; leftI++) {
-#        if (map.checkTileByIndex(leftI, j) === TARGET_COLOR) {
-#            break;
-#        }
-#      }
-#      // 右端に到達したら終わり
-#      if (rightI < leftI) {
-#        break;
-#      }
-#      // 塗れない右端を特定
-#      for (; leftI <= rightI; leftI++) {
-#        if (map.checkTileByIndex(leftI, j) !== TARGET_COLOR) {
-#          break;
-#        }
-#      }
-#      // 塗れる右端をｓシードに登録
-#      this.buffer.push({ i : leftI - 1, j : j});
+# ライン上でシードをスキャンする
+func _scan_line(left_x, right_x, y):
+    #
+    while left_x <= right_x:
+      # 塗れる最初の場所
+      while left_x <= right_x:
+        if tilemap.get_cellv(Vector2(left_x, y)) == FLOOR:
+          break
+        left_x += 1
+      # 右端に到達したら終わり
+      if right_x < left_x:
+        break
+      # 塗れない右端を特定
+      while left_x <= right_x:
+        if tilemap.get_cellv(Vector2(left_x, y)) != FLOOR:
+          break
+        left_x += 1
+      # 塗れる右端をシードに登録
+      buffer.append(Vector2(left_x - 1, y))
+      
 #      // シード表示
 #      Label({
 #        text: 'S',
 #        fontSize: UNIT * 0.8,
 #      }).addChildTo(this).setPosition((leftI - 1) * UNIT + 32, j * UNIT + 32);
-#    }
-#  },
-#});
+
 
