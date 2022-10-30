@@ -10,6 +10,9 @@ var buffer = []
 # enum
 enum {WALL, FLOOR, WATER}
 
+# シーン
+const SeedLabel = preload("res://SeedLabel.tscn")
+
 # ノード
 onready var tilemap = get_node("TileMap") 
 
@@ -87,11 +90,7 @@ func _scan_line(left_x, right_x, y):
         left_x += 1
       # 塗れる右端をシードに登録
       buffer.append(Vector2(left_x - 1, y))
-      
-#      // シード表示
-#      Label({
-#        text: 'S',
-#        fontSize: UNIT * 0.8,
-#      }).addChildTo(this).setPosition((leftI - 1) * UNIT + 32, j * UNIT + 32);
-
-
+      # シード表示
+      var seed_label = SeedLabel.instance()
+      seed_label.rect_position = tilemap.map_to_world(Vector2(left_x - 1, y))
+      get_node("SeedLayer").add_child(seed_label)
