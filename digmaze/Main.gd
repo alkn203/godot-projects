@@ -17,41 +17,38 @@ const DIR_ARRAY = [Vector2.UP, Vector2.DOWN, Vector2.LEFT, Vector2.RIGHT]
 # enum
 enum {FLOOR, WALL}
 
+# 変数
+# 分岐点候補
+var branch_array = []
 # ノード
-onready var tilemap = get_node("TileMap") 
+onready var tilemap = get_node("TileMap")
 
-# イベント取得
-func _input(event):
-  # マウスボタン
-  if event is InputEventMouseButton:
-    # クリック
-    if event.pressed:
-      # マウス位置をタイル位置に変換
-      var pos = event.position
-      var tile_pos = tilemap.world_to_map(pos)
-      # タッチした位置が床なら塗りつぶし開始
-      if tilemap.get_cellv(tile_pos) == FLOOR:
-        _fill(tile_pos) 
+# 初期処理
+func _ready():
+  # 最初の穴掘り（奇数位置）
+  tilemap.set_cellv(_get_rand_pos(), FLOOR)
 
-# 塗りつぶし処理
-func _fill(tile_pos):
+# ランダムな位置を返す
+func _get_rand_pos():
+    var i_array = []
+    var j_array = []
+    
+    randomize()
+    # 奇数座標  
+    for i in range(1, WALL_NUM_X, 2):
+      i_array.append(i)
+    for j in range(1, WALL_NUM_Y, 2):
+      j_array.append(j)
+    # 配列をシャッフル
+    i_array.shuffle()
+    j_array.shuffle()
+    
+    return Vector2(i_array.front(), j_array.front())
+
+# 穴掘り処理
+func _dig(tile_pos):
   # 時間差で段階的に塗る
-  yield(get_tree().create_timer(0.2), "timeout")
-  # タイル情報更新
-  tilemap.set_cellv(tile_pos, WATER)
-  # 上下左右隣のタイルを調べる
-  for dir in DIR_ARRAY:
-    var next_pos = tile_pos + dir
-    # 塗りつぶせる場所があれば
-    if tilemap.get_cellv(next_pos) == FLOOR:
-      # 再起呼び出し
-      _fill(next_pos)
-
-#    // 分岐点候補
-#    this.branches = [];
-#       // 最初の穴掘り（奇数位置）
-#    var randI = Array.range(1, WALL_NUM_X, 2).random();
-#    var randJ = Array.range(1, WALL_NUM_Y, 2).random();
+  pass
 #    this.map.setTileByIndex(randI, randJ, FLOOR);
 #    // 起点に穴掘り開始
 #    this.dig(randI, randJ);
@@ -120,14 +117,3 @@ func _fill(tile_pos):
 #      this.dig(rand.i, rand.j);
 #    }
 #  },
-#});
-#// メイン
-#phina.main(function() {
-#  var app = GameApp({
-#    startLabel: 'main',
-#    width: MAZE_WIDTH,
-#    height: MAZE_HEIGHT,
-#    assets: ASSETS,
-#  });
-#  app.run();
-#});
