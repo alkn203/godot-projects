@@ -26,7 +26,10 @@ onready var tilemap = get_node("TileMap")
 # 初期処理
 func _ready():
   # 最初の穴掘り（奇数位置）
-  tilemap.set_cellv(_get_rand_pos(), FLOOR)
+  var rand_pos = _get_rand_pos()
+  tilemap.set_cellv(rand_pos, FLOOR)
+  # 起点に穴掘り開始
+  #_dig(rand_pos)
 
 # ランダムな位置を返す
 func _get_rand_pos():
@@ -47,13 +50,14 @@ func _get_rand_pos():
 
 # 穴掘り処理
 func _dig(tile_pos):
+  var next_x = tile_pos.x
+  var next_j = tile_pos.y
+  
+  
   # 時間差で段階的に塗る
   pass
-#    this.map.setTileByIndex(randI, randJ, FLOOR);
-#    // 起点に穴掘り開始
-#    this.dig(randI, randJ);
-#  },
-#  // 穴掘り処理
+#   
+
 #  dig: function(i, j) {
 #
 #    var map = this.map;
