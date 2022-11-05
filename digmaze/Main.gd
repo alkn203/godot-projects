@@ -52,23 +52,16 @@ func _get_rand_pos():
 func _dig(tile_pos):
   var next_x = tile_pos.x
   var next_j = tile_pos.y
+  # 分岐点登録
+  _regist_branch(tile_pos)
   
+  var can_dig = false
+  randomize()
+  # ランダムな順番で
+  DIR_ARRAY.shuffle()
   
-  # 時間差で段階的に塗る
-  pass
-#   
-
-#  dig: function(i, j) {
-#
-#    var map = this.map;
-#    var self = this;
-#
-#    var nextI = i;
-#    var nextJ = j;
-#    // 分岐点登録
-#    this.registBranch(i, j);
-#    // ランダムな順番で
-#    var canDig = DIR_ARRAY.shuffle().some(function(direction) {
+  for dir in DIR_ARRAY:
+    
 #      var i2 = i + direction.x * 2;
 #      var j2 = j + direction.y * 2;
 #      // 掘れる範囲なら
