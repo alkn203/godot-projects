@@ -61,6 +61,8 @@ func _dig(tile_pos):
   DIR_ARRAY.shuffle()
   
   for dir in DIR_ARRAY:
+    # 2マス先
+    var v2 = tile_pos + dir * 2
     
 #      var i2 = i + direction.x * 2;
 #      var j2 = j + direction.y * 2;
