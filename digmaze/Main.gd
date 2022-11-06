@@ -50,11 +50,10 @@ func _get_rand_pos():
 
 # 穴掘り処理
 func _dig(tile_pos):
-  var next_x = tile_pos.x
-  var next_j = tile_pos.y
+  var next_pos = tile_pos
   # 分岐点登録
   #_regist_branch(tile_pos)
-  
+  # 続けて掘れるかのフラグ
   var can_dig = false
   # ランダムな順番で
   randomize()
@@ -66,20 +65,18 @@ func _dig(tile_pos):
     # 1マス先
     var v1 = tile_pos + dir
     # 掘れる範囲なら
-    if ((i2 > 0 && i2 < WALL_NUM_X) && (j2 > 0 && j2 < WALL_NUM_Y)) {
-#        // 2マス先が壁か調べる
-#        if (map.checkTileByIndex(i2, j2) === WALL) {
-#          // 壁なら2マス先まで掘る
-#          map.setTileByIndex(i + direction.x, j + direction.y, FLOOR);
-#          map.setTileByIndex(i2, j2, FLOOR);
-#          // 次の起点
-#          nextI = i2;
-#          nextJ = j2;
-#          return true;
-#        }
-#      }
-#    });
-#    // 掘り進められるのであれば
+    if (v2.x > 0 and v2.x < WALL_NUM_X) and (v2.y > 0 and v2.y < WALL_NUM_Y):
+      # 2マス先が壁か調べる
+      if tilemap.get_cellv(v2) == WALL:
+        # 壁なら2マス先まで掘る
+        tilemap.set_cellv(v1, FLOOR)
+        tilemap.set_cellv(v2, FLOOR)
+        # 次の起点
+        next_pos = v2
+        # ループを抜ける
+        can_dig = true
+        break
+  # 掘り進められるのであれば
 #    if (canDig) {
 #      // 2マス先を開始位置にして再帰処理
 #      this.dig(nextI, nextJ);
