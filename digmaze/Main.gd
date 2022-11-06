@@ -29,7 +29,7 @@ func _ready():
   var rand_pos = _get_rand_pos()
   tilemap.set_cellv(rand_pos, FLOOR)
   # 起点に穴掘り開始
-  #_dig(rand_pos)
+  _dig(rand_pos)
 
 # ランダムな位置を返す
 func _get_rand_pos():
@@ -52,7 +52,7 @@ func _get_rand_pos():
 func _dig(tile_pos):
   var next_pos = tile_pos
   # 分岐点登録
-  #_regist_branch(tile_pos)
+  _regist_branch(tile_pos)
   # 続けて掘れるかのフラグ
   var can_dig = false
   # ランダムな順番で
@@ -77,38 +77,32 @@ func _dig(tile_pos):
         can_dig = true
         break
   # 掘り進められるのであれば
-#    if (canDig) {
-#      // 2マス先を開始位置にして再帰処理
-#      this.dig(nextI, nextJ);
-#   }
-#    else {
-#      // 分岐点として使えないので削除
-#      this.deleteBranch(nextI, nextJ);
-#      // これまでの分岐点から掘り進めるものを探す
-#      this.searchBranch();
-#    }
-#  },
-#  // 分岐点を登録
-#  registBranch: function(indexI, indexJ) {
-#    // ダブり回避
-#    var result = this.branches.some(function(branch) {
-#      return (branch.i === indexI && branch.j === indexJ);
-#    });
-#
-#    if (!result) {
-#      this.branches.push({i: indexI, j: indexJ});
-#    }
-#  },
-#  // 使えない分岐点を削除
-#  deleteBranch: function(indexI, indexJ) {
-#    this.branches.eraseIfAll(function(branch) {
-#      return (branch.i === indexI && branch.j === indexJ);
-#    });
-#  },
-#  // 使える分岐点を探す
-#  searchBranch: function() {
-#    if (this.branches.length > 0) {
-#      var rand = this.branches.random();
-#      this.dig(rand.i, rand.j);
-#    }
-#  },
+  if can_dig:
+    # 2マス先を開始位置にして再帰処理
+    _dig(next_pos)
+  else:
+    # 分岐点として使えないので削除
+    _delete_branch(next_pos)
+    # これまでの分岐点から掘り進めるものを探す
+    _search_branch()
+    
+# 分岐点を登録
+func _regist_branch(tile_pos):
+  # ダブり回避
+  for pos in branch_array:
+    if pos == tile_pos:
+      return
+  
+  branch_array.append(tile_pos)
+
+# 使えない分岐点を削除
+func _delete_branch(tile_pos):
+  branch_array.erase(tile_pos)
+
+# 使える分岐点をランダムに探す
+func _search_branch():
+  if branch_array.size() > 0:
+    randomize()
+    branch_array.shuffle()
+    var rand_pos = branch_array.front()
+    _dig(rand_pos)
