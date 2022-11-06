@@ -53,21 +53,20 @@ func _dig(tile_pos):
   var next_x = tile_pos.x
   var next_j = tile_pos.y
   # 分岐点登録
-  _regist_branch(tile_pos)
+  #_regist_branch(tile_pos)
   
   var can_dig = false
-  randomize()
   # ランダムな順番で
+  randomize()
   DIR_ARRAY.shuffle()
   
   for dir in DIR_ARRAY:
     # 2マス先
     var v2 = tile_pos + dir * 2
-    
-#      var i2 = i + direction.x * 2;
-#      var j2 = j + direction.y * 2;
-#      // 掘れる範囲なら
-#      if ((i2 > 0 && i2 < WALL_NUM_X) && (j2 > 0 && j2 < WALL_NUM_Y)) {
+    # 1マス先
+    var v1 = tile_pos + dir
+    # 掘れる範囲なら
+    if ((i2 > 0 && i2 < WALL_NUM_X) && (j2 > 0 && j2 < WALL_NUM_Y)) {
 #        // 2マス先が壁か調べる
 #        if (map.checkTileByIndex(i2, j2) === WALL) {
 #          // 壁なら2マス先まで掘る
