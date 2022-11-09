@@ -50,6 +50,9 @@ func _get_rand_pos():
 
 # 穴掘り処理
 func _dig(tile_pos):
+  # 時間差で段階的に塗る
+  yield(get_tree().create_timer(0.2), "timeout")
+  
   var next_pos = tile_pos
   # 分岐点登録
   _regist_branch(tile_pos)
