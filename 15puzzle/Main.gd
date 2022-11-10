@@ -25,6 +25,13 @@ func move_piece(piece):
     if ((p_pos.x == b_pos.x and dy == PIECE_SIZE) or (p_pos.y == b_pos.y and dx == PIECE_SIZE)):
       # タッチされたピース位置を一時変数に退避
       var t_pos = Vector2(p_pos.x, p_pos.y)
-      # ピース入れ替え処理
+      # ピース入れ替えアニメーション
+      var tween = get_tree().create_tween()
+      tween.set_parallel(true)
+      tween.tween_property(piece, "position", b_pos, DURATION)
+      tween.tween_property(blank, "position", t_pos, DURATION)
+      tween.set_parallel(false)
+      tween.tween_callback(self, "_after_swap")
+    
       piece.position = b_pos
       blank.position = t_pos
