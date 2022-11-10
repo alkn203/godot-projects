@@ -3,6 +3,7 @@ extends Node2D
 
 # 定数
 const PIECE_SIZE = 160
+const DURATION = 0.25
 
 # ノード
 onready var blank = get_node("Piece16")
@@ -31,7 +32,4 @@ func move_piece(piece):
       tween.tween_property(piece, "position", b_pos, DURATION)
       tween.tween_property(blank, "position", t_pos, DURATION)
       tween.set_parallel(false)
-      tween.tween_callback(self, "_after_swap")
-    
-      piece.position = b_pos
-      blank.position = t_pos
+      #tween.tween_callback(self, "_after_swap")
