@@ -3,11 +3,7 @@ extends Sprite
 # 定数
 const TILE_SIZE = 64
 const DURATION = 0.25
-const KEY_ARRAY = [
-    ["ui_down", Vector2(0, 1)],
-    ["ui_up", Vector2(0, -1)],
-    ["ui_left", Vector2(-1, 0)],
-    ["ui_right", Vector2(1, 0)]]
+
 # 変数
 var tile_pos = Vector2(4, 8)
 var can_input = true
