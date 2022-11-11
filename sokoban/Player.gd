@@ -1,13 +1,16 @@
 extends Sprite
 
+# 定数
+const TILE_SIZE = 64
 
-# Declare member variables here. Examples:
+# 変数
 var tile_pos = Vector2(4, 8)
+
+# ノード
 onready var tilemap = get_node("/root/Main/Stage1/TileMap")
 onready var baggage_layer = get_node("/root/Main/Stage1/BaggageLayer")
 
-const TILE_SIZE = 64
-
+#
 enum { TILE_NONE, TILE_FLOOR, TILE_GOAL, TILE_WALL, BAGGAGE, BAGGAGE_ON_GOAL } 
 
 # Called when the node enters the scene tree for the first time.
