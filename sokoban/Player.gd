@@ -57,11 +57,6 @@ func _process(delta):
       baggage.tile_pos += v
       tween.set_parallel(true)
       tween.tween_property(baggage, "position", baggage.position + v * TILE_SIZE, DURATION)
-      # 荷物がゴールに乗っているかのチェック
-      #stage.change_baggage_color_on_goal()
-      # クリアチェック
-      #if stage.is_clear() == true:
-      #  OS.alert("clear")
       
     # プレイヤー位置更新
     tile_pos = next
@@ -74,3 +69,9 @@ func _process(delta):
 
 func _after_move():
   can_input = true
+  # 荷物がゴールに乗っているかのチェック
+  stage.change_baggage_color_on_goal()
+  # クリアチェック
+  if stage.is_clear() == true:
+    OS.alert("clear")
+
