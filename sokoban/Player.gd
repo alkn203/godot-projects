@@ -3,6 +3,11 @@ extends Sprite
 # 定数
 const TILE_SIZE = 64
 const DURATION = 0.25
+const KEY_ARRAY = [
+    ["ui_down", Vector2(0, 1)],
+    ["ui_up", Vector2(0, -1)],
+    ["ui_left", Vector2(-1, 0)],
+    ["ui_right", Vector2(1, 0)]]
 
 # 変数
 var tile_pos = Vector2(4, 8)
@@ -22,22 +27,20 @@ func _process(delta):
   if can_input == false:
     return
       
-  var v = Vector2.ZERO
-  # 方向キーチェック
-  if Input.is_action_just_pressed("ui_left"):
-    v.x = -1
-  if Input.is_action_just_pressed("ui_right"):
-    v.x = 1
-  if Input.is_action_just_pressed("ui_up"):
-    v.y = -1
-  if Input.is_action_just_pressed("ui_down"):
-    v.y = 1
+  var velocity = Vector2.ZERO
+  
+  for elem in KEY_ARRAY:
+    var dir = elem[0]
+    # キーにより方向振り分け
+    if Input.is_action_pressed(dir):
+      #animated_sprite.play(dir)
+      velocity = elem[1]
   # 何かしら入力があれば
-  if v.x != 0 or v.y != 0:
+  if velocity.x != 0 or velocity.y != 0:
     # tween作成
     var tween = get_tree().create_tween()
     # その方向の一つ先の位置
-    var next = tile_pos + v
+    var next = tile_pos + velocity
     # 壁なら何もしない
     if tilemap.get_cellv(next) == TILE_WALL:
       return
@@ -47,23 +50,24 @@ func _process(delta):
     # 荷物の場合
     if baggage != null:
       # さらに荷物のその１つ先が壁
-      if tilemap.get_cellv(next + v) == TILE_WALL:
+      if tilemap.get_cellv(next + velocity) == TILE_WALL:
         return
       # 荷物のその１つ先が荷物
-      if stage.get_baggage_by_pos(next + v) != null:
+      if stage.get_baggage_by_pos(next + velocity) != null:
         return
       
       # 荷物位置更新
-      baggage.tile_pos += v
+      baggage.tile_pos += velocity
+      var pos = baggage.position + velocity * TILE_SIZE
       tween.set_parallel(true)
-      tween.tween_property(baggage, "position", baggage.position + v * TILE_SIZE, DURATION)
+      tween.tween_property(baggage, "position", pos, DURATION)
       
     # プレイヤー位置更新
     tile_pos = next
     # 一旦入力不可にする
     can_input = false
     # 移動アニメーション
-    tween.tween_property(self, "position", position + v * TILE_SIZE, DURATION)
+    tween.tween_property(self, "position", position + velocity * TILE_SIZE, DURATION)
     tween.set_parallel(false)
     tween.tween_callback(self, "_after_move")
 
