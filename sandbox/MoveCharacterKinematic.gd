@@ -13,7 +13,7 @@ var velocity = Vector2(0, 0)
 # 毎フレーム処理
 func _physics_process(delta):
   # 移動入力受付
-  velocity = Vector2(0, 0)
+  velocity = Vector2.ZERO
   
   for elem in KEY_ARRAY:
     var dir = elem[0]
