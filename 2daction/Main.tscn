@@ -8,7 +8,7 @@
 [node name="FloorLayer" type="CanvasLayer" parent="."]
 
 [node name="Brick" parent="FloorLayer" instance=ExtResource( 1 )]
-position = Vector2( 320, 592 )
+position = Vector2( 160, 592 )
 
 [node name="Brick2" parent="FloorLayer" instance=ExtResource( 1 )]
 position = Vector2( 320, 736 )
@@ -17,7 +17,7 @@ position = Vector2( 320, 736 )
 position = Vector2( 320, 448 )
 
 [node name="Brick4" parent="FloorLayer" instance=ExtResource( 1 )]
-position = Vector2( 320, 304 )
+position = Vector2( 480, 304 )
 
 [node name="PlayerLayer" type="CanvasLayer" parent="."]
 layer = 2

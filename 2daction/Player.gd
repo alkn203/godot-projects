@@ -25,6 +25,7 @@ func _physics_process(delta):
   # 左右キー移動
   if Input.is_action_pressed("ui_left"):
     velocity.x = -speed
+    # アニメーション変更
     animated_sprite.play("walk_left")
   if Input.is_action_pressed("ui_right"):
     velocity.x = speed
@@ -44,7 +45,7 @@ func _physics_process(delta):
   # 床の上なら
   if is_on_floor():
     # 左クリックでジャンプ
-    if Input.is_action_just_pressed("ui_left_click"):
+    if Input.is_action_just_pressed("ui_jump"):
       velocity.y = -JUMP_POWER
 
   # 重力を加算
