@@ -5,18 +5,12 @@ extends KinematicBody2D
 const GRAVITY = 9.8 / 2 
 # ジャンプ力
 const JUMP_POWER = 304
-# 方向配列
-const KEY_ARRAY = [
-    ["ui_down", Vector2(0, 1)],
-    ["ui_up", Vector2(0, -1)],
-    ["ui_left", Vector2(-1, 0)],
-    ["ui_right", Vector2(1, 0)]]
 # プレイヤーの速度
 export (int) var speed = 150
 
 # 変数
 # 移動方向ベクトル
-var velocity = Vector2(0, 0)
+var velocity = Vector2.ZERO
 
 # ノード
 onready var animated_sprite = get_node("AnimatedSprite")
