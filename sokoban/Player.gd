@@ -14,9 +14,9 @@ var tile_pos = Vector2(4, 8)
 var can_input = true
 
 # ノード
-onready var stage = get_node("/root/Main/Stage1")
-onready var tilemap = get_node("/root/Main/Stage1/TileMap")
-onready var baggage_layer = get_node("/root/Main/Stage1/BaggageLayer")
+onready var stage = get_node("/root/Main")
+onready var tilemap = get_node("/root/Main/TileMap")
+onready var baggage_layer = get_node("/root/Main/BaggageLayer")
 
 # タイル情報
 enum { TILE_NONE, TILE_FLOOR, TILE_GOAL, TILE_WALL, BAGGAGE, BAGGAGE_ON_GOAL } 

@@ -2,15 +2,15 @@
 
 importer="texture"
 type="StreamTexture"
-path="res://.import/robot.png-1986ed265afeed1546b5bbb4d1043c90.stex"
+path="res://.import/robot.png-b6fddb60c90fb955abb72fff30db5342.stex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://robot.png"
-dest_files=[ "res://.import/robot.png-1986ed265afeed1546b5bbb4d1043c90.stex" ]
+source_file="res://assets/robot.png"
+dest_files=[ "res://.import/robot.png-b6fddb60c90fb955abb72fff30db5342.stex" ]
 
 [params]
 
