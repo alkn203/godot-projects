@@ -1,4 +1,4 @@
-extends Sprite
+extends AnimatedSprite
 
 # 定数
 const TILE_SIZE = 64
