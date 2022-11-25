@@ -33,7 +33,7 @@ func _process(delta):
     var dir = elem[0]
     # キーにより方向振り分け
     if Input.is_action_pressed(dir):
-      #animated_sprite.play(dir)
+      animated_sprite.play(dir)
       velocity = elem[1]
   # 何かしら入力があれば
   if velocity.x != 0 or velocity.y != 0:
