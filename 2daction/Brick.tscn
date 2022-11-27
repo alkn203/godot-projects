@@ -6,6 +6,7 @@
 extents = Vector2( 32, 32 )
 
 [node name="Brick" type="StaticBody2D"]
+constant_linear_velocity = Vector2( -20, 0 )
 __meta__ = {
 "_edit_group_": true
 }
