@@ -1,0 +1,10 @@
+0b7126e0c6e86d3ec295a72f5aa6e0bd
+::res://::1669773374
+default_env.tres::Environment::-1::1669773361::0::1::::<><>::
+icon.png::CompressedTexture2D::8297045215337821468::1663170257::1669773376::1::::<><>::
+Main.gd::GDScript::-1::1669773361::0::1::::<>Node2D<>::
+Main.tscn::PackedScene::-1::1669773361::0::1::::<><>::res://Main.gd<>res://MyPanel.tscn
+MyPanel.gd::GDScript::-1::1669773361::0::1::::MyPanel<>Area2D<>::
+MyPanel.tscn::PackedScene::-1::1669773361::0::1::::<><>::res://assets/minespsheet.png<>res://MyPanel.gd
+::res://assets/::1663170257
+minespsheet.png::CompressedTexture2D::1569968513495535579::1663170257::1669773376::1::::<><>::
