@@ -4,33 +4,33 @@ extends AnimatedSprite
 const TILE_SIZE = 64
 const DURATION = 0.25
 const KEY_ARRAY = [
-    ["ui_down", Vector2(0, 1)],
-    ["ui_up", Vector2(0, -1)],
-    ["ui_left", Vector2(-1, 0)],
-    ["ui_right", Vector2(1, 0)]]
+    ["ui_down", Vector2.DOWN],
+    ["ui_up", Vector2.UP],
+    ["ui_left", Vector2.LEFT],
+    ["ui_right", Vector2.RIGHT]]
 
 # 変数
-var tile_pos = Vector2(4, 8)
-var can_input = true
+var tile_pos: Vector2 = Vector2(4, 8)
+var can_input: bool = true
 
 # ノード
-onready var stage = get_node("/root/Main")
-onready var tilemap = get_node("/root/Main/TileMap")
-onready var baggage_layer = get_node("/root/Main/BaggageLayer")
+onready var stage: Node2D = get_node("/root/Main")
+onready var tilemap: TileMap = get_node("/root/Main/TileMap")
+onready var baggage_layer: CanvasLayer = get_node("/root/Main/BaggageLayer")
 
 # タイル情報
 enum { TILE_NONE, TILE_FLOOR, TILE_GOAL, TILE_WALL, BAGGAGE, BAGGAGE_ON_GOAL } 
 
 # 毎フレーム処理
-func _process(delta):
+func _process(delta) -> void:
   # キー入力不可の場合
   if can_input == false:
     return
       
-  var velocity = Vector2.ZERO
+  var velocity: Vector2 = Vector2.ZERO
   
   for elem in KEY_ARRAY:
-    var dir = elem[0]
+    var dir: Array = elem[0]
     # キーにより方向振り分け
     if Input.is_action_pressed(dir):
       self.play(dir)
@@ -40,7 +40,7 @@ func _process(delta):
     # tween作成
     var tween = get_tree().create_tween()
     # その方向の一つ先の位置
-    var next = tile_pos + velocity
+    var next: Vector2 = tile_pos + velocity
     # 壁なら何もしない
     if tilemap.get_cellv(next) == TILE_WALL:
       return
@@ -58,7 +58,7 @@ func _process(delta):
       
       # 荷物位置更新
       baggage.tile_pos += velocity
-      var pos = baggage.position + velocity * TILE_SIZE
+      var pos: Vector2 = baggage.position + velocity * TILE_SIZE
       tween.set_parallel(true)
       tween.tween_property(baggage, "position", pos, DURATION)
       
