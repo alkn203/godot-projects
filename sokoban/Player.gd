@@ -1,4 +1,5 @@
 extends AnimatedSprite
+class_name Player
 
 # 定数
 const TILE_SIZE = 64
@@ -30,7 +31,7 @@ func _process(delta) -> void:
   var velocity: Vector2 = Vector2.ZERO
   
   for elem in KEY_ARRAY:
-    var dir: Array = elem[0]
+    var dir: String = elem[0]
     # キーにより方向振り分け
     if Input.is_action_pressed(dir):
       self.play(dir)
@@ -38,7 +39,7 @@ func _process(delta) -> void:
   # 何かしら入力があれば
   if velocity.x != 0 or velocity.y != 0:
     # tween作成
-    var tween = get_tree().create_tween()
+    var tween: SceneTreeTween = get_tree().create_tween()
     # その方向の一つ先の位置
     var next: Vector2 = tile_pos + velocity
     # 壁なら何もしない
@@ -71,7 +72,8 @@ func _process(delta) -> void:
     tween.set_parallel(false)
     tween.tween_callback(self, "_after_move")
 
-func _after_move():
+# 移動後処理
+func _after_move() -> void:
   can_input = true
   # 荷物がゴールに乗っているかのチェック
   stage.change_baggage_color_on_goal()
