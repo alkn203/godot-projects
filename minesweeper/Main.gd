@@ -6,12 +6,12 @@ const PANEL_NUM_XY = 9
 const BOMB_NUM = 10
 
 #　変数
-var bomb_array = []
+var bomb_array: Array = []
 
 enum {NONE, ONE, TWO, THREE, FOUR, FIVE, SIX, SEVEN, EIGHT, NINE, PANEL, BOMB, BOMB_EXP}
 
 # シーン
-var my_panel = preload("res://MyPanel.tscn")
+const MyPanel = preload("res://MyPanel.tscn")
 
 # 初期化
 func _ready():
@@ -41,7 +41,7 @@ func _ready():
     panel.is_bomb = bomb_array[num]
     
 # クリックされたパネルを開く
-func open_panel(panel: MyPanel):
+func open_panel(panel: MyPanel) -> void:
   var sprite: Sprite = panel.get_node("Sprite")
   # 爆弾
   if panel.is_bomb:
@@ -55,13 +55,13 @@ func open_panel(panel: MyPanel):
   panel.is_open = true
   
   var bomb_count: int = 0;
-  var index_array := [-1, 0, 1]
+  var index_array: Array = [-1, 0, 1]
   # 周りのパネルの爆弾数をカウント
   for i in index_array:
     for j in index_array:
       var x: int = panel.position.x + i * PANEL_SIZE
       var y: int = panel.position.y + j * PANEL_SIZE
-      var pos := Vector2(x, y)
+      var pos: Vector2 = Vector2(x, y)
       var target = _get_panel(pos)
       # 爆弾数カウント
       if target and target.is_bomb:
@@ -74,7 +74,7 @@ func open_panel(panel: MyPanel):
       for j in index_array:
         var x: int = panel.position.x + i * PANEL_SIZE
         var y: int = panel.position.y + j * PANEL_SIZE
-        var pos := Vector2(x, y)
+        var pos: Vector2 = Vector2(x, y)
         var target = _get_panel(pos);
         # パネルがあれば
         if target:
@@ -88,7 +88,7 @@ func _get_panel(pos: Vector2):
   return null
 
 # 爆弾をすべて表示する
-func _show_all_bombs():
+func _show_all_bombs() -> void:
   for panel in get_children():
     var sprite: Sprite = panel.get_node("Sprite") 
     
