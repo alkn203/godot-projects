@@ -8,19 +8,21 @@ const GEM_NUM_X = 8
 const DURATION = 0.25
 
 # 変数
-var pair = []
-var match_count = 0
-var second_swap = false
+var pair: Array = []
+var match_count: int = 0
+var second_swap: bool = false
+
 # シーン
 const Gem = preload("res://Gem.tscn")
 const Cursor = preload("res://Cursor.tscn")
-# レイヤー
-onready var gem_layer = get_node("GemLayer")
-onready var dummy_layer = get_node("DummyLayer")
-onready var cursor_layer = get_node("CursorLayer")
 
-# Called when the node enters the scene tree for the first time.
-func _ready():
+# レイヤー
+onready var gem_layer: CanvasLayer = get_node("GemLayer")
+onready var dummy_layer: CanvasLayer = get_node("DummyLayer")
+onready var cursor_layer: CanvasLayer = get_node("CursorLayer")
+
+# 初期化
+func _ready() -> void:
   # ジェム配置
   for i in GEM_NUM_X:
     for j in GEM_NUM_X:
@@ -29,13 +31,10 @@ func _ready():
       var y = j * GEM_SIZE + GEM_OFFSET
       gem.position = Vector2(x, y)
       gem_layer.add_child(gem)
-  
+  # ジェム初期化
   init_gem()
   
-# Called every frame. 'delta' is the elapsed time since the previous frame.
-#func _process(delta):
-#	pass
-
+# Called every frame. 'delta' is the elapsed ti
 # ジェム初期化
 func init_gem():
   # 3つ並び以上があれば仕切り直し
