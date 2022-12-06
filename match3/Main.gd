@@ -21,7 +21,7 @@ onready var gem_layer: CanvasLayer = get_node("GemLayer")
 onready var dummy_layer: CanvasLayer = get_node("DummyLayer")
 onready var cursor_layer: CanvasLayer = get_node("CursorLayer")
 
-# 初期化
+# 初期化処理
 func _ready() -> void:
   # ジェム配置
   for i in GEM_NUM_X:
@@ -31,12 +31,12 @@ func _ready() -> void:
       var y = j * GEM_SIZE + GEM_OFFSET
       gem.position = Vector2(x, y)
       gem_layer.add_child(gem)
+
   # ジェム初期化
   init_gem()
   
-# Called every frame. 'delta' is the elapsed ti
-# ジェム初期化
-func init_gem():
+# ジェム初期化処理
+func init_gem() -> void:
   # 3つ並び以上があれば仕切り直し
   if _exist_match3():
     # シード値変更
@@ -44,17 +44,19 @@ func init_gem():
     # 作り直し
     for gem in gem_layer.get_children():
       # ランダムな色
-      var num = randi() % 7
+      var num: int = randi() % 7
       gem.get_node("Sprite").frame = num
       gem.num = num
       gem.mark = "normal"
-      
+
+    # 再度呼び出し  
     init_gem()
+
   # 画面外ジェム配置
   init_hidden_gem()
 
 # 画面外のジェム配置
-func init_hidden_gem():
+func init_hidden_gem() -> void:
   # 一旦消す
   for gem in gem_layer.get_children():
     if gem.position.y < 0:
@@ -65,7 +67,7 @@ func init_hidden_gem():
   # ジェム配置
   for i in GEM_NUM_X:
     for j in GEM_NUM_X:
-      var gem = Gem.instance()
+      var gem: Gem = Gem.instance()
       var x = i * GEM_SIZE + GEM_OFFSET
       var y = j * GEM_SIZE + GEM_OFFSET
       gem.position = Vector2(x, y)
@@ -73,17 +75,17 @@ func init_hidden_gem():
       gem.position.y -= SCREEN_HEIGHT
       gem_layer.add_child(gem)
       # ランダムな色
-      var num = randi() % 7
+      var num: int = randi() % 7
       gem.get_node("Sprite").frame = num
       gem.num = num
       gem.mark = "normal"
 
 # ペア選択処理
-func select_pair(gem):
+func select_pair(gem) -> void:
   # 一つ目
   if pair.size() == 0:
     # カーソル表示
-    var cursor1 = Cursor.instance()
+    var cursor1: Cursor = Cursor.instance()
     cursor1.position = gem.position
     cursor_layer.add_child(cursor1)
     pair.append(gem)
@@ -93,7 +95,7 @@ func select_pair(gem):
 
   # 二つ目
   if pair.size() == 1:
-    var cursor2 = Cursor.instance()
+    var cursor2: Cursor = Cursor.instance()
     cursor2.position = gem.position
     cursor_layer.add_child(cursor2)
     pair.append(gem)
@@ -101,15 +103,16 @@ func select_pair(gem):
     _swap_gem()
 
 # 隣り合わせ以外を選択不可にする
-func _selectable_next():
+func _selectable_next() -> void:
     # 一旦全てを選択不可に
     for gem in gem_layer.get_children():
       gem.get_node("CollisionShape2D").set_deferred("disabled", true)
     
-    var gem = pair[0]
+    var gem: Gem = pair[0]
+
     for target in gem_layer.get_children():
-      var dx = abs(gem.position.x - target.position.x)
-      var dy = abs(gem.position.y - target.position.y)
+      var dx: Variant = abs(gem.position.x - target.position.x)
+      var dy: Variant = abs(gem.position.y - target.position.y)
       # 上下左右隣り合わせだけを選択可に
       if gem.position.x == target.position.x and dy == GEM_SIZE:
         target.get_node("CollisionShape2D").set_deferred("disabled", false)
