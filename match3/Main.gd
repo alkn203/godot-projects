@@ -13,8 +13,8 @@ var match_count: int = 0
 var second_swap: bool = false
 
 # シーン
-const Gem = preload("res://Gem.tscn")
-const Cursor = preload("res://Cursor.tscn")
+const GemScene = preload("res://Gem.tscn")
+const CursorScene = preload("res://Cursor.tscn")
 
 # レイヤー
 onready var gem_layer: CanvasLayer = get_node("GemLayer")
@@ -26,7 +26,7 @@ func _ready() -> void:
   # ジェム配置
   for i in GEM_NUM_X:
     for j in GEM_NUM_X:
-      var gem = Gem.instance()
+      var gem = GemScene.instance()
       var x = i * GEM_SIZE + GEM_OFFSET
       var y = j * GEM_SIZE + GEM_OFFSET
       gem.position = Vector2(x, y)
@@ -67,7 +67,7 @@ func init_hidden_gem() -> void:
   # ジェム配置
   for i in GEM_NUM_X:
     for j in GEM_NUM_X:
-      var gem: Gem = Gem.instance()
+      var gem: Gem = GemScene.instance()
       var x = i * GEM_SIZE + GEM_OFFSET
       var y = j * GEM_SIZE + GEM_OFFSET
       gem.position = Vector2(x, y)
@@ -85,7 +85,7 @@ func select_pair(gem) -> void:
   # 一つ目
   if pair.size() == 0:
     # カーソル表示
-    var cursor1: Cursor = Cursor.instance()
+    var cursor1: Cursor = CursorScene.instance()
     cursor1.position = gem.position
     cursor_layer.add_child(cursor1)
     pair.append(gem)
@@ -95,7 +95,7 @@ func select_pair(gem) -> void:
 
   # 二つ目
   if pair.size() == 1:
-    var cursor2: Cursor = Cursor.instance()
+    var cursor2: Cursor = CursorScene.instance()
     cursor2.position = gem.position
     cursor_layer.add_child(cursor2)
     pair.append(gem)
@@ -111,8 +111,8 @@ func _selectable_next() -> void:
     var gem: Gem = pair[0]
 
     for target in gem_layer.get_children():
-      var dx: Variant = abs(gem.position.x - target.position.x)
-      var dy: Variant = abs(gem.position.y - target.position.y)
+      var dx: float = abs(gem.position.x - target.position.x)
+      var dy: float = abs(gem.position.y - target.position.y)
       # 上下左右隣り合わせだけを選択可に
       if gem.position.x == target.position.x and dy == GEM_SIZE:
         target.get_node("CollisionShape2D").set_deferred("disabled", false)
@@ -121,14 +121,14 @@ func _selectable_next() -> void:
 
 # ジェム入れ替え処理
 func _swap_gem():
-  var g1 = pair[0]
-  var g2 = pair[1]
+  var g1: Gem = pair[0]
+  var g2: Gem = pair[1]
   # 1回目
   if !second_swap:
     _set_gem_collision_disble(true)
 
   # 入れ替えアニメーション
-  var tween = get_tree().create_tween()
+  var tween: SceneTreeTween = get_tree().create_tween()
   tween.set_parallel(true)
   tween.tween_property(g1, "position", g2.position, DURATION)
   tween.tween_property(g2, "position", g1.position, DURATION)
@@ -222,7 +222,7 @@ func _remove_gem():
           target.drop_count += 1
      
       # 消去アニメーション用ダミー作成
-      var dummy = Gem.instance()
+      var dummy = GemScene.instance()
       dummy.position = gem.position
       dummy.get_node("Sprite").frame = gem.get_node("Sprite").frame
       dummy_layer.add_child(dummy)

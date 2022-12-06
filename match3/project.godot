@@ -8,6 +8,22 @@
 
 config_version=4
 
+_global_script_classes=[ {
+"base": "Line2D",
+"class": "Cursor",
+"language": "GDScript",
+"path": "res://Cursor.gd"
+}, {
+"base": "Area2D",
+"class": "Gem",
+"language": "GDScript",
+"path": "res://Gem.gd"
+} ]
+_global_script_class_icons={
+"Cursor": "",
+"Gem": ""
+}
+
 [application]
 
 config/name="Match3"
