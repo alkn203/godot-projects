@@ -7,7 +7,6 @@ const speed = 130
 
 # 変数
 var velocity: Vector2 = Vector2.ZERO
-var dir_x: int = 1
 
 # ノード
 onready var anim: AnimatedSprite = get_node("AnimatedSprite")
@@ -19,11 +18,11 @@ func _ready() -> void:
   # 少し待ってから移動（ワープっぽい動き対策）
   yield(get_tree().create_timer(0.5), "timeout")
   # 右に移動
-  velocity = Vector2(dir_x * speed, 0)
+  velocity = Vector2(speed, 0)
   
 # 毎フレーム処理
 func _physics_process(delta) -> void:
-  velocity.x = dir_x * speed
+  var prev_velocity = velocity
   # 移動と当たり判定
   velocity = move_and_slide(velocity, Vector2.UP)
   # 床の上なら
@@ -35,8 +34,9 @@ func _physics_process(delta) -> void:
   # 壁に接触なら
   if is_on_wall():
     #
-    dir_x *= -1
-    print("wall")  
+    if get_slide_count() > 0:
+      var collision = get_slide_collision(0)
+      velocity = prev_velocity.bounce(collision.normal)
  
   # 重力を加算
   velocity.y += GRAVITY
