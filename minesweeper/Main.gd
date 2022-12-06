@@ -19,7 +19,7 @@ func _ready():
   for i in range(PANEL_NUM_XY):
     for j in range(PANEL_NUM_XY):
       # パネル作成
-      var panel: MyPanel = my_panel.instance()
+      var panel: MyPanel = MyPanel.instance()
       panel.position.x = i * PANEL_SIZE
       panel.position.y = j * PANEL_SIZE
       add_child(panel)
