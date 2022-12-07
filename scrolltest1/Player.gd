@@ -3,7 +3,7 @@ extends KinematicBody2D
 # 定数
 const GRAVITY = 9.8 / 2 
 const JUMP_POWER = 250
-const speed = 130
+const speed = 150
 
 # 変数
 var velocity: Vector2 = Vector2.ZERO
@@ -38,6 +38,8 @@ func _physics_process(delta):
     if get_slide_count() > 0:
       var collision = get_slide_collision(0)
       velocity = prev_velocity.bounce(collision.normal)
+      # 画像反転
+      scale.x *= -1
  
   # 重力を加算
   velocity.y += GRAVITY
