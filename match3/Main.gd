@@ -233,7 +233,7 @@ func _remove_gem():
       gem.queue_free()
         
   # ダミーをアニメーション
-  var tween = get_tree().create_tween()
+  var tween: SceneTreeTween = get_tree().create_tween()
   tween.set_parallel(true)
 
   for dummy in dummy_layer.get_children():
@@ -253,7 +253,7 @@ func _after_remove() -> void:
   
 # ジェムの落下処理
 func _drop_gem() -> void:
-  var tween = get_tree().create_tween()
+  var tween: SceneTreeTween = get_tree().create_tween()
   tween.set_parallel(true)
   
   for gem in gem_layer.get_children():
