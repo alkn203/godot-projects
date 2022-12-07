@@ -22,7 +22,7 @@ onready var dummy_layer: CanvasLayer = get_node("DummyLayer")
 onready var cursor_layer: CanvasLayer = get_node("CursorLayer")
 
 # 初期化処理
-func _ready() -> void:
+func _ready():
   # ジェム配置
   for i in GEM_NUM_X:
     for j in GEM_NUM_X:
@@ -120,7 +120,7 @@ func _selectable_next() -> void:
         target.get_node("CollisionShape2D").set_deferred("disabled", false)
 
 # ジェム入れ替え処理
-func _swap_gem():
+func _swap_gem() -> void:
   var g1: Gem = pair[0]
   var g2: Gem = pair[1]
   # 1回目
@@ -136,7 +136,7 @@ func _swap_gem():
   tween.tween_callback(self, "_after_swap")
 
 # 入れ替え後処理
-func _after_swap():
+func _after_swap() -> void:
   # 戻りの入れ替えなら
   if second_swap:
     pair.clear();
@@ -156,13 +156,13 @@ func _after_swap():
       _swap_gem()
 
 # カーソル削除
-func _remove_cursor():
+func _remove_cursor() -> void:
   for cursor in cursor_layer.get_children():
     cursor_layer.remove_child(cursor)
     cursor.queue_free()
   
 # 3つ並び以上存在チェック
-func _exist_match3():
+func _exist_match3() -> bool:
   for gem in gem_layer.get_children():
     # 画面に見えているジェムのみ
     if gem.position.y > 0:
@@ -181,7 +181,7 @@ func _exist_match3():
   return false
 
 # 横方向の3つ並び以上チェック
-func _check_horizontal(current):
+func _check_horizontal(current) -> void:
   if current.mark != "rmv":
     current.mark = "tmp"
     
@@ -191,7 +191,7 @@ func _check_horizontal(current):
     _check_horizontal(next)
 
 # 縦方向の3つ並び以上チェック
-func _check_vertical(current):
+func _check_vertical(current) -> void:
   if current.mark != "rmv":
     current.mark = "tmp"
     
@@ -243,7 +243,7 @@ func _remove_gem():
   tween.tween_callback(self, "_after_remove")
   
 # 削除後の処理
-func _after_remove():
+func _after_remove() -> void:
   # ダミーを削除
   for dummy in dummy_layer.get_children():
     dummy_layer.remove_child(dummy)
@@ -252,7 +252,7 @@ func _after_remove():
   _drop_gem()
   
 # ジェムの落下処理
-func _drop_gem():
+func _drop_gem() -> void:
   var tween = get_tree().create_tween()
   tween.set_parallel(true)
   
@@ -269,7 +269,7 @@ func _drop_gem():
   tween.set_parallel(false)
   tween.tween_callback(self, "_after_drop")
 
-func _after_drop():
+func _after_drop() -> void:
   # ジェムの落下プラグリセット
   for gem in gem_layer.get_children():
     gem.drop_count = 0
@@ -283,7 +283,7 @@ func _after_drop():
     _set_gem_collision_disble(false)
     
 # Gemの選択可不可を決定
-func _set_gem_collision_disble(b):
+func _set_gem_collision_disble(b) -> void:
   for gem in gem_layer.get_children():
     gem.get_node("CollisionShape2D").set_deferred("disabled", b)
   
