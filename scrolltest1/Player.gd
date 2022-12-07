@@ -12,7 +12,7 @@ var velocity: Vector2 = Vector2.ZERO
 onready var anim: AnimatedSprite = get_node("AnimatedSprite")
 
 # 初期化処理
-func _ready() -> void:
+func _ready():
   # 最初のアニメーション
   anim.play("walk_right")
   # 少し待ってから移動（ワープっぽい動き対策）
@@ -21,7 +21,8 @@ func _ready() -> void:
   velocity = Vector2(speed, 0)
   
 # 毎フレーム処理
-func _physics_process(delta) -> void:
+func _physics_process(delta):
+  # 衝突前のベクトルを退避
   var prev_velocity = velocity
   # 移動と当たり判定
   velocity = move_and_slide(velocity, Vector2.UP)
@@ -33,7 +34,7 @@ func _physics_process(delta) -> void:
 
   # 壁に接触なら
   if is_on_wall():
-    #
+    # 衝突情報から反射ベクトルを算出
     if get_slide_count() > 0:
       var collision = get_slide_collision(0)
       velocity = prev_velocity.bounce(collision.normal)
