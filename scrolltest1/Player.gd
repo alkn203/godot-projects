@@ -3,8 +3,8 @@ class_name Player
 
 # 定数
 const GRAVITY = 9.8 / 2 
-const JUMP_POWER = 250
-const speed = 150
+const JUMP_POWER = 200
+const speed = 180
 
 # 変数
 var velocity: Vector2 = Vector2.ZERO
