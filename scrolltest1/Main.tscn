@@ -147,5 +147,5 @@ tile_data = PoolIntArray( 0, 3, 0, 31, 3, 0, 65536, 3, 0, 65567, 3, 0, 131072, 3
 position = Vector2( 224, 480 )
 
 [node name="Camera2D" type="Camera2D" parent="."]
-anchor_mode = 0
+position = Vector2( 512, 286 )
 current = true
