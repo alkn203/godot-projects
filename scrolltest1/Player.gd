@@ -3,7 +3,7 @@ class_name Player
 
 # 定数
 const GRAVITY = 9.8 / 2 
-const JUMP_POWER = 200
+const JUMP_POWER = 210
 const speed = 180
 
 # 変数
