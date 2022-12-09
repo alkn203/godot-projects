@@ -23,6 +23,12 @@ func _ready():
   
 # 毎フレーム処理
 func _physics_process(delta):
+  # プレイヤーの向き判定
+  if velocity.x < 0:
+    anim.play("walk_left")
+  if velocity.x > 0:
+    anim.play("walk_right")
+
   # 衝突前のベクトルを退避
   var prev_velocity: Vector2 = velocity
   # 移動と当たり判定
