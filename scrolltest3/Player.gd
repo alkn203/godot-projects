@@ -2,12 +2,12 @@ extends KinematicBody2D
 class_name Player
 
 # 定数
-const GRAVITY = 9.8 / 2 
 const JUMP_POWER = 210
 const speed = 180
 
 # 変数
 var velocity: Vector2 = Vector2.ZERO
+var gravity = 9.8 / 2
 
 # ノード
 onready var anim: AnimatedSprite = get_node("AnimatedSprite")
@@ -47,4 +47,4 @@ func _physics_process(delta):
       velocity = prev_velocity.bounce(collision.normal)
       
   # 重力を加算
-  velocity.y += GRAVITY
+  velocity.y += gravity
