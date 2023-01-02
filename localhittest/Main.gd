@@ -5,7 +5,8 @@ extends Node2D
 # var a = 2
 # var b = "text"
 
-var pit_scene = preload("res://Pit.tscn")
+const RADIUS = 64
+const pit_scene = preload("res://Pit.tscn")
 
 onready var enemy = get_node("Enemy")
 
@@ -16,8 +17,8 @@ func _ready():
   
   for deg in deg_array:
     var pit = pit_scene.instance()
-    pit.position.x = 64 * cos(deg2rad(deg))
-    pit.position.y = 64 * sin(deg2rad(deg))
+    pit.position.x = RADIUS * cos(deg2rad(deg))
+    pit.position.y = RADIUS * sin(deg2rad(deg))
     pit.deg = deg
     enemy.add_child(pit)
     
