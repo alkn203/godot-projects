@@ -1,11 +1,7 @@
 extends Area2D
 
-
-# Declare member variables here. Examples:
-# var a = 2
-# var b = "text"
-
-var speed = 2
+const SPEED = 2
+const RADIUS = 64
 var deg
 
 # Called when the node enters the scene tree for the first time.
@@ -15,6 +11,6 @@ func _ready():
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta):
-  deg += speed
-  position.x = 64 * cos(deg2rad(deg))
-  position.y = 64 * sin(deg2rad(deg))
+  deg += SPEED
+  position.x = RADIUS * cos(deg2rad(deg))
+  position.y = RADIUS * sin(deg2rad(deg))
