@@ -22,3 +22,6 @@ func _on_Shot_area_entered(area):
   if area.is_in_group("pit_group"):
     area.queue_free()
     queue_free()
+    
+  if area.name == "Enemy":
+    queue_free()
