@@ -13,6 +13,8 @@ const INTERVAL = 1.0
 var prev_time:float = 0
 var cur_time: float = 0
 
+onready var label = get_node("Label")
+
 # 初期化処理.
 func _ready():
   #
@@ -21,6 +23,7 @@ func _ready():
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta):
   cur_time += delta
+  label.text = str(cur_time)
 
 # 落下ブロック作成
 func _create_block() -> void:
