@@ -13,6 +13,7 @@ const INTERVAL = 1.0
 var prev_time:float = 0
 var cur_time: float = 0
 var interval: float
+var dynamic_block
 
 onready var label = get_node("Label")
 
@@ -46,4 +47,4 @@ func _create_block() -> void:
 
 # ブロック落下処理
 func _move_block_y():
-  dynamic_block.position.y += BzLOCK_SIZE
+  dynamic_block.position.y += BLOCK_SIZE
