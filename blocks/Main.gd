@@ -12,11 +12,13 @@ const INTERVAL = 1.0
 # 変数
 var prev_time:float = 0
 var cur_time: float = 0
+var interval: float
 
 onready var label = get_node("Label")
 
 # 初期化処理.
 func _ready():
+  interval = INTERVAL
   #
   _create_block()
 
@@ -24,6 +26,10 @@ func _ready():
 func _process(delta):
   cur_time += delta
   label.text = str(cur_time)
+
+  if cur_time - prev_time > interval:
+    _move_block_y()
+    prev_time = cur_time
 
 # 落下ブロック作成
 func _create_block() -> void:
@@ -37,3 +43,7 @@ func _create_block() -> void:
   dynamic_block.position.x = get_viewport_rect().size.x / 2
   dynamic_block.position.y = 200
   add_child(dynamic_block)
+
+# ブロック落下処理
+func _move_block_y():
+  dynamic_block.position.y += BzLOCK_SIZE
