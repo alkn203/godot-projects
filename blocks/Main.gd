@@ -9,13 +9,25 @@ const BLOCK_ALL_WIDTH = BLOCK_SIZE * BLOCK_COLS
 const BLOCK_ALL_HEIGHT = BLOCK_ALL_WIDTH * 2
 const INTERVAL = 1.0
 
+# ブロック(7種)の配置情報
+const BLOCK_LAYOUT = [
+  [Vector2(0, 0), Vector2(0, -1), Vector2(0, -2), Vector2(0, 1)],
+  [Vector2(0, 0), Vector2(0, -1), Vector2(0, 1), Vector2(1, 1)],
+  [Vector2(0, 0), Vector2(0, -1), Vector2(0, 1), Vector2(-1, 1)],
+  [Vector2(0, 0), Vector2(0, -1), Vector2(-1, -1), Vector2(1, 0)],
+  [Vector2(0, 0), Vector2(0, -1), Vector2(1, -1), Vector2(-1, 0)],
+  [Vector2(0, 0), Vector2(1, 0), Vector2(-1, 0), Vector2(0, -1)],
+  [Vector2(0, 0), Vector2(0, -1), Vector2(1, -1), Vector2(1, 0)]]
+
 # 変数
-var prev_time:float = 0
+var prev_time: float = 0
 var cur_time: float = 0
 var interval: float
-var dynamic_block
 
-onready var label = get_node("Label")
+# ノード
+onready var dynamic_layer = get_node("DynamicLayer")
+# シーン読み込み
+onready var block_scene = preload("res://Block.tscn")
 
 # 初期化処理.
 func _ready():
@@ -26,7 +38,6 @@ func _ready():
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta):
   cur_time += delta
-  label.text = str(cur_time)
 
   if cur_time - prev_time > interval:
     _move_block_y()
@@ -37,14 +48,23 @@ func _create_block() -> void:
   # 種類をランダムに決める
   randomize()
 #  var type = randi() % 7 + 1
-  var type = 4
-  # ブロック作成
-  var block_scene = load("res://Block" + str(type) + ".tscn")
-  var dynamic_block = block_scene.instance()
-  dynamic_block.position.x = get_viewport_rect().size.x / 2
-  dynamic_block.position.y = 200
-  add_child(dynamic_block)
-
+  var type = 0
+  # 落下ブロック作成
+  for i in range(4):
+    var block = block_scene.instance()
+    block.type = type
+    dynamic_layer.add_child(block)
+    
+  # 基準ブロック
+  var org_block: Block = dynamic_layer.get_children().front()
+  org_block.position.x = get_viewport_rect().size.x / 2
+  org_block.position.y = 200
+  # 配置情報をもとにブロックを組み立てる
+  for block in dynamic_layer.get_children():
+    var i = block.get_index()
+    block.position = org_block.position + BLOCK_LAYOUT[type][i] * BLOCK_SIZE
+    
 # ブロック落下処理
 func _move_block_y():
-  dynamic_block.position.y += BLOCK_SIZE
+  for block in dynamic_layer.get_children():
+    block.position.y += BLOCK_SIZE
