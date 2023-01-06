@@ -7,7 +7,11 @@ const BLOCK_COLS = 10
 const BLOCK_ROWS = 20
 const BLOCK_ALL_WIDTH = BLOCK_SIZE * BLOCK_COLS
 const BLOCK_ALL_HEIGHT = BLOCK_ALL_WIDTH * 2
-#var INTERVAL = 20
+const INTERVAL = 1.0
+
+# 変数
+var prev_time:float = 0
+var cur_time: float = 0
 
 # 初期化処理.
 func _ready():
@@ -15,8 +19,8 @@ func _ready():
   _create_block()
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
-#func _process(delta):
-#  pass
+func _process(delta):
+  pass
 
 # 落下ブロック作成
 func _create_block() -> void:
