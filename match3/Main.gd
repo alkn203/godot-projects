@@ -22,7 +22,7 @@ onready var dummy_layer: CanvasLayer = get_node("DummyLayer")
 onready var cursor_layer: CanvasLayer = get_node("CursorLayer")
 
 # 初期化処理
-func _ready():
+func _ready(): -> void:
   # ジェム配置
   for i in GEM_NUM_X:
     for j in GEM_NUM_X:
@@ -65,20 +65,26 @@ func init_hidden_gem() -> void:
   # シード値変更
   randomize()
   # ジェム配置
+  _create_gem(true)
+  # ランダムな色
+  var num: int = randi() % 7
+  gem.get_node("Sprite").frame = num
+  gem.num = num
+  gem.mark = "normal"
+
+# ジェム作成処理
+func _create_gem(hidden: bool = false): -> void:
+  # ジェム配置
   for i in GEM_NUM_X:
     for j in GEM_NUM_X:
-      var gem: Gem = GemScene.instance()
+      var gem = gem_scene.instance()
       var x = i * GEM_SIZE + GEM_OFFSET
       var y = j * GEM_SIZE + GEM_OFFSET
       gem.position = Vector2(x, y)
-      # 画面分上にずらす
-      gem.position.y -= SCREEN_HEIGHT
+      # 画面外
+      if hidden:
+        gem.position.y -= SCREEN_HEIGHT
       gem_layer.add_child(gem)
-      # ランダムな色
-      var num: int = randi() % 7
-      gem.get_node("Sprite").frame = num
-      gem.num = num
-      gem.mark = "normal"
 
 # ペア選択処理
 func select_pair(gem) -> void:
