@@ -5,7 +5,7 @@ extends Node2D
 const BLOCK_SIZE = 40
 const BLOCK_COLS = 10
 const BLOCK_ROWS = 20
-const BOTTOM_Y = BLOCK_SIZE * BLOCK_LOWS
+const BOTTOM_Y = BLOCK_SIZE * BLOCK_ROWS
 const BLOCK_ALL_WIDTH = BLOCK_SIZE * BLOCK_COLS
 const BLOCK_ALL_HEIGHT = BLOCK_ALL_WIDTH * 2
 const INTERVAL = 1.0
@@ -73,10 +73,10 @@ func _move_block_y() -> void:
     block.position.y += BLOCK_SIZE
   # 画面下到達チェック
   for block in dynamic_layer.get_children():
-    if block.y == BOTTOM_Y:
+    if block.position.y == BOTTOM_Y:
       # 1ブロック分上に戻す
-      for block in dynamic_layer.get_children():
-        block.y -= BLOCK_SIZE
+      for target in dynamic_layer.get_children():
+        target.position.y -= BLOCK_SIZE
       # 移動ブロックから固定ブロックへ
       _dynamic_to_static()
       break
@@ -85,7 +85,11 @@ func _move_block_y() -> void:
 func _dynamic_to_static() -> void:
   #
   for block in dynamic_layer.get_children():
+    dynamic_layer.remove_child(block)
     static_layer.add_child(block)
+    
+  print(dynamic_layer.get_children().size())
+  print(static_layer.get_children().size())
     
 
 

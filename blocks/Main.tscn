@@ -12,3 +12,5 @@ margin_bottom = 800.0
 color = Color( 0, 0, 0, 1 )
 
 [node name="DynamicLayer" type="CanvasLayer" parent="."]
+
+[node name="StaticLayer" type="CanvasLayer" parent="."]

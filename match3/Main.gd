@@ -22,7 +22,7 @@ onready var dummy_layer: CanvasLayer = get_node("DummyLayer")
 onready var cursor_layer: CanvasLayer = get_node("CursorLayer")
 
 # 初期化処理
-func _ready(): -> void:
+func _ready() -> void:
   # ジェム作成
   _create_gem()
   # ジェム初期化
@@ -31,7 +31,7 @@ func _ready(): -> void:
   _init_hidden_gem()
 
 # ジェム作成処理
-func _create_gem(hidden: bool = false): -> void:
+func _create_gem(hidden: bool = false) -> void:
   # シード値変更
   randomize()
   # ジェム配置
@@ -77,7 +77,7 @@ func select_pair(gem) -> void:
   # 一つ目
   if pair.size() == 0:
     # カーソル表示
-    var cursor1: Cursor = CursorScene.instance()
+    var cursor1: Cursor = cursor_scene.instance()
     cursor1.position = gem.position
     cursor_layer.add_child(cursor1)
     pair.append(gem)
@@ -87,7 +87,7 @@ func select_pair(gem) -> void:
 
   # 二つ目
   if pair.size() == 1:
-    var cursor2: Cursor = CursorScene.instance()
+    var cursor2: Cursor = cursor_scene.instance()
     cursor2.position = gem.position
     cursor_layer.add_child(cursor2)
     pair.append(gem)
@@ -214,7 +214,7 @@ func _remove_gem():
           target.drop_count += 1
      
       # 消去アニメーション用ダミー作成
-      var dummy = GemScene.instance()
+      var dummy = gem_scene.instance()
       dummy.position = gem.position
       dummy.get_node("Sprite").frame = gem.get_node("Sprite").frame
       dummy_layer.add_child(dummy)
