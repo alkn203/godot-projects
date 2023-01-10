@@ -37,10 +37,7 @@ func init_gem() -> void:
     # 色作り直し
     for gem in gem_layer.get_children():
       # ランダムな色
-      var num: int = randi() % 7
-      gem.get_node("Sprite").frame = num
-      gem.num = num
-      gem.mark = "normal"
+      gem.set_color()
 
     # 再度呼び出し  
     init_gem()
@@ -74,10 +71,7 @@ func _create_gem(hidden: bool = false): -> void:
         gem.position.y -= SCREEN_HEIGHT
       gem_layer.add_child(gem)
       # ランダムな色
-      var num: int = randi() % 7
-      gem.get_node("Sprite").frame = num
-      gem.num = num
-      gem.mark = "normal"
+      gem.set_color()
 
 # ペア選択処理
 func select_pair(gem) -> void:
