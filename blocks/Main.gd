@@ -23,21 +23,22 @@ const BLOCK_LAYOUT = [
 # 変数
 var prev_time: float = 0
 var cur_time: float = 0
-var interval: float
+var interval: float = INTERVAL
 
 # ノード
 onready var dynamic_layer = get_node("DynamicLayer")
+onready var static_layer = get_node("StaticLayer")
+
 # シーン読み込み
 onready var block_scene = preload("res://Block.tscn")
 
 # 初期化処理
 func _ready() -> void:
-  interval = INTERVAL
-  #
+  # 初期ブロック作成
   _create_block()
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
-func _process(delta):
+func _process(delta) -> void:
   cur_time += delta
 
   if cur_time - prev_time > interval:
@@ -82,6 +83,10 @@ func _move_block_y() -> void:
 
 # 移動ブロックから固定ブロックへの変更処理
 func _dynamic_to_static() -> void:
+  #
+  for block in dynamic_layer.get_children():
+    static_layer.add_child(block)
+    
 
 
       
