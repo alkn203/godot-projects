@@ -17,3 +17,13 @@ func _on_Gem_input_event(viewport, event, shape_idx):
     if event.is_pressed():
       # Mainの関数に自身を渡す
       main.select_pair(self)
+
+# 色設定
+func set_color():
+  # ランダムな色
+  num = randi() % 7
+  get_node("Sprite").frame = num
+  mark = "normal"
+
+
+  
