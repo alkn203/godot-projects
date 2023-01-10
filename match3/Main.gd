@@ -13,8 +13,8 @@ var match_count: int = 0
 var second_swap: bool = false
 
 # シーン
-const GemScene = preload("res://Gem.tscn")
-const CursorScene = preload("res://Cursor.tscn")
+const gem_scene = preload("res://Gem.tscn")
+const cursor_scene = preload("res://Cursor.tscn")
 
 # レイヤー
 onready var gem_layer: CanvasLayer = get_node("GemLayer")
@@ -24,14 +24,7 @@ onready var cursor_layer: CanvasLayer = get_node("CursorLayer")
 # 初期化処理
 func _ready(): -> void:
   # ジェム配置
-  for i in GEM_NUM_X:
-    for j in GEM_NUM_X:
-      var gem = GemScene.instance()
-      var x = i * GEM_SIZE + GEM_OFFSET
-      var y = j * GEM_SIZE + GEM_OFFSET
-      gem.position = Vector2(x, y)
-      gem_layer.add_child(gem)
-
+  _create_gem()
   # ジェム初期化
   init_gem()
   
@@ -61,19 +54,14 @@ func init_hidden_gem() -> void:
   for gem in gem_layer.get_children():
     if gem.position.y < 0:
       gem.queue_free()
-      
-  # シード値変更
-  randomize()
+
   # ジェム配置
   _create_gem(true)
-  # ランダムな色
-  var num: int = randi() % 7
-  gem.get_node("Sprite").frame = num
-  gem.num = num
-  gem.mark = "normal"
 
 # ジェム作成処理
 func _create_gem(hidden: bool = false): -> void:
+  # シード値変更
+  randomize()
   # ジェム配置
   for i in GEM_NUM_X:
     for j in GEM_NUM_X:
@@ -85,6 +73,11 @@ func _create_gem(hidden: bool = false): -> void:
       if hidden:
         gem.position.y -= SCREEN_HEIGHT
       gem_layer.add_child(gem)
+      # ランダムな色
+      var num: int = randi() % 7
+      gem.get_node("Sprite").frame = num
+      gem.num = num
+      gem.mark = "normal"
 
 # ペア選択処理
 func select_pair(gem) -> void:
