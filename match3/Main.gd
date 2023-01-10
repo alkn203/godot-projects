@@ -222,6 +222,7 @@ func _remove_gem():
   # ジェム削除
   for gem in gem_layer.get_children():
     if gem.mark == "rmv":
+      gem_layer.remove_child(gem)
       gem.queue_free()
         
   # ダミーをアニメーション
@@ -262,11 +263,11 @@ func _drop_gem() -> void:
   tween.tween_callback(self, "_after_drop")
 
 func _after_drop() -> void:
-  # ジェムの落下プラグリセット
+  # ジェムの落下フラグリセット
   for gem in gem_layer.get_children():
     gem.drop_count = 0
   # 画面外のジェムを作り直す
-  init_hidden_gem()
+  _init_hidden_gem()
   # 3並び再チェック
   if _exist_match3():
     # 連鎖削除
