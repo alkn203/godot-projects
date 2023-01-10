@@ -5,6 +5,7 @@ extends Node2D
 const BLOCK_SIZE = 40
 const BLOCK_COLS = 10
 const BLOCK_ROWS = 20
+const BOTTOM_Y = BLOCK_SIZE * BLOCK_LOWS
 const BLOCK_ALL_WIDTH = BLOCK_SIZE * BLOCK_COLS
 const BLOCK_ALL_HEIGHT = BLOCK_ALL_WIDTH * 2
 const INTERVAL = 1.0
@@ -29,8 +30,8 @@ onready var dynamic_layer = get_node("DynamicLayer")
 # シーン読み込み
 onready var block_scene = preload("res://Block.tscn")
 
-# 初期化処理.
-func _ready():
+# 初期化処理
+func _ready() -> void:
   interval = INTERVAL
   #
   _create_block()
@@ -51,7 +52,7 @@ func _create_block() -> void:
   var type = 0
   # 落下ブロック作成
   for i in range(4):
-    var block = block_scene.instance()
+    var block: Block = block_scene.instance()
     block.type = type
     dynamic_layer.add_child(block)
     
@@ -65,6 +66,23 @@ func _create_block() -> void:
     block.position = org_block.position + BLOCK_LAYOUT[type][i] * BLOCK_SIZE
     
 # ブロック落下処理
-func _move_block_y():
+func _move_block_y() -> void:
+  # 1ブロック分落下
   for block in dynamic_layer.get_children():
     block.position.y += BLOCK_SIZE
+  # 画面下到達チェック
+  for block in dynamic_layer.get_children():
+    if block.y == BOTTOM_Y:
+      # 1ブロック分上に戻す
+      for block in dynamic_layer.get_children():
+        block.y -= BLOCK_SIZE
+      # 移動ブロックから固定ブロックへ
+      _dynamic_to_static()
+      break
+
+# 移動ブロックから固定ブロックへの変更処理
+func _dynamic_to_static() -> void:
+
+
+      
+
