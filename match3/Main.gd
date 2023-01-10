@@ -34,7 +34,7 @@ func init_gem() -> void:
   if _exist_match3():
     # シード値変更
     randomize()
-    # 作り直し
+    # 色作り直し
     for gem in gem_layer.get_children():
       # ランダムな色
       var num: int = randi() % 7
