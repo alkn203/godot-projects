@@ -23,37 +23,12 @@ onready var cursor_layer: CanvasLayer = get_node("CursorLayer")
 
 # 初期化処理
 func _ready(): -> void:
-  # ジェム配置
+  # ジェム作成
   _create_gem()
   # ジェム初期化
-  init_gem()
-  
-# ジェム初期化処理
-func init_gem() -> void:
-  # 3つ並び以上があれば仕切り直し
-  if _exist_match3():
-    # シード値変更
-    randomize()
-    # 色作り直し
-    for gem in gem_layer.get_children():
-      # ランダムな色
-      gem.set_color()
-
-    # 再度呼び出し  
-    init_gem()
-
+  _init_gem()
   # 画面外ジェム配置
-  init_hidden_gem()
-
-# 画面外のジェム配置
-func init_hidden_gem() -> void:
-  # 一旦消す
-  for gem in gem_layer.get_children():
-    if gem.position.y < 0:
-      gem.queue_free()
-
-  # ジェム配置
-  _create_gem(true)
+  _init_hidden_gem()
 
 # ジェム作成処理
 func _create_gem(hidden: bool = false): -> void:
@@ -66,12 +41,36 @@ func _create_gem(hidden: bool = false): -> void:
       var x = i * GEM_SIZE + GEM_OFFSET
       var y = j * GEM_SIZE + GEM_OFFSET
       gem.position = Vector2(x, y)
-      # 画面外
+      # 画面外の場合
       if hidden:
         gem.position.y -= SCREEN_HEIGHT
       gem_layer.add_child(gem)
+      # ランダムな色設定
+      gem.set_random_color()
+
+# ジェム初期化処理
+func _init_gem() -> void:
+  # 3つ並び以上があれば仕切り直し
+  if _exist_match3():
+    # シード値変更
+    randomize()
+    # 色作り直し
+    for gem in gem_layer.get_children():
       # ランダムな色
-      gem.set_color()
+      gem.set_random_color()
+
+    # 再帰呼び出し  
+    _init_gem()
+
+# 画面外のジェム配置
+func _init_hidden_gem() -> void:
+  # 一旦消す
+  for gem in gem_layer.get_children():
+    if gem.position.y < 0:
+      gem.queue_free()
+
+  # ジェム配置
+  _create_gem(true)
 
 # ペア選択処理
 func select_pair(gem) -> void:
