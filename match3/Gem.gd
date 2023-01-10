@@ -1,5 +1,5 @@
-extends Area2D
 class_name Gem
+extends Area2D
 
 # 変数
 var num: int = 0
