@@ -19,11 +19,8 @@ func _on_Gem_input_event(viewport, event, shape_idx):
       main.select_pair(self)
 
 # 色設定
-func set_color():
+func set_random_color():
   # ランダムな色
   num = randi() % 7
   get_node("Sprite").frame = num
   mark = "normal"
-
-
-  
