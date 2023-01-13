@@ -257,7 +257,8 @@ func _drop_gem() -> void:
       var y = gem.position.y + gem.drop_count * GEM_SIZE
       var d = gem.drop_count * DURATION
       # 落下アニメーション
-      tween.tween_property(gem, "position", Vector2(x, y), d)
+      tween.tween_property(gem, "position", Vector2(x, y), d).set_trans(Tween.TRANS_CUBIC)
+      #tween.set_ease(Tween.EASE_OUT)
   
   tween.set_parallel(false)
   tween.tween_callback(self, "_after_drop")
