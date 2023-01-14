@@ -47,6 +47,8 @@ func _process(delta) -> void:
   # 落下ブロックがなければ新たに作成
   if dynamic_layer.get_children().size() == 0:
     _create_block()
+  # 左右移動
+  _move_block_x()
 
 # 落下ブロック作成
 func _create_block() -> void:
@@ -70,6 +72,17 @@ func _create_block() -> void:
     var i = block.get_index()
     block.position = org_block.position + BLOCK_LAYOUT[type][i] * BLOCK_SIZE
     
+# ブロック左右移動
+func _move_block_x() -> void:
+  # 左キー
+  if Input.is_action_just_pressed("ui_left"):
+    for block in dynamic_layer.get_children():
+      if block.position.x - BLOCK_SIZE < BLOCK_SIZE * 3:
+        return
+    
+    for block in dynamic_layer.get_children():
+      block.position.x -= BLOCK_SIZE
+
 # ブロック落下処理
 func _move_block_y() -> void:
   # 1ブロック分落下
