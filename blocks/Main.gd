@@ -106,9 +106,9 @@ func _move_block_y() -> void:
 
 # ブロック回転処理
 func _rotate_block() -> void:
-  var rad = deg_to_rad(90)
+  var angle = deg_to_rad(90)
   # 
-  
+  position = point + (position - point).rotated(angle)
 
 # 画面下到達チェック
 func _check_hit_bottom() -> void:
