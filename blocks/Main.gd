@@ -88,7 +88,7 @@ func _move_block_x() -> void:
   if Input.is_action_just_pressed("ui_right"):
     for block in dynamic_layer.get_children():
       # 右端で移動制限
-      if block.position.x > BLOCK_RIGHT:
+      if block.position.x > EDGE_RIGHT:
         return
     # 右移動
     for block in dynamic_layer.get_children():
@@ -103,6 +103,12 @@ func _move_block_y() -> void:
   _check_hit_bottom()
   # 固定ブロックとの当たり判定
   _check_hit_static()
+
+# ブロック回転処理
+func _rotate_block() -> void:
+  var rad = deg_to_rad(90)
+  # 
+  
 
 # 画面下到達チェック
 func _check_hit_bottom() -> void:
