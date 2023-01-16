@@ -7,8 +7,8 @@ const BLOCK_COLS = 10
 const BLOCK_ROWS = 20
 const BLOCK_TYPE = 7
 const BOTTOM_Y = BLOCK_SIZE * BLOCK_ROWS
-const BLOCK_ALL_WIDTH = BLOCK_SIZE * BLOCK_COLS
-const BLOCK_ALL_HEIGHT = BLOCK_ALL_WIDTH * 2
+const EDGE_LEFT = BLOCK_SIZE * 3
+const EDGE_RIGHT = BLOCK_SIZE * 12
 const INTERVAL = 0.5
 
 # ブロック(7種)の配置情報
@@ -78,9 +78,9 @@ func _move_block_x() -> void:
   if Input.is_action_just_pressed("ui_left"):
     for block in dynamic_layer.get_children():
       # 左端で移動制限
-      if block.position.x - BLOCK_SIZE < BLOCK_SIZE * 3:
+      if block.position.x < EDGE_LEFT:
         return
-    
+    # 左移動
     for block in dynamic_layer.get_children():
       block.position.x -= BLOCK_SIZE
 
@@ -88,9 +88,9 @@ func _move_block_x() -> void:
   if Input.is_action_just_pressed("ui_right"):
     for block in dynamic_layer.get_children():
       # 右端で移動制限
-      if block.position.x + BLOCK_SIZE > BLOCK_SIZE * 12:
+      if block.position.x > BLOCK_RIGHT:
         return
-    
+    # 右移動
     for block in dynamic_layer.get_children():
       block.position.x += BLOCK_SIZE
       
