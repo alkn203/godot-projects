@@ -106,9 +106,16 @@ func _move_block_y() -> void:
 
 # ブロック回転処理
 func _rotate_block() -> void:
-  var angle = deg_to_rad(90)
-  # 
-  position = point + (position - point).rotated(angle)
+  # 上キー
+  if Input.is_action_just_pressed("ui_up"):
+    var children = dynamic_layer.get_children()
+    # 度からラジアンへ変換
+    var angle = deg_to_rad(90)
+    # 回転の原点
+    var point = children
+    for block in dynamic_layer.get_children():
+      # 90度回転
+      block.position = point + (block.position - point).rotated(angle)
 
 # 画面下到達チェック
 func _check_hit_bottom() -> void:
