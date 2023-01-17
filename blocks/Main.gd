@@ -21,6 +21,11 @@ const BLOCK_LAYOUT = [
   [Vector2(0, 0), Vector2(1, 0), Vector2(-1, 0), Vector2(0, -1)],
   [Vector2(0, 0), Vector2(0, -1), Vector2(1, -1), Vector2(1, 0)]]
 
+# キー用配列
+const = KEY_ARRAY = [
+  ["ui_left", Vector2.LEFT],
+  ["ui_right", Vector2.RIGHT]]
+
 # 変数
 var prev_time: float = 0
 var cur_time: float = 0
@@ -33,6 +38,7 @@ onready var block_scene = preload("res://Block.tscn")
 onready var dynamic_layer = get_node("DynamicLayer")
 onready var static_layer = get_node("StaticLayer")
 
+# キー用配列
 
 # 初期化処理
 func _ready() -> void:
@@ -67,7 +73,7 @@ func _create_block() -> void:
     block.get_node("Sprite").frame = type
     dynamic_layer.add_child(block)
   
-  var dynamic: Array = get_tree().get_nodes_in_group("dynamic")
+  var dynamic: Array = dynamic_layer.get_children()
   # 基準ブロック
   var org_block: Block = dynamic.front()
   org_block.position.x = get_viewport_rect().size.x / 2
@@ -79,28 +85,18 @@ func _create_block() -> void:
     
 # ブロック左右移動
 func _move_block_x() -> void:
-  var dynamic: Array = get_tree().get_nodes_in_group("dynamic")
-  # 左キー
-  if Input.is_action_just_pressed("ui_left"):
-    # 両端チェック
-    
+  # 配列ループ
+  for item in KEY_ARRAY:
+    # キー入力チェック
+    if Input.is_action_just_pressed(item[0]):
+      # 両端チェック
+      if _check_edge():
         return
-    
-    # 固定ブロックとの当たり判定
-    
-    # 左移動
-    for block in children:
-      block.position.x -= BLOCK_SIZE
-
-  # 右キー
-  if Input.is_action_just_pressed("ui_right"):
-    for block in children:
-      # 右端で移動制限
-      if block.position.x > EDGE_RIGHT:
+      # 固定ブロックとの当たり判定
+      if _check_hit_static():
         return
-    # 右移動
-    for block in children:
-      block.position.x += BLOCK_SIZE
+      # 移動
+      _move_block(item[1])
       
 # ブロック落下処理
 func _move_block_y() -> void:
