@@ -150,9 +150,8 @@ func _check_hit_static() -> bool:
          
 # 移動ブロックから固定ブロックへの変更処理
 func _dynamic_to_static() -> void:
-  var dynamic: Array = dynamic_layer.get_children()
   # グループ間の移動
-  for block in dynamic:
+  for block in dynamic_layer.get_children():
     dynamic_layer.remove_child(block)
     static_layer.add_child(block)
     
