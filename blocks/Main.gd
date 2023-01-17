@@ -26,10 +26,6 @@ var prev_time: float = 0
 var cur_time: float = 0
 var interval: float = INTERVAL
 
-# ノード
-onready var dynamic_layer = get_node("DynamicLayer")
-onready var static_layer = get_node("StaticLayer")
-
 # シーン読み込み
 onready var block_scene = preload("res://Block.tscn")
 
@@ -40,12 +36,15 @@ func _ready() -> void:
 # 毎フレーム処理
 func _process(delta) -> void:
   cur_time += delta
+
   # 一定時間毎にブロック落下
   if cur_time - prev_time > interval:
     _move_block_y()
     prev_time = cur_time
+
   # 落下ブロックがなければ新たに作成
-  if dynamic_layer.get_children().size() == 0:
+  var len = get_tree().get_nodes_in_group("dynamic").size()
+  if len == 0:
     _create_block()
   # 左右移動
   _move_block_x()
@@ -109,7 +108,9 @@ func _move_block_y() -> void:
   
 # ブロック移動処理
 func _move_block(vec: Vector2) -> void:
-  for block in dynamic_layer.get_children():
+  var dynamic: Array = get_tree().get_nodes_in_group("dynamic")
+
+  for block in dynamic:
     block.position += vec * BLOCK_SIZE
 
 # ブロック回転処理
@@ -127,22 +128,28 @@ func _rotate_block() -> void:
 
 # 画面下到達チェック
 func _check_hit_bottom() -> bool:
-  for block in dynamic_layer.get_children():
+  var dynamic: Array = get_tree().get_nodes_in_group("dynamic")
+
+  for block in dynamic:
     if block.position.y == BOTTOM_Y:
       return true
   return false
 
 # 固定ブロックとの当たり判定
 func _check_hit_static() -> bool:
-  for block in dynamic_layer.get_children():
-    for target in static_layer.get_children():
+  var dynamic: Array = get_tree().get_nodes_in_group("dynamic")
+  var static: Array = get_tree().get_nodes_in_group("static")
+
+  for block in dynamic:
+    for target in static:
       if block.position == target.position:
       return true
   return false
          
 # 移動ブロックから固定ブロックへの変更処理
 func _dynamic_to_static() -> void:
-  # レイヤー間の移動
-  for block in dynamic_layer.get_children():
-    dynamic_layer.remove_child(block)
-    static_layer.add_child(block)
+  var dynamic: Array = get_tree().get_nodes_in_group("dynamic")
+  # グループ間の移動
+  for block in dynamic:
+    block.remove_from_group("dynamic")
+    block.add_to_group("static")
