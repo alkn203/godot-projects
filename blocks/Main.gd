@@ -62,26 +62,28 @@ func _create_block() -> void:
     # フレームインデックス設定
     block.get_node("Sprite").frame = type
     dynamic_layer.add_child(block)
-    
+  
+  var children: Array = dynamic_layer.get_children()
   # 基準ブロック
-  var org_block: Block = dynamic_layer.get_children().front()
+  var org_block: Block = children.front()
   org_block.position.x = get_viewport_rect().size.x / 2
   org_block.position.y = 0
   # 配置情報をもとにブロックを組み立てる
-  for block in dynamic_layer.get_children():
+  for block in children:
     var i = block.get_index()
     block.position = org_block.position + BLOCK_LAYOUT[type][i] * BLOCK_SIZE
     
 # ブロック左右移動
 func _move_block_x() -> void:
+  var children: Array = dynamic_layer.get_children()
   # 左キー
   if Input.is_action_just_pressed("ui_left"):
-    for block in dynamic_layer.get_children():
+    for block in children:
       # 左端で移動制限
       if block.position.x < EDGE_LEFT:
         return
     # 左移動
-    for block in dynamic_layer.get_children():
+    for block in children:
       block.position.x -= BLOCK_SIZE
 
   # 右キー
