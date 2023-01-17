@@ -79,7 +79,7 @@ func _create_block() -> void:
   org_block.position.y = 0
   # 配置情報をもとにブロックを組み立てる
   for block in dynamic:
-    var i = block.get_index()
+    var i: int = block.get_index()
     block.position = org_block.position + BLOCK_LAYOUT[type][i] * BLOCK_SIZE
     
 # ブロック左右移動
@@ -124,6 +124,11 @@ func _rotate_block() -> void:
     for block in dynamic:
       # 90度回転
       block.position = point + (block.position - point).rotated(angle)
+    # 両端チェックと固定ブロックとの当たり判定
+    if _check_edge() or _check_hit_static():
+      # 回転を戻す
+      for block in dynamic:
+        block.position = point + (block.position - point).rotated(-1 * angle)
 
 # 画面下到達チェック
 func _check_hit_bottom() -> bool:
