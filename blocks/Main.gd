@@ -22,7 +22,7 @@ const BLOCK_LAYOUT = [
   [Vector2(0, 0), Vector2(0, -1), Vector2(1, -1), Vector2(1, 0)]]
 
 # キー用配列
-const = KEY_ARRAY = [
+const KEY_ARRAY = [
   ["ui_left", Vector2.LEFT],
   ["ui_right", Vector2.RIGHT]]
 
@@ -32,13 +32,11 @@ var cur_time: float = 0
 var interval: float = INTERVAL
 
 # シーン読み込み
-onready var block_scene = preload("res://Block.tscn")
+onready var block_scene: PackedScene = preload("res://Block.tscn")
 
 # ノード
-onready var dynamic_layer = get_node("DynamicLayer")
-onready var static_layer = get_node("StaticLayer")
-
-# キー用配列
+onready var dynamic_layer: CanvasLayer = get_node("DynamicLayer")
+onready var static_layer: CanvasLayer = get_node("StaticLayer")
 
 # 初期化処理
 func _ready() -> void:
@@ -54,11 +52,12 @@ func _process(delta) -> void:
     prev_time = cur_time
 
   # 落下ブロックがなければ新たに作成
-  var len: int = dynamic_layer.get_children().size()
-  if len == 0:
+  if dynamic_layer.get_children().size() == 0:
     _create_block()
   # 左右移動
   _move_block_x()
+  # 回転
+  _rotate_block()
 
 # 落下ブロック作成
 func _create_block() -> void:
@@ -79,7 +78,7 @@ func _create_block() -> void:
   org_block.position.x = get_viewport_rect().size.x / 2
   org_block.position.y = 0
   # 配置情報をもとにブロックを組み立てる
-  for block in children:
+  for block in dynamic:
     var i = block.get_index()
     block.position = org_block.position + BLOCK_LAYOUT[type][i] * BLOCK_SIZE
     
@@ -89,19 +88,17 @@ func _move_block_x() -> void:
   for item in KEY_ARRAY:
     # キー入力チェック
     if Input.is_action_just_pressed(item[0]):
-      # 両端チェック
-      if _check_edge():
-        return
-      # 固定ブロックとの当たり判定
-      if _check_hit_static():
-        return
       # 移動
       _move_block(item[1])
+      # 両端チェックと固定ブロックとの当たり判定
+      if _check_edge() or _check_hit_static():
+        # 1ブロック分戻す
+        _move_block(item[1] * -1)      
       
 # ブロック落下処理
 func _move_block_y() -> void:
   # 1ブロック分落下
-  _move_block(Vector2,DOWN)
+  _move_block(Vector2.DOWN)
   # 画面下到達か固定ブロックにヒット
   if _check_hit_bottom() or _check_hit_static():
     # 1ブロック上に戻す
@@ -111,54 +108,51 @@ func _move_block_y() -> void:
   
 # ブロック移動処理
 func _move_block(vec: Vector2) -> void:
-  var dynamic: Array = get_tree().get_nodes_in_group("dynamic")
-
-  for block in dynamic:
+  for block in dynamic_layer.get_children():
     block.position += vec * BLOCK_SIZE
 
 # ブロック回転処理
 func _rotate_block() -> void:
   # 上キー
   if Input.is_action_just_pressed("ui_up"):
-    var children = dynamic_layer.get_children()
+    var dynamic: Array = dynamic_layer.get_children()
     # 度からラジアンへ変換
-    var angle = deg_to_rad(90)
+    var angle = deg2rad(90)
     # 回転の原点
-    var point = children
-    for block in dynamic_layer.get_children():
+    var point: Vector2 = dynamic.front().position
+    # 原点を中心に回転後の座標を求める
+    for block in dynamic:
       # 90度回転
       block.position = point + (block.position - point).rotated(angle)
 
 # 画面下到達チェック
 func _check_hit_bottom() -> bool:
-  var dynamic: Array = get_tree().get_nodes_in_group("dynamic")
-
-  for block in dynamic:
+  for block in dynamic_layer.get_children():
     if block.position.y == BOTTOM_Y:
       return true
   return false
 
 # 両端チェック
-func _check_edge(): -> bool:
-  for block in dynamic:
-    if block.position.x < EDGE_LEFT:
-  
+func _check_edge() -> bool:
+  for block in dynamic_layer.get_children():
+    if (block.position.x < EDGE_LEFT) or (block.position.x > EDGE_RIGHT):
+      return true
+  return false
 
 # 固定ブロックとの当たり判定
 func _check_hit_static() -> bool:
-  var dynamic: Array = get_tree().get_nodes_in_group("dynamic")
-  var static: Array = get_tree().get_nodes_in_group("static")
-
-  for block in dynamic:
-    for target in static:
+  for block in dynamic_layer.get_children():
+    for target in static_layer.get_children():
+      # 位置が一致したら
       if block.position == target.position:
-      return true
+        return true
   return false
          
 # 移動ブロックから固定ブロックへの変更処理
 func _dynamic_to_static() -> void:
-  var dynamic: Array = get_tree().get_nodes_in_group("dynamic")
+  var dynamic: Array = dynamic_layer.get_children()
   # グループ間の移動
   for block in dynamic:
-    block.remove_from_group("dynamic")
-    block.add_to_group("static")
+    dynamic_layer.remove_child(block)
+    static_layer.add_child(block)
+    
