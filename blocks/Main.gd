@@ -88,23 +88,29 @@ func _move_block_x() -> void:
 
   # 右キー
   if Input.is_action_just_pressed("ui_right"):
-    for block in dynamic_layer.get_children():
+    for block in children:
       # 右端で移動制限
       if block.position.x > EDGE_RIGHT:
         return
     # 右移動
-    for block in dynamic_layer.get_children():
+    for block in children:
       block.position.x += BLOCK_SIZE
       
 # ブロック落下処理
 func _move_block_y() -> void:
   # 1ブロック分落下
+  _move_block(Vector2,DOWN)
+  # 画面下到達か固定ブロックにヒット
+  if _check_hit_bottom() or _check_hit_static():
+    # 1ブロック上に戻す
+    _move_block(Vector2.UP)
+    # 固定ブロックへ追加
+    _dynamic_to_static()
+  
+# ブロック移動処理
+func _move_block(vec: Vector2) -> void:
   for block in dynamic_layer.get_children():
-    block.position.y += BLOCK_SIZE
-  # 画面下到達チェック
-  _check_hit_bottom()
-  # 固定ブロックとの当たり判定
-  _check_hit_static()
+    block.position += vec * BLOCK_SIZE
 
 # ブロック回転処理
 func _rotate_block() -> void:
@@ -120,27 +126,19 @@ func _rotate_block() -> void:
       block.position = point + (block.position - point).rotated(angle)
 
 # 画面下到達チェック
-func _check_hit_bottom() -> void:
+func _check_hit_bottom() -> bool:
   for block in dynamic_layer.get_children():
     if block.position.y == BOTTOM_Y:
-      # 1ブロック分上に戻す
-      for target in dynamic_layer.get_children():
-        target.position.y -= BLOCK_SIZE
-      # 移動ブロックから固定ブロックへ
-      _dynamic_to_static()
-      break
+      return true
+  return false
 
 # 固定ブロックとの当たり判定
-func _check_hit_static() -> void:
+func _check_hit_static() -> bool:
   for block in dynamic_layer.get_children():
     for target in static_layer.get_children():
       if block.position == target.position:
-        # 1ブロック分上に戻す
-        for block2 in dynamic_layer.get_children():
-          block2.position.y -= BLOCK_SIZE
-        # 移動ブロックから固定ブロックへ
-        _dynamic_to_static()
-        return
+      return true
+  return false
          
 # 移動ブロックから固定ブロックへの変更処理
 func _dynamic_to_static() -> void:
