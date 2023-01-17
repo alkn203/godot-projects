@@ -29,6 +29,11 @@ var interval: float = INTERVAL
 # シーン読み込み
 onready var block_scene = preload("res://Block.tscn")
 
+# ノード
+onready var dynamic_layer = get_node("DynamicLayer")
+onready var static_layer = get_node("StaticLayer")
+
+
 # 初期化処理
 func _ready() -> void:
   pass
@@ -43,7 +48,7 @@ func _process(delta) -> void:
     prev_time = cur_time
 
   # 落下ブロックがなければ新たに作成
-  var len = get_tree().get_nodes_in_group("dynamic").size()
+  var len: int = dynamic_layer.get_children().size()
   if len == 0:
     _create_block()
   # 左右移動
@@ -62,9 +67,9 @@ func _create_block() -> void:
     block.get_node("Sprite").frame = type
     dynamic_layer.add_child(block)
   
-  var children: Array = dynamic_layer.get_children()
+  var dynamic: Array = get_tree().get_nodes_in_group("dynamic")
   # 基準ブロック
-  var org_block: Block = children.front()
+  var org_block: Block = dynamic.front()
   org_block.position.x = get_viewport_rect().size.x / 2
   org_block.position.y = 0
   # 配置情報をもとにブロックを組み立てる
