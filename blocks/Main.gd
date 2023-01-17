@@ -74,13 +74,15 @@ func _create_block() -> void:
     
 # ブロック左右移動
 func _move_block_x() -> void:
-  var children: Array = dynamic_layer.get_children()
+  var dynamic: Array = get_tree().get_nodes_in_group("dynamic")
   # 左キー
   if Input.is_action_just_pressed("ui_left"):
-    for block in children:
-      # 左端で移動制限
-      if block.position.x < EDGE_LEFT:
+    # 両端チェック
+    
         return
+    
+    # 固定ブロックとの当たり判定
+    
     # 左移動
     for block in children:
       block.position.x -= BLOCK_SIZE
@@ -134,6 +136,12 @@ func _check_hit_bottom() -> bool:
     if block.position.y == BOTTOM_Y:
       return true
   return false
+
+# 両端チェック
+func _check_edge(): -> bool:
+  for block in dynamic:
+    if block.position.x < EDGE_LEFT:
+  
 
 # 固定ブロックとの当たり判定
 func _check_hit_static() -> bool:
