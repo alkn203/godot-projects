@@ -138,7 +138,21 @@ func _rotate_block() -> void:
 
 # ブロック削除処理
 func _remove_block() -> void:
-  pass
+  var sta: Array = static_layer.get_children()
+  var remove_y: Array = []
+  # 上から走査
+  for i in BLOCK_ROWS:
+    var count: int = 0
+    var current_y: int = i * BLOCK_SIZE + BLOCK_SIZE / 2
+    # 固定ブロックに対して
+    for block in sta:
+      # 走査ライン上にあればカウント
+      if block.position.y == current_y:
+        count += 1
+        # 10個あれば削除対象ラインとして登録
+        if count == BLOCK_COLS:
+          remove_y.append(current_y)
+  
 
 # 固定ブロック落下処理
 func _drop_block() -> void:
