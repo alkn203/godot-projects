@@ -6,7 +6,7 @@ const BLOCK_SIZE = 40
 const BLOCK_COLS = 10
 const BLOCK_ROWS = 20
 const BLOCK_TYPE = 7
-const BOTTOM_Y = BLOCK_SIZE * BLOCK_ROWS
+const BOTTOM_Y = 20
 const EDGE_LEFT = BLOCK_SIZE * 3
 const EDGE_RIGHT = BLOCK_SIZE * 12
 const INTERVAL = 0.5
@@ -82,7 +82,6 @@ func _create_block() -> void:
   org_block.position.x = get_viewport_rect().size.x / 2
   org_block.position.y = 0
   org_block.tile_pos = tilemap.world_to_map(org_block.position)
-  print(org_block.tile_pos)
   
   for block in dynamic:
     var i: int = block.get_index()
@@ -170,7 +169,7 @@ func _drop_block() -> void:
 # 画面下到達チェック
 func _hit_bottom() -> bool:
   for block in dynamic_layer.get_children():
-    if block.position.y == BOTTOM_Y:
+    if block.tile_pos.y == BOTTOM_Y:
       return true
   return false
 
