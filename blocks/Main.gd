@@ -54,14 +54,12 @@ func _process(delta) -> void:
  
   # 落下速度加速
   _move_block_y_fast()
-
   # 落下ブロックがなければ新たに作成
   if dynamic_layer.get_children().size() == 0:
     _create_block()
 
   # 左右移動
   _move_block_x()
-
   # 回転
   _rotate_block()
 
@@ -84,7 +82,8 @@ func _create_block() -> void:
   org_block.position.x = get_viewport_rect().size.x / 2
   org_block.position.y = 0
   org_block.tile_pos = tilemap.world_to_map(org_block.position)
-  # 配置情報をもとにブロックを組み立てる
+  print(org_block.tile_pos)
+  
   for block in dynamic:
     var i: int = block.get_index()
     block.position = org_block.position + BLOCK_LAYOUT[type][i] * BLOCK_SIZE
@@ -97,11 +96,12 @@ func _move_block_x() -> void:
     # キー入力チェック
     if Input.is_action_just_pressed(item[0]):
       # 移動
-      _move_block(item[1])
+      #_move_block(item[1])
       # 両端チェックと固定ブロックとの当たり判定
       if _hit_edge() or _hit_static():
         # 1ブロック分戻す
-        _move_block(item[1] * -1)      
+        #_move_block(item[1] * -1)    
+        pass  
       
 # ブロック落下処理
 func _move_block_y() -> void:
@@ -114,8 +114,14 @@ func _move_block_y() -> void:
     # 固定ブロックへ追加
     _dynamic_to_static()
 
+# ブロック移動処理
+func _move_block(vec: Vector2) -> void:
+  for block in dynamic_layer.get_children():
+    block.position += vec * BLOCK_SIZE
+    block.tile_pos += vec
+
 # ブロック加速落下処理
-func _move_block()_y_fast -> void:
+func _move_block_y_fast() -> void:
   # 下キー
   if Input.is_action_pressed("ui_down"):
     interval = INTERVAL * 0.5
