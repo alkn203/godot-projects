@@ -50,12 +50,17 @@ func _process(delta) -> void:
   if cur_time - prev_time > interval:
     _move_block_y()
     prev_time = cur_time
+ 
+  # 落下速度加速
+  _move_block_y_fast()
 
   # 落下ブロックがなければ新たに作成
   if dynamic_layer.get_children().size() == 0:
     _create_block()
+
   # 左右移動
   _move_block_x()
+
   # 回転
   _rotate_block()
 
@@ -105,11 +110,12 @@ func _move_block_y() -> void:
     _move_block(Vector2.UP)
     # 固定ブロックへ追加
     _dynamic_to_static()
-  
-# ブロック移動処理
-func _move_block(vec: Vector2) -> void:
-  for block in dynamic_layer.get_children():
-    block.position += vec * BLOCK_SIZE
+
+# ブロック加速落下処理
+func _move_block()_y_fast -> void:
+  # 下キー
+  if Input.is_action_pressed("ui_down"):
+    interval = INTERVAL * 0.5
 
 # ブロック回転処理
 func _rotate_block() -> void:
