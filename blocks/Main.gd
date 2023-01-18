@@ -91,7 +91,7 @@ func _move_block_x() -> void:
       # 移動
       _move_block(item[1])
       # 両端チェックと固定ブロックとの当たり判定
-      if _check_edge() or _check_hit_static():
+      if _hit_edge() or _hit_static():
         # 1ブロック分戻す
         _move_block(item[1] * -1)      
       
@@ -100,7 +100,7 @@ func _move_block_y() -> void:
   # 1ブロック分落下
   _move_block(Vector2.DOWN)
   # 画面下到達か固定ブロックにヒット
-  if _check_hit_bottom() or _check_hit_static():
+  if _hit_bottom() or _hit_static():
     # 1ブロック上に戻す
     _move_block(Vector2.UP)
     # 固定ブロックへ追加
@@ -124,28 +124,28 @@ func _rotate_block() -> void:
     for block in dynamic:
       # 90度回転
       block.position = point + (block.position - point).rotated(angle)
-    # 両端チェックと固定ブロックとの当たり判定
-    if _check_edge() or _check_hit_static():
+    # 両端と固定ブロックと底との当たり判定
+    if _hit_edge() or _hit_static() or _hit_bottom():
       # 回転を戻す
       for block in dynamic:
         block.position = point + (block.position - point).rotated(-1 * angle)
 
 # 画面下到達チェック
-func _check_hit_bottom() -> bool:
+func _hit_bottom() -> bool:
   for block in dynamic_layer.get_children():
     if block.position.y == BOTTOM_Y:
       return true
   return false
 
 # 両端チェック
-func _check_edge() -> bool:
+func _hit_edge() -> bool:
   for block in dynamic_layer.get_children():
     if (block.position.x < EDGE_LEFT) or (block.position.x > EDGE_RIGHT):
       return true
   return false
 
 # 固定ブロックとの当たり判定
-func _check_hit_static() -> bool:
+func _hit_static() -> bool:
   for block in dynamic_layer.get_children():
     for target in static_layer.get_children():
       # 位置が一致したら
