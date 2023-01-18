@@ -35,6 +35,7 @@ var interval: float = INTERVAL
 onready var block_scene: PackedScene = preload("res://Block.tscn")
 
 # ノード
+onready var tilemap: TileMap = get_node("TileMap")
 onready var dynamic_layer: CanvasLayer = get_node("DynamicLayer")
 onready var static_layer: CanvasLayer = get_node("StaticLayer")
 
@@ -82,10 +83,12 @@ func _create_block() -> void:
   var org_block: Block = dynamic.front()
   org_block.position.x = get_viewport_rect().size.x / 2
   org_block.position.y = 0
+  org_block.tile_pos = tilemap.world_to_map(org_block.position)
   # 配置情報をもとにブロックを組み立てる
   for block in dynamic:
     var i: int = block.get_index()
     block.position = org_block.position + BLOCK_LAYOUT[type][i] * BLOCK_SIZE
+    block.tile_pos = tilemap.world_to_map(block.position)
     
 # ブロック左右移動
 func _move_block_x() -> void:
