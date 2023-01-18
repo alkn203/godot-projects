@@ -136,6 +136,14 @@ func _rotate_block() -> void:
       for block in dynamic:
         block.position = point + (block.position - point).rotated(-1 * angle)
 
+# ブロック削除処理
+func _remove_block() -> void:
+  pass
+
+# 固定ブロック落下処理
+func _drop_block() -> void:
+  pass
+
 # 画面下到達チェック
 func _hit_bottom() -> bool:
   for block in dynamic_layer.get_children():
