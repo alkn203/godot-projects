@@ -42,7 +42,8 @@ onready var static_layer: CanvasLayer = get_node("StaticLayer")
 
 # 初期化処理
 func _ready() -> void:
-  pass
+  # ブロック作成
+  _cteate_block()
 
 # 毎フレーム処理
 func _process(delta) -> void:
@@ -55,10 +56,6 @@ func _process(delta) -> void:
  
   # 落下速度加速
   _move_block_y_fast()
-  # 落下ブロックがなければ新たに作成
-  if dynamic_layer.get_children().size() == 0:
-    _create_block()
-
   # 左右移動
   _move_block_x()
   # 回転
@@ -111,6 +108,8 @@ func _move_block_y() -> void:
     _move_block(Vector2.UP)
     # 固定ブロックへ追加
     _dynamic_to_static()
+    # 落下ブロック作成
+    _create_block()
 
 # ブロック移動処理
 func _move_block(vec: Vector2) -> void:
@@ -177,7 +176,10 @@ func _remove_block():
 
 # 固定ブロック落下処理
 func _drop_block() -> void:
-  pass
+  for block in syatic_layer.get_children():
+    if block.drop_count > 0:
+      block.position += Vector2.DOWN * block.drop_count
+      block.tile_pos = tilemap.world_to_map(block.position)
 
 # 画面下到達チェック
 func _hit_bottom() -> bool:
