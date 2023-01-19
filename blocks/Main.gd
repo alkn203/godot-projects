@@ -30,6 +30,7 @@ const KEY_ARRAY = [
 var prev_time: float = 0
 var cur_time: float = 0
 var interval: float = INTERVAL
+var remove_line: Array = []
 
 # シーン読み込み
 onready var block_scene: PackedScene = preload("res://Block.tscn")
@@ -142,23 +143,23 @@ func _rotate_block() -> void:
       for block in dynamic:
         block.position = point + (block.position - point).rotated(-1 * angle)
 
-# ブロック削除処理
-func _remove_block() -> void:
-  var sta: Array = static_layer.get_children()
-  var remove_y: Array = []
+# 削除可能ラインチェック
+func _check_removable_line() -> void:
   # 上から走査
   for i in BLOCK_ROWS:
     var count: int = 0
-    var current_y: int = i * BLOCK_SIZE + BLOCK_SIZE / 2
     # 固定ブロックに対して
-    for block in sta:
+    for block in static_layer.get_children():
       # 走査ライン上にあればカウント
-      if block.position.y == current_y:
+      if block.tile_pos.y == i:
         count += 1
         # 10個あれば削除対象ラインとして登録
         if count == BLOCK_COLS:
-          remove_y.append(current_y)
-  
+          remove_line.append(i)
+
+# ブロック削除処理
+func _remove_block():
+  pass
 
 # 固定ブロック落下処理
 func _drop_block() -> void:
