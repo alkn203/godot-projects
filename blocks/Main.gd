@@ -8,7 +8,7 @@ const BLOCK_ROWS = 20
 const BLOCK_TYPE = 7
 const BOTTOM_Y = 20
 const EDGE_LEFT = 2
-const EDGE_RIGHT = 12
+const EDGE_RIGHT = 13
 const INTERVAL = 0.5
 
 # ブロック(7種)の配置情報
@@ -43,7 +43,7 @@ onready var static_layer: CanvasLayer = get_node("StaticLayer")
 # 初期化処理
 func _ready() -> void:
   # ブロック作成
-  _cteate_block()
+  _create_block()
 
 # 毎フレーム処理
 func _process(delta) -> void:
@@ -108,6 +108,9 @@ func _move_block_y() -> void:
     _move_block(Vector2.UP)
     # 固定ブロックへ追加
     _dynamic_to_static()
+    #
+    _check_remove_line()
+    print(remove_line)
     # 落下ブロック作成
     _create_block()
 
@@ -136,11 +139,13 @@ func _rotate_block() -> void:
     for block in dynamic:
       # 90度回転
       block.position = point + (block.position - point).rotated(angle)
+      block.tile_pos = tilemap.world_to_map(block.position)
     # 両端と固定ブロックと底との当たり判定
     if _hit_edge() or _hit_static() or _hit_bottom():
       # 回転を戻す
       for block in dynamic:
         block.position = point + (block.position - point).rotated(-1 * angle)
+        block.tile_pos = tilemap.world_to_map(block.position)
 
 # 削除可能ラインチェック
 func _check_remove_line() -> void:
@@ -155,14 +160,17 @@ func _check_remove_line() -> void:
         # 10個あれば削除対象ラインとして登録
         if count == BLOCK_COLS:
           remove_line.append(i)
+  #
+  if remove_line.size() > 0:
+    _remove_block()
 
 # ブロック削除処理
-func _remove_block():
-  var sta: Array = syatic_layer.get_children()
+func _remove_block() -> void:
+  var sta: Array = static_layer.get_children()
   # 削除対象ラインに対して
   for line in remove_line:
     for block in sta:
-      if block.tile_pos == line:
+      if block.tile_pos.y == line:
         # 削除マーク
         block.mark = "remove"
       # 削除ラインより上のブロックに落下回数カウント
@@ -176,7 +184,7 @@ func _remove_block():
 
 # 固定ブロック落下処理
 func _drop_block() -> void:
-  for block in syatic_layer.get_children():
+  for block in static_layer.get_children():
     if block.drop_count > 0:
       block.position += Vector2.DOWN * block.drop_count
       block.tile_pos = tilemap.world_to_map(block.position)
