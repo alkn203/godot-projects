@@ -180,6 +180,9 @@ func _drop_block() -> void:
     if block.drop_count > 0:
       block.position += Vector2.DOWN * block.drop_count
       block.tile_pos = tilemap.world_to_map(block.position)
+      block.drop_count = 0
+  # 落下ブロック作成
+  _create_block()
 
 # 画面下到達チェック
 func _hit_bottom() -> bool:
