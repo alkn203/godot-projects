@@ -144,7 +144,7 @@ func _rotate_block() -> void:
         block.position = point + (block.position - point).rotated(-1 * angle)
 
 # 削除可能ラインチェック
-func _check_removable_line() -> void:
+func _check_remove_line() -> void:
   # 上から走査
   for i in BLOCK_ROWS:
     var count: int = 0
@@ -159,7 +159,21 @@ func _check_removable_line() -> void:
 
 # ブロック削除処理
 func _remove_block():
-  pass
+  var sta: Array = syatic_layer.get_children()
+  # 削除対象ラインに対して
+  for line in remove_line:
+    for block in sta:
+      if block.tile_pos == line:
+        # 削除マーク
+        block.mark = "remove"
+      # 削除ラインより上のブロックに落下回数カウント
+      if block.tile_pos.y < line:
+        block.drop_count += 1
+  # ブロック削除
+  for block in sta:
+    if block.mark == "remove":
+      static_layer.remove_child(block)
+      block.queue_free()
 
 # 固定ブロック落下処理
 func _drop_block() -> void:
