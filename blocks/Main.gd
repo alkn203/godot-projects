@@ -7,8 +7,8 @@ const BLOCK_COLS = 10
 const BLOCK_ROWS = 20
 const BLOCK_TYPE = 7
 const BOTTOM_Y = 20
-const EDGE_LEFT = BLOCK_SIZE * 3
-const EDGE_RIGHT = BLOCK_SIZE * 12
+const EDGE_LEFT = 2
+const EDGE_RIGHT = 12
 const INTERVAL = 0.5
 
 # ブロック(7種)の配置情報
@@ -77,12 +77,11 @@ func _create_block() -> void:
     dynamic_layer.add_child(block)
   
   var dynamic: Array = dynamic_layer.get_children()
-  # 基準ブロック
+  # 中心ブロック
   var org_block: Block = dynamic.front()
   org_block.position.x = get_viewport_rect().size.x / 2
   org_block.position.y = 0
-  org_block.tile_pos = tilemap.world_to_map(org_block.position)
-  
+  # 配置情報データをもとにブロックを配置
   for block in dynamic:
     var i: int = block.get_index()
     block.position = org_block.position + BLOCK_LAYOUT[type][i] * BLOCK_SIZE
@@ -95,12 +94,11 @@ func _move_block_x() -> void:
     # キー入力チェック
     if Input.is_action_just_pressed(item[0]):
       # 移動
-      #_move_block(item[1])
+      _move_block(item[1])
       # 両端チェックと固定ブロックとの当たり判定
       if _hit_edge() or _hit_static():
-        # 1ブロック分戻す
-        #_move_block(item[1] * -1)    
-        pass  
+        # ブロックを戻す
+        _move_block(item[1] * -1)
       
 # ブロック落下処理
 func _move_block_y() -> void:
@@ -108,7 +106,7 @@ func _move_block_y() -> void:
   _move_block(Vector2.DOWN)
   # 画面下到達か固定ブロックにヒット
   if _hit_bottom() or _hit_static():
-    # 1ブロック上に戻す
+    # ブロックを戻す
     _move_block(Vector2.UP)
     # 固定ブロックへ追加
     _dynamic_to_static()
@@ -176,7 +174,7 @@ func _hit_bottom() -> bool:
 # 両端チェック
 func _hit_edge() -> bool:
   for block in dynamic_layer.get_children():
-    if (block.position.x < EDGE_LEFT) or (block.position.x > EDGE_RIGHT):
+    if (block.tile_pos.x == EDGE_LEFT) or (block.tile_pos.x == EDGE_RIGHT):
       return true
   return false
 
@@ -185,7 +183,7 @@ func _hit_static() -> bool:
   for block in dynamic_layer.get_children():
     for target in static_layer.get_children():
       # 位置が一致したら
-      if block.position == target.position:
+      if block.tile_pos == target.tile_pos:
         return true
   return false
          
