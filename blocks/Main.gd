@@ -110,9 +110,6 @@ func _move_block_y() -> void:
     _dynamic_to_static()
     #
     _check_remove_line()
-    print(remove_line)
-    # 落下ブロック作成
-    _create_block()
 
 # ブロック移動処理
 func _move_block(vec: Vector2) -> void:
@@ -163,6 +160,8 @@ func _check_remove_line() -> void:
   #
   if remove_line.size() > 0:
     _remove_block()
+  else:
+    _create_block()
 
 # ブロック削除処理
 func _remove_block() -> void:
@@ -181,12 +180,16 @@ func _remove_block() -> void:
     if block.mark == "remove":
       static_layer.remove_child(block)
       block.queue_free()
+  
+  remove_line.clear()
+  # 固定ブロック落下
+  _drop_block()
 
 # 固定ブロック落下処理
 func _drop_block() -> void:
   for block in static_layer.get_children():
     if block.drop_count > 0:
-      block.position += Vector2.DOWN * block.drop_count
+      block.position += Vector2.DOWN * block.drop_count * BLOCK_SIZE
       block.tile_pos = tilemap.world_to_map(block.position)
       block.drop_count = 0
   # 落下ブロック作成
@@ -220,5 +223,4 @@ func _dynamic_to_static() -> void:
   # グループ間の移動
   for block in dynamic_layer.get_children():
     dynamic_layer.remove_child(block)
-    static_layer.add_child(block)
-    
+    static_layer.add_child(block)  
