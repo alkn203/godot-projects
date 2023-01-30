@@ -25,6 +25,9 @@ func _ready():
     var panel: MyPanel = MyPanel.instance()
     panel.position.x = i * PANEL_SIZE
     panel.position.y = j * PANEL_SIZE
+    # インデックス位置
+    panel.index_pos = Vector2(x_index, y_index)
+    # シーンに追加
     add_child(panel)
       
   # 配列に爆弾情報を格納
