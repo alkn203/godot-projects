@@ -12,26 +12,26 @@ var bomb_array: Array = []
 enum {NONE, ONE, TWO, THREE, FOUR, FIVE, SIX, SEVEN, EIGHT, NINE, PANEL, BOMB, BOMB_EXP}
 
 # シーン
-const panel_scene = preload("res://MyPanel.tscn")
+const panel_scene: PackedScene = preload("res://MyPanel.tscn")
 
 # 初期化
 func _ready():
   # パネル配置
-  for i in range(PANEL_NUM):
-    // グリッド配置用のインデックス値算出
+  for i in PANEL_NUM:
+    # グリッド配置用のインデックス値算出
     var x_index = i % PANEL_NUM_X
     var y_index = int(i / PANEL_NUM_X)
     # パネル作成
-    var panel: MyPanel = MyPanel.instance()
-    panel.position.x = i * PANEL_SIZE
-    panel.position.y = j * PANEL_SIZE
+    var panel: MyPanel = panel_scene.instance()
+    panel.position.x = x_index * PANEL_SIZE
+    panel.position.y = y_index * PANEL_SIZE
     # インデックス位置
     panel.index_pos = Vector2(x_index, y_index)
     # シーンに追加
     add_child(panel)
       
   # 配列に爆弾情報を格納
-  for i in range(PANEL_NUM):
+  for i in PANEL_NUM:
     if i < BOMB_NUM:
       bomb_array.append(true)
     else:
@@ -52,6 +52,7 @@ func open_panel(panel: MyPanel) -> void:
   # 爆弾
   if panel.is_bomb:
     sprite.frame = BOMB
+    # 隠された爆弾を表示
     _show_all_bombs()
     return
 
@@ -86,7 +87,7 @@ func open_panel(panel: MyPanel) -> void:
           open_panel(target)
           
 # 指定されたインデックス位置のパネルを返す
-func _get_panel(pos: Vector2) -> Variant: 
+func _get_panel(pos: Vector2): 
   for panel in get_children():
     if panel.index_pos == pos:
       return panel

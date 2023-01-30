@@ -5,7 +5,7 @@ const SCREEN_HEIGHT = 640
 const GEM_SIZE = 80
 const GEM_OFFSET = GEM_SIZE / 2
 const GEM_NUM_X = 8
-const GEM_NUM = GEM_NUM_X * GEM_NUM
+const GEM_NUM = GEM_NUM_X * GEM_NUM_X
 const GEM_COLOR = 7
 const DURATION = 0.25
 
@@ -31,11 +31,9 @@ func _ready() -> void:
   _init_gem()
   # 画面外ジェム配置
   _init_hidden_gem()
-  # インデックス位置更新
-  _update_index_pos()
 
 # ジェム作成処理
-func _create_gem(type: string = "") -> void:
+func _create_gem(type: String = "") -> void:
   # シード値変更
   randomize()
   # ジェム配置
@@ -54,6 +52,9 @@ func _create_gem(type: string = "") -> void:
     gem_layer.add_child(gem)
     # ランダムな色設定
     gem.set_random_color(GEM_COLOR)
+
+  # インデックス位置更新
+  _update_index_pos()
 
 # ジェム初期化処理
 func _init_gem() -> void:
@@ -80,7 +81,7 @@ func _init_hidden_gem() -> void:
   _create_gem("hidden")
 
 # ペア選択処理
-func select_pair(gem) -> void:
+func select_pair(gem: Gem) -> void:
   # 一つ目
   if pair.size() == 0:
     # カーソル表示
@@ -104,8 +105,7 @@ func select_pair(gem) -> void:
 # 隣り合わせ以外を選択不可にする
 func _selectable_next() -> void:
     # 一旦全てを選択不可に
-    for gem in gem_layer.get_children():
-      gem.get_node("CollisionShape2D").set_deferred("disabled", true)
+    _set_gem_collision_disble(true)
     
     var gem: Gem = pair[0]
 
@@ -145,6 +145,8 @@ func _after_swap() -> void:
     second_swap = false
     # カーソル削除 
     _remove_cursor()
+    # インデックス位置更新
+    _update_index_pos()
   else:
     # インデックス位置更新
     _update_index_pos()
@@ -184,7 +186,7 @@ func _exist_match3() -> bool:
   return false
 
 # 横方向の3つ並び以上チェック
-func _check_horizontal(current) -> void:
+func _check_horizontal(current: Gem) -> void:
   if current.mark != "rmv":
     current.mark = "tmp"
     
@@ -194,7 +196,7 @@ func _check_horizontal(current) -> void:
     _check_horizontal(next)
 
 # 縦方向の3つ並び以上チェック
-func _check_vertical(current) -> void:
+func _check_vertical(current: Gem) -> void:
   if current.mark != "rmv":
     current.mark = "tmp"
     
@@ -269,7 +271,6 @@ func _drop_gem() -> void:
       var d = gem.drop_count * DURATION
       # 落下アニメーション
       tween.tween_property(gem, "position", Vector2(x, y), d).set_trans(Tween.TRANS_CUBIC)
-      #tween.set_ease(Tween.EASE_OUT)
   
   tween.set_parallel(false)
   tween.tween_callback(self, "_after_drop")
@@ -290,12 +291,12 @@ func _after_drop() -> void:
     _set_gem_collision_disble(false)
     
 # Gemの選択可不可を決定
-func _set_gem_collision_disble(b) -> void:
+func _set_gem_collision_disble(b: bool) -> void:
   for gem in gem_layer.get_children():
     gem.get_node("CollisionShape2D").set_deferred("disabled", b)
   
 # 指定されたインデックス位置のジェムを返す
-func _get_gem(pos):
+func _get_gem(pos: Vector2):
   # 該当するジェムがあったらループを抜ける
   for gem in gem_layer.get_children():
     if gem.index_pos == pos:
@@ -303,7 +304,7 @@ func _get_gem(pos):
   return null
 
 # インデックス位置更新
-func _update_index_pos:() -> void:
+func _update_index_pos() -> void:
   for gem in gem_layer.get_children():
     var i = int(gem.position.x / GEM_SIZE)
     var j = int(gem.position.y / GEM_SIZE)

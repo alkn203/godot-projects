@@ -5,6 +5,7 @@ extends Area2D
 var num: int = 0
 var mark: String = "normal"
 var drop_count: int = 0
+var index_pos: Vector2 = Vector2.ZERO
 
 # ノード取得
 onready var main: Node2D = get_node("/root/Main")
