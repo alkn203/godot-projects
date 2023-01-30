@@ -2,7 +2,8 @@ extends Node2D
 
 # 定数
 const PANEL_SIZE = 64
-const PANEL_NUM_XY = 9
+const PANEL_NUM_X = 9
+const PANEL_NUM = PANEL_NUM_X * PANEL_NUM_X
 const BOMB_NUM = 10
 
 #　変数
@@ -11,26 +12,28 @@ var bomb_array: Array = []
 enum {NONE, ONE, TWO, THREE, FOUR, FIVE, SIX, SEVEN, EIGHT, NINE, PANEL, BOMB, BOMB_EXP}
 
 # シーン
-const MyPanel = preload("res://MyPanel.tscn")
+const panel_scene = preload("res://MyPanel.tscn")
 
 # 初期化
 func _ready():
   # パネル配置
-  for i in range(PANEL_NUM_XY):
-    for j in range(PANEL_NUM_XY):
-      # パネル作成
-      var panel: MyPanel = MyPanel.instance()
-      panel.position.x = i * PANEL_SIZE
-      panel.position.y = j * PANEL_SIZE
-      add_child(panel)
+  for i in range(PANEL_NUM):
+    // グリッド配置用のインデックス値算出
+    var x_index = i % PANEL_NUM_X
+    var y_index = int(i / PANEL_NUM_X)
+    # パネル作成
+    var panel: MyPanel = MyPanel.instance()
+    panel.position.x = i * PANEL_SIZE
+    panel.position.y = j * PANEL_SIZE
+    add_child(panel)
       
-  var count: int = get_child_count()
   # 配列に爆弾情報を格納
-  for i in range(count):
+  for i in range(PANEL_NUM):
     if i < BOMB_NUM:
       bomb_array.append(true)
     else:
       bomb_array.append(false)
+
   # 乱数初期化
   randomize()
   # 配列をシャッフル
@@ -48,42 +51,41 @@ func open_panel(panel: MyPanel) -> void:
     sprite.frame = BOMB
     _show_all_bombs()
     return
+
   # 既に開かれていたら何もしない
   if panel.is_open:
     return
+
   # 開いたとフラグを立てる
   panel.is_open = true
-  
+  # 爆弾カウント用
   var bomb_count: int = 0;
   var index_array: Array = [-1, 0, 1]
   # 周りのパネルの爆弾数をカウント
   for i in index_array:
     for j in index_array:
-      var x: int = panel.position.x + i * PANEL_SIZE
-      var y: int = panel.position.y + j * PANEL_SIZE
-      var pos: Vector2 = Vector2(x, y)
+      var pos = panel.index_pos + Vector2(i, j)
       var target = _get_panel(pos)
       # 爆弾数カウント
       if target and target.is_bomb:
         bomb_count += 1
+
   # パネルに数を表示
   sprite.frame = bomb_count
   # 周りに爆弾がなければ再帰的に調べる
   if bomb_count == 0:
     for i in index_array:
       for j in index_array:
-        var x: int = panel.position.x + i * PANEL_SIZE
-        var y: int = panel.position.y + j * PANEL_SIZE
-        var pos: Vector2 = Vector2(x, y)
+        var pos = panel.index_pos + Vector2(i, j)
         var target = _get_panel(pos);
         # パネルがあれば
         if target:
           open_panel(target)
           
-# 指定された位置のパネルを返す
-func _get_panel(pos: Vector2): 
+# 指定されたインデックス位置のパネルを返す
+func _get_panel(pos: Vector2) -> Variant: 
   for panel in get_children():
-    if panel.position == pos:
+    if panel.index_pos == pos:
       return panel
   return null
 
@@ -91,11 +93,12 @@ func _get_panel(pos: Vector2):
 func _show_all_bombs() -> void:
   for panel in get_children():
     var sprite: Sprite = panel.get_node("Sprite") 
-    
+    # 隠された爆弾を表示
     if panel.is_bomb:
       if sprite.frame == BOMB:
         sprite.frame = BOMB_EXP
       else:
         sprite.frame = BOMB
+
     # パネルをクリック不可にする		
     panel.get_node("CollisionShape2D").set_deferred("disabled", true)
