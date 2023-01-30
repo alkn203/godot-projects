@@ -52,6 +52,8 @@ func _create_gem(hidden: bool = false) -> void:
     gem_layer.add_child(gem)
     # ランダムな色設定
     gem.set_random_color(GEM_COLOR)
+    # インデックス位置確定
+    _coordToIndex(gem.position)
 
 # ジェム初期化処理
 func _init_gem() -> void:
@@ -108,12 +110,12 @@ func _selectable_next() -> void:
     var gem: Gem = pair[0]
 
     for target in gem_layer.get_children():
-      var dx: float = abs(gem.position.x - target.position.x)
-      var dy: float = abs(gem.position.y - target.position.y)
+      var dx: float = abs(gem.index_pos.x - target.index_pos.x)
+      var dy: float = abs(gem.index_pos.y - target.index_pos.y)
       # 上下左右隣り合わせだけを選択可に
-      if gem.position.x == target.position.x and dy == GEM_SIZE:
+      if gem.index_pos.x == target.index_pos.x and dy == 1:
         target.get_node("CollisionShape2D").set_deferred("disabled", false)
-      if gem.position.y == target.position.y and dx == GEM_SIZE:
+      if gem.index_pos.y == target.index_pos.y and dx == 1:
         target.get_node("CollisionShape2D").set_deferred("disabled", false)
 
 # ジェム入れ替え処理
@@ -126,9 +128,11 @@ func _swap_gem() -> void:
 
   # 入れ替えアニメーション
   var tween: SceneTreeTween = get_tree().create_tween()
+  # 並行処理
   tween.set_parallel(true)
   tween.tween_property(g1, "position", g2.position, DURATION)
   tween.tween_property(g2, "position", g1.position, DURATION)
+  # 並行処理解除
   tween.set_parallel(false)
   tween.tween_callback(self, "_after_swap")
 
