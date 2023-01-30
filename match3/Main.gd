@@ -33,7 +33,7 @@ func _ready() -> void:
   _init_hidden_gem()
 
 # ジェム作成処理
-func _create_gem(hidden: bool = false) -> void:
+func _create_gem(type: string = "") -> void:
   # シード値変更
   randomize()
   # ジェム配置
@@ -46,14 +46,14 @@ func _create_gem(hidden: bool = false) -> void:
     gem.position.x = x_index * GEM_SIZE + GEM_OFFSET
     gem.position.y = y_index * GEM_SIZE + GEM_OFFSET
     # 画面外の場合
-    if hidden:
+    if type == "hidden":
         gem.position.y -= SCREEN_HEIGHT
 
     gem_layer.add_child(gem)
     # ランダムな色設定
     gem.set_random_color(GEM_COLOR)
-    # インデックス位置確定
-    _coordToIndex(gem.position)
+    # インデックス位置更新
+    _update_index_pos()
 
 # ジェム初期化処理
 func _init_gem() -> void:
@@ -77,7 +77,7 @@ func _init_hidden_gem() -> void:
       gem.queue_free()
 
   # ジェム配置
-  _create_gem(true)
+  _create_gem("hidden")
 
 # ペア選択処理
 func select_pair(gem) -> void:
@@ -298,8 +298,9 @@ func _get_gem(pos):
       return gem
   return null
 
-# 座標からインデックスへ変換
-func coord_to_index: (vec: Vector2) -> Vector2:
-  var x = int(vec.x / GEM_SIZE)
-  var y = int(vec.y / GEM_SIZE)
-  return Vector2(x, y)
+# インデックス位置更新
+func _update_index_pos:() -> void:
+  for gem in gem_layer.get_children():
+    var i = int(gem.position.x / GEM_SIZE)
+    var j = int(gem.position.y / GEM_SIZE)
+    gem.index_pos = Vector2(i, j)
