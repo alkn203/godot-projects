@@ -31,6 +31,8 @@ func _ready() -> void:
   _init_gem()
   # 画面外ジェム配置
   _init_hidden_gem()
+  # インデックス位置更新
+  _update_index_pos()
 
 # ジェム作成処理
 func _create_gem(type: string = "") -> void:
@@ -52,8 +54,6 @@ func _create_gem(type: string = "") -> void:
     gem_layer.add_child(gem)
     # ランダムな色設定
     gem.set_random_color(GEM_COLOR)
-    # インデックス位置更新
-    _update_index_pos()
 
 # ジェム初期化処理
 func _init_gem() -> void:
@@ -146,6 +146,8 @@ func _after_swap() -> void:
     # カーソル削除 
     _remove_cursor()
   else:
+    # インデックス位置更新
+    _update_index_pos()
     # 3つ並びがあれば削除処理へ
     if _exist_match3():
       pair.clear();
@@ -187,7 +189,7 @@ func _check_horizontal(current) -> void:
     current.mark = "tmp"
     
   match_count += 1
-  var next = _get_gem(current.position + Vector2(GEM_SIZE, 0))
+  var next = _get_gem(current.index_pos + Vector2.RIGHT)
   if (next != null) and (current.num == next.num):
     _check_horizontal(next)
 
@@ -197,7 +199,7 @@ func _check_vertical(current) -> void:
     current.mark = "tmp"
     
   match_count += 1
-  var next = _get_gem(current.position + Vector2(0, GEM_SIZE))
+  var next = _get_gem(current.index_pos + Vector2.DOWN)
   if (next != null) and (current.num == next.num):
     _check_vertical(next)
 
@@ -278,6 +280,8 @@ func _after_drop() -> void:
     gem.drop_count = 0
   # 画面外のジェムを作り直す
   _init_hidden_gem()
+  # インデックス位置更新
+  _update_index_pos()
   # 3並び再チェック
   if _exist_match3():
     # 連鎖削除
@@ -290,11 +294,11 @@ func _set_gem_collision_disble(b) -> void:
   for gem in gem_layer.get_children():
     gem.get_node("CollisionShape2D").set_deferred("disabled", b)
   
-# 指定された位置のジェムを返す
+# 指定されたインデックス位置のジェムを返す
 func _get_gem(pos):
   # 該当するジェムがあったらループを抜ける
   for gem in gem_layer.get_children():
-    if gem.position == pos:
+    if gem.index_pos == pos:
       return gem
   return null
 
