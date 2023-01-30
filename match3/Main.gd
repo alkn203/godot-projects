@@ -297,3 +297,9 @@ func _get_gem(pos):
     if gem.position == pos:
       return gem
   return null
+
+# 座標からインデックスへ変換
+func coord_to_index: (vec: Vector2) -> Vector2:
+  var x = int(vec.x / GEM_SIZE)
+  var y = int(vec.y / GEM_SIZE)
+  return Vector2(x, y)
