@@ -5,6 +5,8 @@ const SCREEN_HEIGHT = 640
 const GEM_SIZE = 80
 const GEM_OFFSET = GEM_SIZE / 2
 const GEM_NUM_X = 8
+const GEM_NUM = GEM_NUM_X * GEM_NUM
+const GEM_COLOR = 7
 const DURATION = 0.25
 
 # 変数
@@ -35,18 +37,21 @@ func _create_gem(hidden: bool = false) -> void:
   # シード値変更
   randomize()
   # ジェム配置
-  for i in GEM_NUM_X:
-    for j in GEM_NUM_X:
-      var gem = gem_scene.instance()
-      var x = i * GEM_SIZE + GEM_OFFSET
-      var y = j * GEM_SIZE + GEM_OFFSET
-      gem.position = Vector2(x, y)
-      # 画面外の場合
-      if hidden:
+  for i in GEM_NUM:
+    # グリッドのインデックス位置
+    var x_index = i % GEM_NUM_X
+    var y_index = int(i / GEM_NUM_X)
+    # ジェム作成
+    var gem = gem_scene.instance()
+    gem.position.x = x_index * GEM_SIZE + GEM_OFFSET
+    gem.position.y = y_index * GEM_SIZE + GEM_OFFSET
+    # 画面外の場合
+    if hidden:
         gem.position.y -= SCREEN_HEIGHT
-      gem_layer.add_child(gem)
-      # ランダムな色設定
-      gem.set_random_color()
+
+    gem_layer.add_child(gem)
+    # ランダムな色設定
+    gem.set_random_color(GEM_COLOR)
 
 # ジェム初期化処理
 func _init_gem() -> void:
@@ -57,7 +62,7 @@ func _init_gem() -> void:
     # 色作り直し
     for gem in gem_layer.get_children():
       # ランダムな色
-      gem.set_random_color()
+      gem.set_random_color(GEM_COLOR)
 
     # 再帰呼び出し  
     _init_gem()
