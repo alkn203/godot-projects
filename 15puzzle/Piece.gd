@@ -1,7 +1,8 @@
-extends Area2D
 class_name Piece
+extends Area2D
 
-# ピースタッチ時処理
+
+# タッチ時処理
 func _on_Piece_input_event(viewport, event, shape_idx) -> void:
   # マウス入力イベント
   if event is InputEventMouseButton:
