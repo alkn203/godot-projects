@@ -8,7 +8,7 @@ const PIECE_OFFSET = PIECE_SIZE / 2
 const DURATION = 0.25
 
 # シーン
-const piece_scene: PackedScene = preload()
+const piece_scene: PackedScene = preload("res://Piece.tscn")
 
 # 初期化
 func _ready() -> void:
@@ -26,19 +26,21 @@ func _create_piece() -> void:
     # ピース作成
     const piece = piece_scene.instace()
     # 配置
-    piece.position.x = gx * PIECE_SIXE + PIECE_OFFSET
-    piece.position.y = gy * PIECE_SIXE + PIECE_OFFSET
+    piece.position.x = gx * PIECE_SIZE + PIECE_OFFSET
+    piece.position.y = gy * PIECE_SIZE + PIECE_OFFSET
     # グリッド上のインデックス値
     piece.index_pos = Vector2(gx, gy)
     # 画像フレーム設定
     piece.get_node("Sprite").frame = index
     # 16番のピースは非表示
     if num == PIECE_NUM:
-        piece.visible= false
+        piece.visible = false
 
 # ピース移動処理
 func move_piece(piece: Piece) -> void:
+  # タッチされたピース
   const p_pos: Vector2 = piece.index_pos
+  # 空白ピース
   const b_pos: Vector2 = _get_blank_piece().index_pos
   # x, yのインデックス差の絶対値
   const dx: float = abs(p_pos.x - b_pos.x)
@@ -52,9 +54,17 @@ func move_piece(piece: Piece) -> void:
     tween.set_parallel(true)
     tween.tween_property(piece, "position", b_pos, DURATION)
     tween.tween_property(blank, "position", t_pos, DURATION)
+    tween.set_parallel(false)
+    # 移動後の処理
+    tween.callback(self, _update_index_pos)
 
-// 座標値からインデックス値へ変換
-func coord_to_index(pos: Vector2) -> Vector2:
+# インデックス位置更新
+func _update_index_pos():
+  for piece in get_children():
+    piece.index_pos = _coord_to_index(piece.position)
+  
+# 座標値からインデックス値へ変換
+func _coord_to_index(pos: Vector2) -> Vector2:
   const x = int(pos.x / PIECE_SIZE)
   const y = int(pos.y / PIECE_SIZE)
   return Vector2(x, y)
