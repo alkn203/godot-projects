@@ -2,6 +2,9 @@ extends Node2D
 
 # 定数
 const PIECE_SIZE = 160
+const PIECE_NUM = 16
+const PIECE_NUM_X = 4
+const PIECE_OFFSET = PIECE_SIZE / 2
 const DURATION = 0.25
 
 # 変数
@@ -15,59 +18,9 @@ func _ready() -> void:
     # インデックス値をスプライトのフレームにする
     var index: int = piece.get_index()
     piece.get_node("Sprite").frame = index
-
-# ピース移動処理
-func move_piece(piece: Piece) -> void:
-  var p_pos: Vector2 = piece.position
-  var b_pos: Vector2 = blank.position
-  # x, yの座標差の絶対値
-  var dx: float = abs(p_pos.x - b_pos.x);
-  var dy: float = abs(p_pos.y - b_pos.y);
-  # 隣り合わせの判定
-  if ((p_pos.x == b_pos.x and dy == PIECE_SIZE) or (p_pos.y == b_pos.y and dx == PIECE_SIZE)):
-    # タッチされたピース位置を一時変数に退避
-    var t_pos := Vector2(p_pos.x, p_pos.y)
-    # Tweenでピース入れ替えアニメーション
-    var tween: SceneTreeTween = get_tree().create_tween()
-    tween.set_parallel(true)
-    tween.tween_property(piece, "position", b_pos, DURATION)
-    tween.tween_property(blank, "position", t_pos, DURATION)
-
-// 定数
-const SCREEN_WIDTH = 640;            // 画面横サイズ
-const SCREEN_HEIGHT = 960;           // 画面縦サイズ
-const PIECE_SIZE = SCREEN_WIDTH / 4; // グリッドのサイズ
-const PIECE_NUM = 16;                // ピース数
-const PIECE_NUM_X = 4;               // 横のピース数
-const PIECE_OFFSET = PIECE_SIZE / 2; // オフセット値
-// アセット
-const ASSETS = {
-  // 画像
-  image: {
-    'pieces': 'assets/pieces.png',
-  },
-};
-// メインシーン
-phina.define('MainScene', {
-  superClass: 'DisplayScene',
-  // コンストラクタ
-  init: function () {
-    // 親クラス初期化
-    this.superInit();
-    // 背景色
-    this.backgroundColor = 'black';
-    // グリッド
-    this.grid = Grid(SCREEN_WIDTH, PIECE_NUM_X);
-    // ピースグループ
-    this.pieceGroup = DisplayElement().addChildTo(this);
-    // ピース配置
-    this.createPiece();
-  },
-  /**
-   * ピース配置
-   */
-  createPiece:function() {
-    PIECE_NUM.times(function(i) {
+# ピース作成
+func _create_piece() -> void:
+  PIECE_NUM.times(function(i) {
       // グリッド配置用のインデックス値算出
       const sx = i % PIECE_NUM_X;
       const sy = Math.floor(i / PIECE_NUM_X);
@@ -94,6 +47,27 @@ phina.define('MainScene', {
         piece.hide();
       }
     }, this);
+
+# ピース移動処理
+func move_piece(piece: Piece) -> void:
+  var p_pos: Vector2 = piece.position
+  var b_pos: Vector2 = blank.position
+  # x, yの座標差の絶対値
+  var dx: float = abs(p_pos.x - b_pos.x);
+  var dy: float = abs(p_pos.y - b_pos.y);
+  # 隣り合わせの判定
+  if ((p_pos.x == b_pos.x and dy == PIECE_SIZE) or (p_pos.y == b_pos.y and dx == PIECE_SIZE)):
+    # タッチされたピース位置を一時変数に退避
+    var t_pos := Vector2(p_pos.x, p_pos.y)
+    # Tweenでピース入れ替えアニメーション
+    var tween: SceneTreeTween = get_tree().create_tween()
+    tween.set_parallel(true)
+    tween.tween_property(piece, "position", b_pos, DURATION)
+    tween.tween_property(blank, "position", t_pos, DURATION)
+
+
+  createPiece:function() {
+
   },
   /**
    * 16番ピース（空白）を取得
