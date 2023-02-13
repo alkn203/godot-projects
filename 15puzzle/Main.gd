@@ -59,7 +59,7 @@ func move_piece(piece: Piece) -> void:
     tween.callback(self, _update_index_pos)
 
 # インデックス位置更新
-func _update_index_pos():
+func _update_index_pos() -> void:
   for piece in get_children():
     piece.index_pos = _coord_to_index(piece.position)
   
