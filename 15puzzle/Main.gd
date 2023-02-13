@@ -7,46 +7,34 @@ const PIECE_NUM_X = 4
 const PIECE_OFFSET = PIECE_SIZE / 2
 const DURATION = 0.25
 
-# 変数
-var blank: Piece
+# シーン
+const piece_scene: PackedScene = preload()
 
 # 初期化
 func _ready() -> void:
-  # 空白ピース
-  blank = get_node("Piece16")
-  for piece in get_children():
-    # インデックス値をスプライトのフレームにする
-    var index: int = piece.get_index()
-    piece.get_node("Sprite").frame = index
+  # ピース作成・配置
+  _create_piece()
+
 # ピース作成
 func _create_piece() -> void:
-  PIECE_NUM.times(function(i) {
-      // グリッド配置用のインデックス値算出
-      const sx = i % PIECE_NUM_X;
-      const sy = Math.floor(i / PIECE_NUM_X);
-      // 番号
-      /** @type {number} */
-      const num = i + 1;
-      // ピース作成
-      /** @type {Piece} */
-      const piece = Piece(num).addChildTo(this.pieceGroup);
-      // Gridを利用して配置
-      piece.x = this.grid.span(sx) + PIECE_OFFSET;
-      piece.y = this.grid.span(sy) + PIECE_OFFSET;
-      // グリッド上のインデックス値
-      piece.indexPos = Vector2(sx, sy);
-      // タッチを有効にする
-      piece.setInteractive(true);
-      // タッチされた時の処理
-      piece.on('pointend', () => {
-        // ピース移動処理
-        this.movePiece(piece);
-      });
-      // 16番のピースは非表示
-      if (num === 16) {
-        piece.hide();
-      }
-    }, this);
+  for i in PIECE_NUM:
+    # グリッド配置用のインデックス値算出
+    const gx: int = i % PIECE_NUM_X
+    const gy: int = int(i / PIECE_NUM_X)
+    # 番号
+    const num: int = i + 1
+    # ピース作成
+    const piece = piece_scene.instace()
+    # 配置
+    piece.position.x = gx * PIECE_SIXE + PIECE_OFFSET
+    piece.position.y = gy * PIECE_SIXE + PIECE_OFFSET
+    # グリッド上のインデックス値
+    piece.index_pos = Vector2(gx, gy)
+    # 画像フレーム設定
+    piece.get_node("Sprite").frame = index
+    # 16番のピースは非表示
+    if num == PIECE_NUM:
+        piece.visible= false
 
 # ピース移動処理
 func move_piece(piece: Piece) -> void:
