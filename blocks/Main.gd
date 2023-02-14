@@ -138,13 +138,13 @@ func _rotate_block() -> void:
     for block in dynamic:
       # 90度回転
       block.position = point + (block.position - point).rotated(angle)
-      block.tile_pos = tilemap.world_to_map(block.position)
+      block.index_pos = _coord_to_index(block.position)
     # 両端と固定ブロックと底との当たり判定
     if _hit_edge() or _hit_static() or _hit_bottom():
       # 回転を戻す
       for block in dynamic:
         block.position = point + (block.position - point).rotated(-1 * angle)
-        block.tile_pos = tilemap.world_to_map(block.position)
+        block.index_pos = _coord_to_index(block.position)
 
 # 削除可能ラインチェック
 func _check_remove_line() -> void:
