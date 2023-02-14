@@ -49,8 +49,8 @@ func _process(delta) -> void:
 
     # 一定時間毎にブロック落下
     if cur_time - prev_time > interval:
-      _move_block_y()
-      prev_time = cur_time
+        _move_block_y()
+        prev_time = cur_time
  
     # 落下速度加速
     _move_block_y_fast()
@@ -66,11 +66,11 @@ func _create_block() -> void:
     var type: int = randi() % BLOCK_TYPE
     # 落下ブロック作成
     for i in range(4):
-      var block: Block = Block.instance()
-      block.type = type
-      # フレームインデックス設定
-      block.get_node("Sprite").frame = type
-      dynamic_layer.add_child(block)
+        var block: Block = Block.instance()
+        block.type = type
+        # フレームインデックス設定
+        block.get_node("Sprite").frame = type
+        dynamic_layer.add_child(block)
   
     var dynamic: Array = dynamic_layer.get_children()
     # 中心ブロック
@@ -79,22 +79,22 @@ func _create_block() -> void:
     org_block.position.y = 0
     # 配置情報データをもとにブロックを配置
     for block in dynamic:
-      var i: int = block.get_index()
-      block.position = org_block.position + BLOCK_LAYOUT[type][i] * BLOCK_SIZE
-      block.index_pos = _coord_to_index(block.position)
+        var i: int = block.get_index()
+        block.position = org_block.position + BLOCK_LAYOUT[type][i] * BLOCK_SIZE
+        block.index_pos = _coord_to_index(block.position)
     
 # ブロック左右移動
 func _move_block_x() -> void:
     # 配列ループ
     for item in KEY_ARRAY:
-      # キー入力チェック
-      if Input.is_action_just_pressed(item[0]):
-        # 移動
-        _move_block(item[1])
-        # 両端チェックと固定ブロックとの当たり判定
-        if _hit_edge() or _hit_static():
-          # ブロックを戻す
-          _move_block(item[1] * -1)
+        # キー入力チェック
+        if Input.is_action_just_pressed(item[0]):
+          # 移動
+          _move_block(item[1])
+          # 両端チェックと固定ブロックとの当たり判定
+          if _hit_edge() or _hit_static():
+            # ブロックを戻す
+            _move_block(item[1] * -1)
       
 # ブロック落下処理
 func _move_block_y() -> void:
@@ -102,38 +102,38 @@ func _move_block_y() -> void:
     _move_block(Vector2.DOWN)
     # 画面下到達か固定ブロックにヒット
     if _hit_bottom() or _hit_static():
-      # ブロックを戻す
-      _move_block(Vector2.UP)
-      # 固定ブロックへ追加
-      _dynamic_to_static()
-      # 削除可能ラインチェック
-      _check_remove_line()
+        # ブロックを戻す
+        _move_block(Vector2.UP)
+        # 固定ブロックへ追加
+        _dynamic_to_static()
+        # 削除可能ラインチェック
+        _check_remove_line()
 
 # ブロック移動処理
 func _move_block(vec: Vector2) -> void:
     for block in dynamic_layer.get_children():
-      block.position += vec * BLOCK_SIZE
-      block.imfex_pos += vec
+        block.position += vec * BLOCK_SIZE
+        block.imfex_pos += vec
 
 # ブロック加速落下処理
 func _move_block_y_fast() -> void:
-  # 下キーで落下スピードアップ
-  if Input.is_action_pressed("ui_down"):
-    interval = INTERVAL * 0.5
-  # 下キー離しで元のスピード
-  if Input.is_action_released("ui_down"):
-    interval = INTERVAL
+    # 下キーで落下スピードアップ
+    if Input.is_action_pressed("ui_down"):
+        interval = INTERVAL * 0.5
+    # 下キー離しで元のスピード
+    if Input.is_action_released("ui_down"):
+        interval = INTERVAL
 
 # ブロック回転処理
 func _rotate_block() -> void:
-  # 上キー
-  if Input.is_action_just_pressed("ui_up"):
-    var dynamic: Array = dynamic_layer.get_children()
-    # 度からラジアンへ変換
-    var angle = deg2rad(90)
-    # 回転の原点
-    var point: Vector2 = dynamic.front().position
-    # 原点を中心に回転後の座標を求める
+    # 上キー
+    if Input.is_action_just_pressed("ui_up"):
+        var dynamic: Array = dynamic_layer.get_children()
+        # 度からラジアンへ変換
+        var angle = deg2rad(90)
+        # 回転の原点
+        var point: Vector2 = dynamic.front().position
+        # 原点を中心に回転後の座標を求める
     for block in dynamic:
       # 90度回転
       block.position = point + (block.position - point).rotated(angle)
