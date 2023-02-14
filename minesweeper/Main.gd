@@ -1,32 +1,37 @@
 extends Node2D
 
+# 画像スプライト情報
+enum {NONE, ONE, TWO, THREE, FOUR, FIVE, SIX, SEVEN, EIGHT, NINE, PANEL, BOMB, BOMB_EXP}
+
 # 定数
 const PANEL_SIZE = 64
 const PANEL_NUM_X = 9
 const PANEL_NUM = PANEL_NUM_X * PANEL_NUM_X
 const BOMB_NUM = 10
 
+# シーン
+const MyPanel: PackedScene = preload("res://MyPanel.tscn")
+
 #　変数
 var bomb_array: Array = []
 
-enum {NONE, ONE, TWO, THREE, FOUR, FIVE, SIX, SEVEN, EIGHT, NINE, PANEL, BOMB, BOMB_EXP}
-
-# シーン
-const panel_scene: PackedScene = preload("res://MyPanel.tscn")
-
 # 初期化
-func _ready():
-  # パネル配置
+func _ready() -> void:
+  # パネル作成・配置
+  _create_panel()
+
+# パネル作成
+_create_panel() -> void:
   for i in PANEL_NUM:
     # グリッド配置用のインデックス値算出
-    var x_index = i % PANEL_NUM_X
-    var y_index = int(i / PANEL_NUM_X)
+    var gx: int = i % PANEL_NUM_X
+    var gy: int = int(i / PANEL_NUM_X)
     # パネル作成
-    var panel: MyPanel = panel_scene.instance()
-    panel.position.x = x_index * PANEL_SIZE
-    panel.position.y = y_index * PANEL_SIZE
+    var panel: MyPanel = MyPanel.instance()
+    panel.position.x = gx * PANEL_SIZE
+    panel.position.y = gy * PANEL_SIZE
     # インデックス位置
-    panel.index_pos = Vector2(x_index, y_index)
+    panel.index_pos = Vector2(gx, gy)
     # シーンに追加
     add_child(panel)
       
