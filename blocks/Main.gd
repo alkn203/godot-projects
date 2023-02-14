@@ -1,6 +1,5 @@
 extends Node2D
 
-
 # 定数
 const BLOCK_SIZE = 40
 const BLOCK_COLS = 10
@@ -26,14 +25,15 @@ const KEY_ARRAY = [
   ["ui_left", Vector2.LEFT],
   ["ui_right", Vector2.RIGHT]]
 
+# シーン
+const Block: PackedScene = preload("res://Block.tscn")
+
 # 変数
 var prev_time: float = 0
 var cur_time: float = 0
 var interval: float = INTERVAL
 var remove_line: Array = []
 
-# シーン読み込み
-onready var block_scene: PackedScene = preload("res://Block.tscn")
 
 # ノード
 onready var tilemap: TileMap = get_node("TileMap")
@@ -68,7 +68,7 @@ func _create_block() -> void:
   var type: int = randi() % BLOCK_TYPE
   # 落下ブロック作成
   for i in range(4):
-    var block: Block = block_scene.instance()
+    var block: Block = Block.instance()
     block.type = type
     # フレームインデックス設定
     block.get_node("Sprite").frame = type
@@ -83,7 +83,7 @@ func _create_block() -> void:
   for block in dynamic:
     var i: int = block.get_index()
     block.position = org_block.position + BLOCK_LAYOUT[type][i] * BLOCK_SIZE
-    block.tile_pos = tilemap.world_to_map(block.position)
+    block.index_pos = _coord_to_index(block.position)
     
 # ブロック左右移動
 func _move_block_x() -> void:
@@ -115,7 +115,7 @@ func _move_block_y() -> void:
 func _move_block(vec: Vector2) -> void:
   for block in dynamic_layer.get_children():
     block.position += vec * BLOCK_SIZE
-    block.tile_pos += vec
+    block.imfex_pos += vec
 
 # ブロック加速落下処理
 func _move_block_y_fast() -> void:
@@ -190,7 +190,7 @@ func _drop_block() -> void:
   for block in static_layer.get_children():
     if block.drop_count > 0:
       block.position += Vector2.DOWN * block.drop_count * BLOCK_SIZE
-      block.tile_pos = tilemap.world_to_map(block.position)
+      block.tile_pos = _coord_to_index(block.position)
       block.drop_count = 0
   # 落下ブロック作成
   _create_block()
@@ -214,7 +214,7 @@ func _hit_static() -> bool:
   for block in dynamic_layer.get_children():
     for target in static_layer.get_children():
       # 位置が一致したら
-      if block.tile_pos == target.tile_pos:
+      if block.tile_pos == target.index_pos:
         return true
   return false
          
