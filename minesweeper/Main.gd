@@ -19,6 +19,8 @@ var bomb_array: Array = []
 func _ready() -> void:
   # パネル作成・配置
   _create_panel()
+  # 爆弾情報設定
+  _set_bomb()
 
 # パネル作成
 _create_panel() -> void:
@@ -34,7 +36,9 @@ _create_panel() -> void:
     panel.index_pos = Vector2(gx, gy)
     # シーンに追加
     add_child(panel)
-      
+
+# 爆弾情報設定
+func _set_bomb() -> void:      
   # 配列に爆弾情報を格納
   for i in PANEL_NUM:
     if i < BOMB_NUM:
