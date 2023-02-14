@@ -8,7 +8,7 @@ const PIECE_OFFSET = PIECE_SIZE / 2
 const DURATION = 0.25
 
 # シーン
-const piece_scene: PackedScene = preload("res://Piece.tscn")
+const Piece: PackedScene = preload("res://Piece.tscn")
 
 # 変数
 var blank_piece: Piece
@@ -17,29 +17,6 @@ var blank_piece: Piece
 func _ready() -> void:
   # ピース作成・配置
   _create_piece()
-  
-# ピース作成・配置
-func _create_piece() -> void:
-  for i in PIECE_NUM:
-    # グリッド配置用のインデックス値算出
-    var gx: int = i % PIECE_NUM_X
-    var gy: int = int(i / PIECE_NUM_X)
-    # 番号
-    var num: int = i + 1
-    # ピース作成
-    var piece = piece_scene.instance()
-    add_child(piece)
-    # 配置
-    piece.position.x = gx * PIECE_SIZE + PIECE_OFFSET
-    piece.position.y = gy * PIECE_SIZE + PIECE_OFFSET
-    # グリッド上のインデックス値
-    piece.index_pos = Vector2(gx, gy)
-    # 画像フレーム設定
-    piece.get_node("Sprite").frame = i
-    # 16番のピースは非表示
-    if num == PIECE_NUM:
-      blank_piece = piece
-      piece.visible = false
 
 # ピース移動処理
 func move_piece(piece: Piece) -> void:
@@ -59,7 +36,30 @@ func move_piece(piece: Piece) -> void:
     tween.tween_property(blank_piece, "position", t_pos, DURATION)
     tween.set_parallel(false)
     tween.tween_callback(self, "_update_index_pos")
-    
+
+# ピース作成・配置
+func _create_piece() -> void:
+  for i in PIECE_NUM:
+    # グリッド配置用のインデックス値算出
+    var gx: int = i % PIECE_NUM_X
+    var gy: int = int(i / PIECE_NUM_X)
+    # 番号
+    var num: int = i + 1
+    # ピース作成
+    var piece = Piece.instance()
+    add_child(piece)
+    # 配置
+    piece.position.x = gx * PIECE_SIZE + PIECE_OFFSET
+    piece.position.y = gy * PIECE_SIZE + PIECE_OFFSET
+    # グリッド上のインデックス値
+    piece.index_pos = Vector2(gx, gy)
+    # 画像フレーム設定
+    piece.get_node("Sprite").frame = i
+    # 16番のピースは非表示
+    if num == PIECE_NUM:
+      blank_piece = piece
+      piece.visible = false
+
 # インデックス位置更新
 func _update_index_pos() -> void:
   for piece in get_children():
