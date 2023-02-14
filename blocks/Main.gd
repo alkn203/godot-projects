@@ -12,18 +12,18 @@ const INTERVAL = 0.5
 
 # ブロック(7種)の配置情報
 const BLOCK_LAYOUT = [
-  [Vector2(0, 0), Vector2(0, -1), Vector2(0, -2), Vector2(0, 1)],
-  [Vector2(0, 0), Vector2(0, -1), Vector2(0, 1), Vector2(1, 1)],
-  [Vector2(0, 0), Vector2(0, -1), Vector2(0, 1), Vector2(-1, 1)],
-  [Vector2(0, 0), Vector2(0, -1), Vector2(-1, -1), Vector2(1, 0)],
-  [Vector2(0, 0), Vector2(0, -1), Vector2(1, -1), Vector2(-1, 0)],
-  [Vector2(0, 0), Vector2(1, 0), Vector2(-1, 0), Vector2(0, -1)],
-  [Vector2(0, 0), Vector2(0, -1), Vector2(1, -1), Vector2(1, 0)]]
+    [Vector2(0, 0), Vector2(0, -1), Vector2(0, -2), Vector2(0, 1)],
+    [Vector2(0, 0), Vector2(0, -1), Vector2(0, 1), Vector2(1, 1)],
+    [Vector2(0, 0), Vector2(0, -1), Vector2(0, 1), Vector2(-1, 1)],
+    [Vector2(0, 0), Vector2(0, -1), Vector2(-1, -1), Vector2(1, 0)],
+    [Vector2(0, 0), Vector2(0, -1), Vector2(1, -1), Vector2(-1, 0)],
+    [Vector2(0, 0), Vector2(1, 0), Vector2(-1, 0), Vector2(0, -1)],
+    [Vector2(0, 0), Vector2(0, -1), Vector2(1, -1), Vector2(1, 0)]]
 
 # キー用配列
 const KEY_ARRAY = [
-  ["ui_left", Vector2.LEFT],
-  ["ui_right", Vector2.RIGHT]]
+    ["ui_left", Vector2.LEFT],
+    ["ui_right", Vector2.RIGHT]]
 
 # シーン
 const Block: PackedScene = preload("res://Block.tscn")
@@ -34,87 +34,86 @@ var cur_time: float = 0
 var interval: float = INTERVAL
 var remove_line: Array = []
 
-
 # ノード
 onready var dynamic_layer: CanvasLayer = get_node("DynamicLayer")
 onready var static_layer: CanvasLayer = get_node("StaticLayer")
 
 # 初期化処理
 func _ready() -> void:
-  # ブロック作成
-  _create_block()
+    # ブロック作成
+    _create_block()
 
 # 毎フレーム処理
 func _process(delta) -> void:
-  cur_time += delta
+    cur_time += delta
 
-  # 一定時間毎にブロック落下
-  if cur_time - prev_time > interval:
-    _move_block_y()
-    prev_time = cur_time
+    # 一定時間毎にブロック落下
+    if cur_time - prev_time > interval:
+      _move_block_y()
+      prev_time = cur_time
  
-  # 落下速度加速
-  _move_block_y_fast()
-  # 左右移動
-  _move_block_x()
-  # 回転
-  _rotate_block()
+    # 落下速度加速
+    _move_block_y_fast()
+    # 左右移動
+    _move_block_x()
+    # 回転
+    _rotate_block()
 
 # 落下ブロック作成
 func _create_block() -> void:
-  # 種類をランダムに決める
-  randomize()
-  var type: int = randi() % BLOCK_TYPE
-  # 落下ブロック作成
-  for i in range(4):
-    var block: Block = Block.instance()
-    block.type = type
-    # フレームインデックス設定
-    block.get_node("Sprite").frame = type
-    dynamic_layer.add_child(block)
+    # 種類をランダムに決める
+    randomize()
+    var type: int = randi() % BLOCK_TYPE
+    # 落下ブロック作成
+    for i in range(4):
+      var block: Block = Block.instance()
+      block.type = type
+      # フレームインデックス設定
+      block.get_node("Sprite").frame = type
+      dynamic_layer.add_child(block)
   
-  var dynamic: Array = dynamic_layer.get_children()
-  # 中心ブロック
-  var org_block: Block = dynamic.front()
-  org_block.position.x = get_viewport_rect().size.x / 2
-  org_block.position.y = 0
-  # 配置情報データをもとにブロックを配置
-  for block in dynamic:
-    var i: int = block.get_index()
-    block.position = org_block.position + BLOCK_LAYOUT[type][i] * BLOCK_SIZE
-    block.index_pos = _coord_to_index(block.position)
+    var dynamic: Array = dynamic_layer.get_children()
+    # 中心ブロック
+    var org_block: Block = dynamic.front()
+    org_block.position.x = get_viewport_rect().size.x / 2
+    org_block.position.y = 0
+    # 配置情報データをもとにブロックを配置
+    for block in dynamic:
+      var i: int = block.get_index()
+      block.position = org_block.position + BLOCK_LAYOUT[type][i] * BLOCK_SIZE
+      block.index_pos = _coord_to_index(block.position)
     
 # ブロック左右移動
 func _move_block_x() -> void:
-  # 配列ループ
-  for item in KEY_ARRAY:
-    # キー入力チェック
-    if Input.is_action_just_pressed(item[0]):
-      # 移動
-      _move_block(item[1])
-      # 両端チェックと固定ブロックとの当たり判定
-      if _hit_edge() or _hit_static():
-        # ブロックを戻す
-        _move_block(item[1] * -1)
+    # 配列ループ
+    for item in KEY_ARRAY:
+      # キー入力チェック
+      if Input.is_action_just_pressed(item[0]):
+        # 移動
+        _move_block(item[1])
+        # 両端チェックと固定ブロックとの当たり判定
+        if _hit_edge() or _hit_static():
+          # ブロックを戻す
+          _move_block(item[1] * -1)
       
 # ブロック落下処理
 func _move_block_y() -> void:
-  # 1ブロック分落下
-  _move_block(Vector2.DOWN)
-  # 画面下到達か固定ブロックにヒット
-  if _hit_bottom() or _hit_static():
-    # ブロックを戻す
-    _move_block(Vector2.UP)
-    # 固定ブロックへ追加
-    _dynamic_to_static()
-    #
-    _check_remove_line()
+    # 1ブロック分落下
+    _move_block(Vector2.DOWN)
+    # 画面下到達か固定ブロックにヒット
+    if _hit_bottom() or _hit_static():
+      # ブロックを戻す
+      _move_block(Vector2.UP)
+      # 固定ブロックへ追加
+      _dynamic_to_static()
+      # 削除可能ラインチェック
+      _check_remove_line()
 
 # ブロック移動処理
 func _move_block(vec: Vector2) -> void:
-  for block in dynamic_layer.get_children():
-    block.position += vec * BLOCK_SIZE
-    block.imfex_pos += vec
+    for block in dynamic_layer.get_children():
+      block.position += vec * BLOCK_SIZE
+      block.imfex_pos += vec
 
 # ブロック加速落下処理
 func _move_block_y_fast() -> void:
