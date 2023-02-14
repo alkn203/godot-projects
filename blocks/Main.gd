@@ -36,7 +36,6 @@ var remove_line: Array = []
 
 
 # ノード
-onready var tilemap: TileMap = get_node("TileMap")
 onready var dynamic_layer: CanvasLayer = get_node("DynamicLayer")
 onready var static_layer: CanvasLayer = get_node("StaticLayer")
 
@@ -119,9 +118,12 @@ func _move_block(vec: Vector2) -> void:
 
 # ブロック加速落下処理
 func _move_block_y_fast() -> void:
-  # 下キー
+  # 下キーで落下スピードアップ
   if Input.is_action_pressed("ui_down"):
     interval = INTERVAL * 0.5
+  # 下キー離しで元のスピード
+  if Input.is_action_released("ui_down"):
+    interval = INTERVAL
 
 # ブロック回転処理
 func _rotate_block() -> void:
