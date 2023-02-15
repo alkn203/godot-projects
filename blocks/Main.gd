@@ -176,11 +176,32 @@ func _remove_block() -> void:
       # 削除ラインより上のブロックに落下回数カウント
       if block.tile_pos.y < line:
         block.drop_count += 1
-  # ブロック削除
+
+   # 消去アニメーション用ダミー作成
+   for block in sta:
+     if block.mark == "remove":
+      var dummy = Block.instance()
+      dummy.position = block.position
+      dummy.get_node("Sprite").frame = block.get_node("Sprite").frame
+      dummy_layer.add_child(dummy)
+      
+ # ブロック削除
   for block in sta:
     if block.mark == "remove":
       static_layer.remove_child(block)
       block.queue_free()
+
+  # ダミーをアニメーション
+  var tween: SceneTreeTween = get_tree().create_tween()
+  tween.set_parallel(true)
+
+  for dummy in dummy_layer.get_children():
+    tween.tween_property(dummy, "scale", Vector2(), DURATION)
+
+  tween.set_parallel(false)
+  tween.tween_callback(self, "_after_remove")
+  
+  
   
   remove_line.clear()
   # 固定ブロック落下
