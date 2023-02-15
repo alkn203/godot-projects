@@ -1,23 +1,21 @@
+# 敵のビームクラス
+class_name Beam 
 extends Area2D
 
+# 変数
+var speed: int = 50 
 
-# Declare member variables here. Examples:
-var speed = 50 
-
-# Called when the node enters the scene tree for the first time.
-func _ready():
-	pass # Replace with function body.
-
-
-# Called every frame. 'delta' is the elapsed time since the previous frame.
+# 毎フレーム処理
 func _process(delta):
-	position.y += speed * delta
+    position.y += speed * delta
 
-
+# 他のオブジェクトとの当たり判定
 func _on_Beam_area_entered(area):
-	# If target is player
-	if area.name == "Player":
-		get_tree().paused = true
-		yield(get_tree().create_timer(1.0), "timeout")
-		get_tree().paused = false
-		get_tree().change_scene("res://Title.tscn")
+    # プレイヤー
+    if area.name == "Player":
+        # 画面をポーズ
+        get_tree().paused = true
+        # 一定時間経過後タイトルへ
+        yield(get_tree().create_timer(1.0), "timeout")
+        get_tree().paused = false
+        get_tree().change_scene("res://Title.tscn")
