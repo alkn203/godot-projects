@@ -9,6 +9,7 @@ const BOTTOM_Y = 20
 const EDGE_LEFT = 2
 const EDGE_RIGHT = 13
 const INTERVAL = 0.5
+const DURATION = 0.25
 
 # ブロック(7種)の配置情報
 const BLOCK_LAYOUT = [
@@ -37,6 +38,7 @@ var remove_line: Array = []
 # ノード
 onready var dynamic_layer: CanvasLayer = get_node("DynamicLayer")
 onready var static_layer: CanvasLayer = get_node("StaticLayer")
+onready var dummy_layer: CanvasLayer = get_node("DummyLayer")
 
 # 初期化処理
 func _ready() -> void:
@@ -113,15 +115,15 @@ func _move_block_y() -> void:
 func _move_block(vec: Vector2) -> void:
     for block in dynamic_layer.get_children():
         block.position += vec * BLOCK_SIZE
-        block.imfex_pos += vec
+        block.index_pos += vec
 
 # ブロック加速落下処理
 func _move_block_y_fast() -> void:
     # 下キーで落下スピードアップ
     if Input.is_action_pressed("ui_down"):
-        interval = INTERVAL * 0.5
+        interval = INTERVAL * 0.1
     # 下キー離しで元のスピード
-    if Input.is_action_released("ui_down"):
+    if Input.is_action_just_released("ui_down"):
         interval = INTERVAL
 
 # ブロック回転処理
@@ -153,7 +155,7 @@ func _check_remove_line() -> void:
         # 固定ブロックに対して
         for block in static_layer.get_children():
             # 走査ライン上にあればカウント
-            if block.tile_pos.y == i:
+            if block.index_pos.y == i:
                 count += 1
         # 10個あれば削除対象ラインとして登録
         if count == BLOCK_COLS:
@@ -170,11 +172,11 @@ func _remove_block() -> void:
     # 削除対象ラインに対して
     for line in remove_line:
         for block in sta:
-            if block.tile_pos.y == line:
+            if block.index_pos.y == line:
                 # 削除マーク
                 block.mark = "remove"
             # 削除ラインより上のブロックに落下回数カウント
-            if block.tile_pos.y < line:
+            if block.index_pos.y < line:
                 block.drop_count += 1
     # 消去アニメーション用ダミー作成
     for block in sta:
@@ -208,7 +210,7 @@ func _drop_block() -> void:
     for block in static_layer.get_children():
         if block.drop_count > 0:
             block.position += Vector2.DOWN * block.drop_count * BLOCK_SIZE
-            block.tile_pos = _coord_to_index(block.position)
+            block.index_pos = _coord_to_index(block.position)
             block.drop_count = 0
     # 落下ブロック作成
     _create_block()
@@ -216,24 +218,24 @@ func _drop_block() -> void:
 # 画面下到達チェック
 func _hit_bottom() -> bool:
     for block in dynamic_layer.get_children():
-        if block.tile_pos.y == BOTTOM_Y:
-        return true
+        if block.index_pos.y == BOTTOM_Y:
+            return true
     return false
 
 # 両端チェック
 func _hit_edge() -> bool:
     for block in dynamic_layer.get_children():
-        if (block.tile_pos.x == EDGE_LEFT) or (block.tile_pos.x == EDGE_RIGHT):
+        if (block.index_pos.x == EDGE_LEFT) or (block.index_pos.x == EDGE_RIGHT):
             return true
     return false
 
 # 固定ブロックとの当たり判定
 func _hit_static() -> bool:
     for block in dynamic_layer.get_children():
-       for target in static_layer.get_children():
+        for target in static_layer.get_children():
            # 位置が一致したら
-           if block.tile_pos == target.index_pos:
-               return true
+            if block.index_pos == target.index_pos:
+                return true
     return false
          
 # 移動ブロックから固定ブロックへの変更処理
@@ -241,4 +243,10 @@ func _dynamic_to_static() -> void:
     # グループ間の移動
     for block in dynamic_layer.get_children():
         dynamic_layer.remove_child(block)
-        static_layer.add_child(block)  
+        static_layer.add_child(block)
+
+# 座標値からインデックス値へ変換
+func _coord_to_index(pos: Vector2) -> Vector2:
+    var x = int(pos.x / BLOCK_SIZE)
+    var y = int(pos.y / BLOCK_SIZE)
+    return Vector2(x, y)
