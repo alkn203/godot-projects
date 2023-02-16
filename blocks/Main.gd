@@ -50,7 +50,7 @@ func _process(delta) -> void:
     cur_time += delta
 
     # 一定時間毎にブロック落下
-    if cur_time - prev_time > interval:
+    if (cur_time - prev_time) > interval:
         _move_block_y()
         prev_time = cur_time
  
