@@ -108,6 +108,10 @@ func _move_block_y() -> void:
         _move_block(Vector2.UP)
         # 固定ブロックへ追加
         _dynamic_to_static()
+        # 画面上到達チェック
+        if _check_top():
+            # 画面ポーズ
+            get_tree().paused = true
         # 削除可能ラインチェック
         _check_remove_line()
 
