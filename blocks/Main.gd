@@ -222,6 +222,13 @@ func _hit_bottom() -> bool:
             return true
     return false
 
+# 画面上到達チェック
+func _hit_top() -> bool:
+    for block in static_layer.get_children():
+        if block.index_pos.y == TOP_Y:
+            return true
+    return false
+
 # 両端チェック
 func _hit_edge() -> bool:
     for block in dynamic_layer.get_children():
