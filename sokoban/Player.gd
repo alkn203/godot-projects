@@ -24,53 +24,53 @@ onready var baggage_layer: CanvasLayer = get_node("/root/Main/BaggageLayer")
 
 # 毎フレーム処理
 func _process(delta) -> void:
-  # キー入力不可の場合
-  if can_input == false:
-    return
+    # キー入力不可の場合
+    if can_input == false:
+        return
       
-  var velocity: Vector2 = Vector2.ZERO
+    var velocity: Vector2 = Vector2.ZERO
   
-  for elem in KEY_ARRAY:
-    var dir: String = elem[0]
-    # キーにより方向振り分け
-    if Input.is_action_pressed(dir):
-      self.play(dir)
-      velocity = elem[1]
-  # 何かしら入力があれば
-  if velocity.x != 0 or velocity.y != 0:
-    # tween作成
-    var tween: SceneTreeTween = get_tree().create_tween()
-    # その方向の一つ先の位置
-    var next: Vector2 = tile_pos + velocity
-    # 壁なら何もしない
-    if tilemap.get_cellv(next) == TILE_WALL:
-      return
+    for elem in KEY_ARRAY:
+        var dir: String = elem[0]
+        # キーにより方向振り分け
+        if Input.is_action_pressed(dir):
+            play(dir)
+            velocity = elem[1]
+    # 何かしら入力があれば
+    if velocity.x != 0 or velocity.y != 0:
+        # tween作成
+        var tween: SceneTreeTween = get_tree().create_tween()
+        # その方向の一つ先の位置
+        var next: Vector2 = tile_pos + velocity
+        # 壁なら何もしない
+        if tilemap.get_cellv(next) == TILE_WALL:
+            return
     
-    # 隣が荷物かどうか調べる
-    var baggage = stage.get_baggage_by_pos(next)
-    # 荷物の場合
-    if baggage != null:
-      # さらに荷物のその１つ先が壁
-      if tilemap.get_cellv(next + velocity) == TILE_WALL:
-        return
-      # 荷物のその１つ先が荷物
-      if stage.get_baggage_by_pos(next + velocity) != null:
-        return
+        # 隣が荷物かどうか調べる
+        var baggage = stage.get_baggage_by_pos(next)
+        # 荷物の場合
+        if baggage != null:
+            # 荷物のその１つ先が壁
+            if tilemap.get_cellv(next + velocity) == TILE_WALL:
+                return
+            # 荷物のその１つ先が荷物
+            if stage.get_baggage_by_pos(next + velocity) != null:
+                return
       
-      # 荷物位置更新
-      baggage.tile_pos += velocity
-      var pos: Vector2 = baggage.position + velocity * TILE_SIZE
-      tween.set_parallel(true)
-      tween.tween_property(baggage, "position", pos, DURATION)
+            # 荷物位置更新
+            baggage.tile_pos += velocity
+            var pos: Vector2 = baggage.position + velocity * TILE_SIZE
+            tween.set_parallel(true)
+            tween.tween_property(baggage, "position", pos, DURATION)
       
-    # プレイヤー位置更新
-    tile_pos = next
-    # 一旦入力不可にする
-    can_input = false
-    # 移動アニメーション
-    tween.tween_property(self, "position", position + velocity * TILE_SIZE, DURATION)
-    tween.set_parallel(false)
-    tween.tween_callback(self, "_after_move")
+        # プレイヤー位置更新
+        tile_pos = next
+        # 一旦入力不可にする
+        can_input = false
+        # 移動アニメーション
+        tween.tween_property(self, "position", position + velocity * TILE_SIZE, DURATION)
+        tween.set_parallel(false)
+        tween.tween_callback(self, "_after_move")
 
 # 移動後処理
 func _after_move() -> void:
