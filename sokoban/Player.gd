@@ -74,10 +74,10 @@ func _process(delta) -> void:
 
 # 移動後処理
 func _after_move() -> void:
-  can_input = true
-  # 荷物がゴールに乗っているかのチェック
-  stage.change_baggage_color_on_goal()
-  # クリアチェック
-  if stage.is_clear() == true:
-    OS.alert("clear")
+    can_input = true
+    # 荷物がゴールに乗っているかのチェック
+    stage.change_baggage_color_on_goal()
+    # クリアチェック
+    if stage.is_clear() == true:
+        OS.alert("clear")
 
