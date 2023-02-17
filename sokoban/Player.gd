@@ -1,5 +1,8 @@
-extends AnimatedSprite
 class_name Player
+extends AnimatedSprite
+
+# タイル情報
+enum { TILE_NONE, TILE_FLOOR, TILE_GOAL, TILE_WALL, BAGGAGE, BAGGAGE_ON_GOAL } 
 
 # 定数
 const TILE_SIZE = 64
@@ -18,9 +21,6 @@ var can_input: bool = true
 onready var stage: Node2D = get_node("/root/Main")
 onready var tilemap: TileMap = get_node("/root/Main/TileMap")
 onready var baggage_layer: CanvasLayer = get_node("/root/Main/BaggageLayer")
-
-# タイル情報
-enum { TILE_NONE, TILE_FLOOR, TILE_GOAL, TILE_WALL, BAGGAGE, BAGGAGE_ON_GOAL } 
 
 # 毎フレーム処理
 func _process(delta) -> void:
