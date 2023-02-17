@@ -10,26 +10,26 @@ const OPENED_POSITION = Vector2(512 - 64, 480 + CARD_HEIGHT * 1.5)
 const DROP_POSITON = Vector2(128, 480 + CARD_HEIGHT * 1.5)
 const DURATION = 0.15
 
-# 変数
-var pair = []
-var card_index_array = []
-var flip_count = 0
-var remove_count = 0
-
 # シーン
 const Card = preload("res://Card.tscn")
 const Cursor = preload("res://Cursor.tscn")
 
+# 変数
+var pair: Array = []
+var card_index_array: Array = []
+var flip_count: int = 0
+var remove_count: int = 0
+
 # レイヤー
-onready var card_layer = get_node("CardLayer")
-onready var cursor_layer = get_node("CursorLayer")
+onready var card_layer: CanvasLayer = get_node("CardLayer")
+onready var cursor_layer: CanvasLayer = get_node("CursorLayer")
 
 # 初期化
-func _ready():
+func _ready() -> void:
   # 乱数シード値
   randomize()
   # カードインデックス配列作成
-  for i in range(CARD_NUM):
+  for i in CARD_NUM:
     card_index_array.append(i)
   # シャッフル
   card_index_array.shuffle()
@@ -39,11 +39,11 @@ func _ready():
   _set_hand_card()
 
 # ピラミッド型のカード設定 
-func _set_pyramid_card():
+func _set_pyramid_card() -> void:
   # 配置されたカードに対して
   for card in card_layer.get_children():
     # カードインデックス配列から先頭を取る
-    var index = card_index_array.pop_front()
+    var index: int = card_index_array.pop_front()
     # インデックス・数字の設定
     card.set_index_num(index)
     # グループに追加
@@ -53,13 +53,13 @@ func _set_pyramid_card():
       _flip_card(card) 
 
 # 手札配置
-func _set_hand_card():
+func _set_hand_card() -> void:
   # カード切れ
   if card_index_array.size() < 1:
     return;
   # カード配列から１つ取る
-  var index = card_index_array.pop_front()
-  var card = Card.instance()
+  var index: int = card_index_array.pop_front()
+  var card: Card = Card.instance()
   card.position = HAND_POSITION
   card_layer.add_child(card)
   # インデックス・数字の設定
@@ -68,18 +68,18 @@ func _set_hand_card():
   card.add_to_group("hand")
 
 # 手札をめくる
-func open_hand_card():
-  var opened_arr = get_tree().get_nodes_in_group("open_hand")
+func open_hand_card() -> void:
+  var opened_arr: Array = get_tree().get_nodes_in_group("open_hand")
   # 開いた手札があれば
   if opened_arr.size() > 0:
     # 捨て札グループに追加
-    var opened = opened_arr.front()
+    var opened: Card = opened_arr.front()
     opened.add_to_group("drop_hand")
     opened.remove_from_group("open_hand")
     opened.slide_to(DROP_POSITON)
 
   # 手札から開いた手札へ
-  var hand = get_tree().get_nodes_in_group("hand").front()
+  var hand: Card = get_tree().get_nodes_in_group("hand").front()
   hand.add_to_group("open_hand")
   hand.remove_from_group("hand")
   hand.slide_and_flip(OPENED_POSITION)
@@ -87,7 +87,7 @@ func open_hand_card():
   _set_hand_card()
    
 # カード選択
-func add_pair(card):
+func add_pair(card: Card) -> void:
   # 13なら無条件で消去
   if card.num == TARGET_NUM:
     _remove_card(card)
@@ -97,7 +97,7 @@ func add_pair(card):
   if pair.size() < 1:
     pair.append(card)
     # 枠追加
-    var cursor = Cursor.instance()
+    var cursor: Cursor = Cursor.instance()
     cursor.position = card.position
     cursor_layer.add_child(cursor)
   else:
@@ -108,11 +108,11 @@ func add_pair(card):
       _check_pair()
 
 # ペアのチェック
-func _check_pair():
-  var p1 = pair[0];
-  var p2 = pair[1];
+func _check_pair() -> void:
+  var p1: Card = pair[0];
+  var p2: Card = pair[1];
   # 枠削除
-  var cursor = cursor_layer.get_children().front()
+  var cursor: Cursor = cursor_layer.get_children().front()
   cursor.queue_free()
 
   # 手札と捨て札のセットは不可
@@ -124,7 +124,7 @@ func _check_pair():
     return
 
   # 数字の合計が13なら
-  if p1.num + p2.num == TARGET_NUM:
+  if (p1.num + p2.num) == TARGET_NUM:
     # ペアを削除
     for card in pair:
       _remove_card(card)
@@ -132,8 +132,8 @@ func _check_pair():
   pair.clear()
 
 # 裏返せるカードを裏返す
-func _flip_next_card():
-  var pyramid_arr = get_tree().get_nodes_in_group("pyramid")
+func _flip_next_card() -> void:
+  var pyramid_arr: Array = get_tree().get_nodes_in_group("pyramid")
   # カードを総当たりチェック
   for card in pyramid_arr:
     # 選択不可（裏面）であれば
@@ -143,8 +143,8 @@ func _flip_next_card():
         _flip_card(card)
 
 # カードの左下と右下に別のカードがあるか調べる
-func _is_card_blow(card):
-  var pyramid_arr = get_tree().get_nodes_in_group("pyramid")
+func _is_card_blow(card: Card) -> bool:
+  var pyramid_arr: Array = get_tree().get_nodes_in_group("pyramid")
 
   for target in pyramid_arr:
     # 左下
@@ -157,19 +157,19 @@ func _is_card_blow(card):
   return false
 
 # 捨て札の１番上だけを選択可能にする
-func _selectable_drop_top():
-  var drop_arr = get_tree().get_nodes_in_group("drop_hand")
+func _selectable_drop_top(-> void):
+  var drop_arr: Array = get_tree().get_nodes_in_group("drop_hand")
   # 一旦全て選択不可に
   for card in drop_arr:
     card.remove_from_group("selectable")
 
   # 最後の要素だけ選択可能にする
-  var last = drop_arr.back()
+  var last: Card = drop_arr.back()
   if last:
     last.add_to_group("selectable")
 
 # カード返し処理
-func _flip_card(card):
+func _flip_card(card: Card):
   flip_count += 1
   var tween = get_tree().create_tween()
   # 縮小 
