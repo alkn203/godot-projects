@@ -5,6 +5,7 @@ const BLOCK_SIZE = 40
 const BLOCK_COLS = 10
 const BLOCK_ROWS = 20
 const BLOCK_TYPE = 7
+const TOP_Y = 0
 const BOTTOM_Y = 20
 const EDGE_LEFT = 2
 const EDGE_RIGHT = 13
@@ -109,7 +110,7 @@ func _move_block_y() -> void:
         # 固定ブロックへ追加
         _dynamic_to_static()
         # 画面上到達チェック
-        if _check_top():
+        if _hit_top():
             # 画面ポーズ
             get_tree().paused = true
         # 削除可能ラインチェック
