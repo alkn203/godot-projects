@@ -10,11 +10,23 @@ config_version=4
 
 _global_script_classes=[ {
 "base": "KinematicBody2D",
+"class": "Ball",
+"language": "GDScript",
+"path": "res://Ball.gd"
+}, {
+"base": "StaticBody2D",
+"class": "Block",
+"language": "GDScript",
+"path": "res://Block.gd"
+}, {
+"base": "KinematicBody2D",
 "class": "Paddle",
 "language": "GDScript",
 "path": "res://Paddle.gd"
 } ]
 _global_script_class_icons={
+"Ball": "",
+"Block": "",
 "Paddle": ""
 }
 

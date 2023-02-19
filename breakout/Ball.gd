@@ -1,3 +1,4 @@
+class_name Ball
 extends KinematicBody2D
 
 # 変数

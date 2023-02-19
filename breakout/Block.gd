@@ -1,17 +1,9 @@
+class_name Block
 extends StaticBody2D
 
+# 変数
+var frame_index: int = 0
 
-# Declare member variables here. Examples:
-# var a = 2
-# var b = "text"
-export (int) var frame_index = 0
-
-
-# Called when the node enters the scene tree for the first time.
+# 初期化処理
 func _ready():
-  get_node("Sprite").frame = frame_index
-
-
-# Called every frame. 'delta' is the elapsed time since the previous frame.
-#func _process(delta):
-#	pass
+    get_node("Sprite").frame = frame_index
