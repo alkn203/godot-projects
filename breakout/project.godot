@@ -8,6 +8,16 @@
 
 config_version=4
 
+_global_script_classes=[ {
+"base": "KinematicBody2D",
+"class": "Paddle",
+"language": "GDScript",
+"path": "res://Paddle.gd"
+} ]
+_global_script_class_icons={
+"Paddle": ""
+}
+
 [application]
 
 config/name="Breakout"
