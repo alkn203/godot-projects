@@ -1,35 +1,23 @@
 extends KinematicBody2D
 
-
-# Declare member variables here. Examples:
-var sprite_size = get_node("Sprite").texture.get_size()
-var dragging = false
-
+# 変数
+var sprite_size: Vetor2 = get_node("Sprite").texture.get_size()
+var dragging: bool = false
 onready var screen_size = get_viewport_rect().size
 
-
-# Called when the node enters the scene tree for the first time.
-func _ready():
-	pass # Replace with function body.
-
-
+# 入力検知
 func _input(event):
-	if event is InputEventMouseButton:
-		if event.pressed:
-			# ドラッグフラグ
-			dragging = true
-		else:
-			dragging = false
-	if event is InputEventMouseMotion:
-		if dragging:
-			# マウス位置取得
-			var pos = event.position
-			# パドルの横座標を追従させ、画面からはみ出ないようにする
-			var pos_min = sprite_size.x / 2
-			var pos_max = screen_size.x - sprite_size.x / 2
-			position.x = clamp(pos.x, pos_min, pos_max)
-
-
-# Called every frame. 'delta' is the elapsed time since the previous frame.
-func _process(delta):
-	pass
+    if event is InputEventMouseButton:
+        if event.pressed:
+            # ドラッグフラグ
+            dragging = true
+        else:
+            dragging = false
+    if event is InputEventMouseMotion:
+        if dragging:
+            # マウス位置取得
+            var pos: Vector2 = event.position
+            # パドルの横座標を追従させ、画面からはみ出ないようにする
+            var min_x: int = sprite_size.x / 2
+            var max_x: int = screen_size.x - sprite_size.x / 2
+            position.x = clamp(pos.x, pos_min, pos_max)
