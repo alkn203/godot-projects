@@ -20,7 +20,7 @@ func _ready():
 
 
 # 毎フレーム処理
-func _process(delta):
+func _process(delta) -> void:
     pass
 
 # ブロック配置
@@ -38,6 +38,5 @@ func _create_block() -> void:
         # 画像変更
         if i > 15:
             block.get_node("Sprite").frame = 1
-            
         if i > 31:
             block.get_node("Sprite").frame = 2

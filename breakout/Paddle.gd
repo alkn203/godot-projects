@@ -20,7 +20,7 @@ func _ready() -> void:
     max_x = screen_size.x - sprite_size.x / 2
 
 # 入力検知
-func _input(event):
+func _input(event) -> void:
     if event is InputEventMouseButton:
         if event.pressed:
             # ドラッグフラグ
