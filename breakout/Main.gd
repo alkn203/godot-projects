@@ -18,11 +18,6 @@ func _ready():
     # ブロック配置
     _create_block()
 
-
-## 毎フレーム処理
-#func _process(delta) -> void:
-#    pass
-
 # ブロック配置
 func _create_block() -> void:
     for i in BLOCK_NUM:
@@ -40,3 +35,10 @@ func _create_block() -> void:
             block.get_node("Sprite").frame = 1
         if i > 31:
             block.get_node("Sprite").frame = 2
+
+# スクリーンから出たオブジェクトを補足
+func _on_Screen_body_exited(body) -> void:
+    # ボールの場合
+    if body is Ball:
+        # ゲーム再ロード
+        get_tree().change_scene("res://Main.tscn")

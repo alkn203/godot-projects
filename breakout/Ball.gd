@@ -2,7 +2,7 @@ class_name Ball
 extends KinematicBody2D
 
 # 定数
-const SPEED = 200
+const SPEED = 300
 
 # 変数
 var velocity: = Vector2.DOWN * SPEED 
@@ -22,7 +22,7 @@ func _physics_process(delta: float) -> void:
             # ヒットした位置に応じて角度をつける
             var dx: float = position.x - target.position.x
             velocity.x = dx * 2
-         # ブロックの場合
+        # ブロックの場合
         if target is Block:
             # 削除
             target.queue_free()
