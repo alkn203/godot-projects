@@ -32,20 +32,20 @@ script = ExtResource( 2 )
 [node name="Ball" parent="." instance=ExtResource( 3 )]
 position = Vector2( 320, 400 )
 
-[node name="StaticBody2D" type="StaticBody2D" parent="."]
+[node name="Wall01" type="StaticBody2D" parent="."]
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="StaticBody2D"]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Wall01"]
 position = Vector2( -16, 496 )
 shape = SubResource( 1 )
 
-[node name="StaticBody2D2" type="StaticBody2D" parent="."]
+[node name="Wall02" type="StaticBody2D" parent="."]
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="StaticBody2D2"]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Wall02"]
 position = Vector2( 656, 496 )
 shape = SubResource( 2 )
 
-[node name="StaticBody2D3" type="StaticBody2D" parent="."]
+[node name="Wall03" type="StaticBody2D" parent="."]
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="StaticBody2D3"]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Wall03"]
 position = Vector2( 320, -16 )
 shape = SubResource( 3 )

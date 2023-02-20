@@ -19,9 +19,9 @@ func _ready():
     _create_block()
 
 
-# 毎フレーム処理
-func _process(delta) -> void:
-    pass
+## 毎フレーム処理
+#func _process(delta) -> void:
+#    pass
 
 # ブロック配置
 func _create_block() -> void:
