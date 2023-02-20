@@ -11,8 +11,8 @@ const DROP_POSITON = Vector2(128, 480 + CARD_HEIGHT * 1.5)
 const DURATION = 0.15
 
 # シーン
-const Card = preload("res://Card.tscn")
-const Cursor = preload("res://Cursor.tscn")
+const Card: PackedScene = preload("res://Card.tscn")
+const Cursor: PackedScene = preload("res://Cursor.tscn")
 
 # 変数
 var pair: Array = []
@@ -157,7 +157,7 @@ func _is_card_blow(card: Card) -> bool:
   return false
 
 # 捨て札の１番上だけを選択可能にする
-func _selectable_drop_top(-> void):
+func _selectable_drop_top() -> void:
   var drop_arr: Array = get_tree().get_nodes_in_group("drop_hand")
   # 一旦全て選択不可に
   for card in drop_arr:
@@ -169,7 +169,7 @@ func _selectable_drop_top(-> void):
     last.add_to_group("selectable")
 
 # カード返し処理
-func _flip_card(card: Card):
+func _flip_card(card: Card) -> void:
   flip_count += 1
   var tween = get_tree().create_tween()
   # 縮小 
@@ -189,7 +189,7 @@ func _after_flip():
   # カードが開ききってから次の処理
   if flip_count == 0:
     # 捨て札の一番上だけ選択可能にする
-    pass
+    _selectable_drop_top()
 
 # カード削除処理
 func _remove_card(card):
@@ -203,7 +203,7 @@ func _remove_card(card):
   tween.tween_callback(self, "_after_remove")
 
 # カード削除処理後
-func _after_remove():
+func _after_remove() -> void:
   remove_count -= 1
   # カードが削除されきってから次の処理
   if remove_count == 0:
@@ -211,5 +211,5 @@ func _after_remove():
     _flip_next_card()
 
 
-func _on_Button_pressed():
+func _on_Button_pressed() -> void:
   get_tree().change_scene("res://Main.tscn")

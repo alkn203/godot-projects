@@ -8,6 +8,22 @@
 
 config_version=4
 
+_global_script_classes=[ {
+"base": "Area2D",
+"class": "Card",
+"language": "GDScript",
+"path": "res://Card.gd"
+}, {
+"base": "Line2D",
+"class": "Cursor",
+"language": "GDScript",
+"path": "res://Cursor.gd"
+} ]
+_global_script_class_icons={
+"Card": "",
+"Cursor": ""
+}
+
 [application]
 
 config/name="pyramid"
