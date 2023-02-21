@@ -1,20 +1,23 @@
+# 自機のショットクラス
+class_name Shot
 extends Area2D
 
+# 定数
+const SPEED = 800
 
-# Declare member variables here. Examples:
-var speed = 800
-onready var explosion_scene = preload("res://Explosion.tscn")
-onready var explosion_layer = get_node("/root/Main/ExplosionLayer")
-onready var score_scene = preload("res://Score.tscn") 
-onready var score_layer = get_node("/root/Main/ScoreLayer") 
+# シーン
+const Explosion = preload("res://Explosion.tscn")
+condt Score = preload("res://Score.tscn") 
 
+# ノード
+onready var explosion_layer: CanvasLayer = get_node("/root/Main/ExplosionLayer")
+onready var score_layer: CanvasLayer = get_node("/root/Main/ScoreLayer") 
 
-# Called every frame. 'delta' is the elapsed time since the previous frame.
-func _process(delta):
-	position.y -= speed * delta
-	
+# 毎フレーム処理
+func _process(delta: float) -> void:
+    position.y -= SPEED * delta
 
-# Check collision
+# 当たり判定
 func _on_Shot_area_entered(area):
 	# If target is enemy, destroy it.
 	if area.is_in_group("Enemys"):
