@@ -19,22 +19,22 @@ func _process(delta: float) -> void:
 
 # 当たり判定
 func _on_Shot_area_entered(area):
-	# If target is enemy, destroy it.
-	if area.is_in_group("Enemys"):
-		# Add explosion to enemy's position
-		var explosion = explosion_scene.instance()
-		explosion.position = area.position
-		explosion_layer.add_child(explosion)
-		# Delete enemy and shot
-		area.queue_free()
-		queue_free()
-	# If target is ufo, destroy it. 
-	if area.is_in_group("Ufos"): 
-		# Add score to ufo's position 
-		var score = score_scene.instance() 
-		score.rect_position.x = area.position.x - 32
-		score.rect_position.y = area.position.y - 16
-		score_layer.add_child(score) 
-		# Delete ufo and shot 
-		area.queue_free() 
-		queue_free()
+    # 敵
+    if area is Enemy:
+        # 爆発追加
+        var explosion = Explosion.instance()
+	explosion.position = area.position
+	explosion_layer.add_child(explosion)
+	# 敵とショットを削除
+        area.queue_free()
+        queue_free()
+    # UFO
+    if area is Ufo: 
+        # スコア追加 
+	var score = Score.instance() 
+	score.rect_position.x = area.position.x - 32
+	score.rect_position.y = area.position.y - 16
+	score_layer.add_child(score) 
+	# UFOとショットを削除 
+	area.queue_free() 
+	queue_free()
