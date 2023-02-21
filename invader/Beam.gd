@@ -12,7 +12,7 @@ func _process(delta):
 # 他のオブジェクトとの当たり判定
 func _on_Beam_area_entered(area):
     # プレイヤー
-    if area.name == "Player":
+    if area is Player:
         # 画面をポーズ
         get_tree().paused = true
         # 一定時間経過後タイトルへ
