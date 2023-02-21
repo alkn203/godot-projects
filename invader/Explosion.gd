@@ -1,6 +1,7 @@
+# 敵の爆発クラス
+class_name Explosion
 extends AnimatedSprite
 
-
-# destroy self when animation is finished.
+# アニメーションが終わったら自身を消す
 func _on_Explosion_animation_finished():
-	queue_free()
+    queue_free()
