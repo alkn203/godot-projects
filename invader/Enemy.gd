@@ -1,5 +1,4 @@
-# 敵クラス
-class_name Enemy
+# Enemyクラス
 extends Area2D
 
 # 定数
