@@ -1,15 +1,18 @@
 extends Node2D
 
 # 定数
-const ENEMY_NUM = 40
-const ENEMY_NUM_X = 8
+const ENEMY_NUM = 45
+const ENEMY_NUM_X = 9
 const ENEMY_SIZE = 64
+const ENEMY_OFFSET = 64
+const ENEMY_SPEED = 0.5
 
 # シーン
 const Enemy = preload("res://scenes/Enemy.tscn")
 const Ufo = preload("res://scenes/Ufo.tscn")
 
 # 変数
+var dir: int = -1
 onready var screen_size: Vector2 = get_viewport_rect().size
 onready var ufo_layer: CanvasLayer = get_node("UfoLayer")
 onready var ufo_timer: Timer = get_node("UfoTimer") 
@@ -20,6 +23,17 @@ func _ready() -> void:
     # 敵作成
     _create_enemy()
 
+# 毎フレーム処理
+func _process(delta: float) -> void:
+    # 敵移動
+    _move_enemy()
+    # UFOの出現管理
+    if ufo_timer.is_stopped():
+        var ufo = Ufo.instance()
+        ufo.position = Vector2(screen_size.x, 64)
+        ufo_layer.add_child(ufo)
+        ufo_timer.start()
+
 # 敵作成
 func _create_enemy() -> void:
     for i in ENEMY_NUM:
@@ -28,16 +42,13 @@ func _create_enemy() -> void:
         var gy: int = int(i / ENEMY_NUM_X)
         # 敵作成
         var enemy: Enemy = Enemy.instance()
-        enemy.position.x = gx * ENEMY_SIZE
-        enemy.position.y = gy * ENEMY_SIZE
+        enemy.position.x = gx * ENEMY_SIZE + ENEMY_OFFSET
+        enemy.position.y = gy * ENEMY_SIZE + ENEMY_OFFSET
         # シーンに追加
         enemy_layer.add_child(enemy)
 
-# 毎フレーム処理
-func _process(delta: float) -> void:
-    # UFOの出現管理
-    if ufo_timer.is_stopped():
-        var ufo = Ufo.instance()
-        ufo.position = Vector2(screen_size.x, 64)
-        ufo_layer.add_child(ufo)
-        ufo_timer.start()
+# 敵移動
+func _move_enemy() -> void:
+    for enemy in enemy_layer.get_children():
+        # 移動
+        enemy.position.x += dir * ENEMY_SPEED
