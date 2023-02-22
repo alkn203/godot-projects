@@ -1,5 +1,4 @@
-# 敵のビームクラス
-class_name Beam 
+# Beamクラス
 extends Area2D
 
 # 変数
