@@ -8,10 +8,50 @@
 
 config_version=4
 
+_global_script_classes=[ {
+"base": "Area2D",
+"class": "Beam",
+"language": "GDScript",
+"path": "res://scripts/Beam.gd"
+}, {
+"base": "AnimatedSprite",
+"class": "Explosion",
+"language": "GDScript",
+"path": "res://scripts/Explosion.gd"
+}, {
+"base": "Area2D",
+"class": "Player",
+"language": "GDScript",
+"path": "res://scripts/Player.gd"
+}, {
+"base": "Label",
+"class": "Score",
+"language": "GDScript",
+"path": "res://scripts/Score.gd"
+}, {
+"base": "Area2D",
+"class": "Shot",
+"language": "GDScript",
+"path": "res://scripts/Shot.gd"
+}, {
+"base": "Reference",
+"class": "Ufo",
+"language": "GDScript",
+"path": "res://scripts/Ufo.gd"
+} ]
+_global_script_class_icons={
+"Beam": "",
+"Explosion": "",
+"Player": "",
+"Score": "",
+"Shot": "",
+"Ufo": ""
+}
+
 [application]
 
 config/name="Invader"
-run/main_scene="res://Title.tscn"
+run/main_scene="res://scenes/Title.tscn"
 config/icon="res://icon.png"
 
 [display]

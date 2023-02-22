@@ -6,8 +6,8 @@ extends Area2D
 const SPEED = 800
 
 # シーン
-const Explosion = preload("res://Explosion.tscn")
-condt Score = preload("res://Score.tscn") 
+const Explosion = preload("res://scenes/Explosion.tscn")
+const Score = preload("res://scenes/Score.tscn")
 
 # ノード
 onready var explosion_layer: CanvasLayer = get_node("/root/Main/ExplosionLayer")
@@ -20,21 +20,21 @@ func _process(delta: float) -> void:
 # 当たり判定
 func _on_Shot_area_entered(area):
     # 敵
-    if area is Enemy:
+    if area.name.find("Enemy") >= 0:
         # 爆発追加
         var explosion = Explosion.instance()
-	explosion.position = area.position
-	explosion_layer.add_child(explosion)
-	# 敵とショットを削除
+        explosion.position = area.position
+        explosion_layer.add_child(explosion)
+        # 敵とショットを削除
         area.queue_free()
         queue_free()
     # UFO
     if area is Ufo: 
         # スコア追加 
-	var score = Score.instance() 
-	score.rect_position.x = area.position.x - 32
-	score.rect_position.y = area.position.y - 16
-	score_layer.add_child(score) 
-	# UFOとショットを削除 
-	area.queue_free() 
-	queue_free()
+        var score = Score.instance() 
+        score.rect_position.x = area.position.x - 32
+        score.rect_position.y = area.position.y - 16
+        score_layer.add_child(score) 
+        # UFOとショットを削除 
+        area.queue_free() 
+        queue_free()
