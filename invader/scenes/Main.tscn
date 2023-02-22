@@ -1,20 +1,11 @@
-[gd_scene load_steps=10 format=2]
+[gd_scene load_steps=5 format=2]
 
-[ext_resource path="res://scenes/Enemy.tscn" type="PackedScene" id=1]
 [ext_resource path="res://scripts/Screen.gd" type="Script" id=2]
 [ext_resource path="res://scenes/Player.tscn" type="PackedScene" id=3]
 [ext_resource path="res://scripts/Main.gd" type="Script" id=4]
-[ext_resource path="res://scripts/WallLeft.gd" type="Script" id=5]
-[ext_resource path="res://scripts/WallRight.gd" type="Script" id=6]
 
 [sub_resource type="RectangleShape2D" id=2]
 extents = Vector2( 320, 480 )
-
-[sub_resource type="RectangleShape2D" id=3]
-extents = Vector2( 16, 480 )
-
-[sub_resource type="RectangleShape2D" id=4]
-extents = Vector2( 16, 480 )
 
 [node name="Main" type="Node2D"]
 script = ExtResource( 4 )
@@ -42,141 +33,6 @@ __meta__ = {
 [node name="EnemyLayer" type="CanvasLayer" parent="."]
 layer = 2
 
-[node name="Enemy" parent="EnemyLayer" instance=ExtResource( 1 )]
-position = Vector2( 64, 96 )
-
-[node name="Enemy2" parent="EnemyLayer" instance=ExtResource( 1 )]
-position = Vector2( 128, 96 )
-
-[node name="Enemy3" parent="EnemyLayer" instance=ExtResource( 1 )]
-position = Vector2( 192, 96 )
-
-[node name="Enemy4" parent="EnemyLayer" instance=ExtResource( 1 )]
-position = Vector2( 256, 96 )
-
-[node name="Enemy5" parent="EnemyLayer" instance=ExtResource( 1 )]
-position = Vector2( 320, 96 )
-
-[node name="Enemy6" parent="EnemyLayer" instance=ExtResource( 1 )]
-position = Vector2( 384, 96 )
-
-[node name="Enemy7" parent="EnemyLayer" instance=ExtResource( 1 )]
-position = Vector2( 448, 96 )
-
-[node name="Enemy8" parent="EnemyLayer" instance=ExtResource( 1 )]
-position = Vector2( 512, 96 )
-
-[node name="Enemy9" parent="EnemyLayer" instance=ExtResource( 1 )]
-position = Vector2( 576, 96 )
-
-[node name="Enemy10" parent="EnemyLayer" instance=ExtResource( 1 )]
-position = Vector2( 576, 160 )
-
-[node name="Enemy11" parent="EnemyLayer" instance=ExtResource( 1 )]
-position = Vector2( 512, 160 )
-
-[node name="Enemy12" parent="EnemyLayer" instance=ExtResource( 1 )]
-position = Vector2( 448, 160 )
-
-[node name="Enemy13" parent="EnemyLayer" instance=ExtResource( 1 )]
-position = Vector2( 384, 160 )
-
-[node name="Enemy14" parent="EnemyLayer" instance=ExtResource( 1 )]
-position = Vector2( 320, 160 )
-
-[node name="Enemy15" parent="EnemyLayer" instance=ExtResource( 1 )]
-position = Vector2( 256, 160 )
-
-[node name="Enemy16" parent="EnemyLayer" instance=ExtResource( 1 )]
-position = Vector2( 192, 160 )
-
-[node name="Enemy17" parent="EnemyLayer" instance=ExtResource( 1 )]
-position = Vector2( 128, 160 )
-
-[node name="Enemy18" parent="EnemyLayer" instance=ExtResource( 1 )]
-position = Vector2( 64, 160 )
-
-[node name="Enemy19" parent="EnemyLayer" instance=ExtResource( 1 )]
-position = Vector2( 64, 224 )
-
-[node name="Enemy20" parent="EnemyLayer" instance=ExtResource( 1 )]
-position = Vector2( 128, 224 )
-
-[node name="Enemy21" parent="EnemyLayer" instance=ExtResource( 1 )]
-position = Vector2( 192, 224 )
-
-[node name="Enemy22" parent="EnemyLayer" instance=ExtResource( 1 )]
-position = Vector2( 256, 224 )
-
-[node name="Enemy23" parent="EnemyLayer" instance=ExtResource( 1 )]
-position = Vector2( 320, 224 )
-
-[node name="Enemy24" parent="EnemyLayer" instance=ExtResource( 1 )]
-position = Vector2( 384, 224 )
-
-[node name="Enemy25" parent="EnemyLayer" instance=ExtResource( 1 )]
-position = Vector2( 448, 224 )
-
-[node name="Enemy26" parent="EnemyLayer" instance=ExtResource( 1 )]
-position = Vector2( 512, 224 )
-
-[node name="Enemy27" parent="EnemyLayer" instance=ExtResource( 1 )]
-position = Vector2( 576, 224 )
-
-[node name="Enemy28" parent="EnemyLayer" instance=ExtResource( 1 )]
-position = Vector2( 576, 288 )
-
-[node name="Enemy29" parent="EnemyLayer" instance=ExtResource( 1 )]
-position = Vector2( 512, 288 )
-
-[node name="Enemy30" parent="EnemyLayer" instance=ExtResource( 1 )]
-position = Vector2( 448, 288 )
-
-[node name="Enemy31" parent="EnemyLayer" instance=ExtResource( 1 )]
-position = Vector2( 384, 288 )
-
-[node name="Enemy32" parent="EnemyLayer" instance=ExtResource( 1 )]
-position = Vector2( 320, 288 )
-
-[node name="Enemy33" parent="EnemyLayer" instance=ExtResource( 1 )]
-position = Vector2( 256, 288 )
-
-[node name="Enemy34" parent="EnemyLayer" instance=ExtResource( 1 )]
-position = Vector2( 192, 288 )
-
-[node name="Enemy35" parent="EnemyLayer" instance=ExtResource( 1 )]
-position = Vector2( 128, 288 )
-
-[node name="Enemy36" parent="EnemyLayer" instance=ExtResource( 1 )]
-position = Vector2( 64, 288 )
-
-[node name="Enemy37" parent="EnemyLayer" instance=ExtResource( 1 )]
-position = Vector2( 64, 352 )
-
-[node name="Enemy38" parent="EnemyLayer" instance=ExtResource( 1 )]
-position = Vector2( 128, 352 )
-
-[node name="Enemy39" parent="EnemyLayer" instance=ExtResource( 1 )]
-position = Vector2( 192, 352 )
-
-[node name="Enemy40" parent="EnemyLayer" instance=ExtResource( 1 )]
-position = Vector2( 256, 352 )
-
-[node name="Enemy41" parent="EnemyLayer" instance=ExtResource( 1 )]
-position = Vector2( 320, 352 )
-
-[node name="Enemy42" parent="EnemyLayer" instance=ExtResource( 1 )]
-position = Vector2( 384, 352 )
-
-[node name="Enemy43" parent="EnemyLayer" instance=ExtResource( 1 )]
-position = Vector2( 448, 352 )
-
-[node name="Enemy44" parent="EnemyLayer" instance=ExtResource( 1 )]
-position = Vector2( 512, 352 )
-
-[node name="Enemy45" parent="EnemyLayer" instance=ExtResource( 1 )]
-position = Vector2( 576, 352 )
-
 [node name="ExplosionLayer" type="CanvasLayer" parent="."]
 layer = 3
 
@@ -195,25 +51,9 @@ layer = 6
 [node name="ScoreLayer" type="CanvasLayer" parent="."]
 layer = 7
 
-[node name="WallLeft" type="Area2D" parent="."]
-script = ExtResource( 5 )
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="WallLeft"]
-position = Vector2( -16, 480 )
-shape = SubResource( 3 )
-
-[node name="WallRight" type="Area2D" parent="."]
-script = ExtResource( 6 )
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="WallRight"]
-position = Vector2( 656, 480 )
-shape = SubResource( 4 )
-
 [node name="UfoTimer" type="Timer" parent="."]
 wait_time = 12.0
 one_shot = true
 autostart = true
 
 [connection signal="area_exited" from="Screen" to="Screen" method="_on_Screen_area_exited"]
-[connection signal="area_entered" from="WallLeft" to="WallLeft" method="_on_WallLeft_area_entered"]
-[connection signal="area_entered" from="WallRight" to="WallRight" method="_on_WallRight_area_entered"]

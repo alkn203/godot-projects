@@ -15,4 +15,4 @@ func _ready():
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta):
   if Input.is_action_just_pressed("space_key"):
-    get_tree().change_scene("res://Main.tscn")
+    get_tree().change_scene("res://scenes/Main.tscn")
