@@ -1,4 +1,4 @@
-class_name Block
+# Blockクラス
 extends Node2D
 
 # 変数
