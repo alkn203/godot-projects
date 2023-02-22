@@ -1,5 +1,4 @@
-# 敵の爆発クラス
-class_name Explosion
+# Explosionクラス
 extends AnimatedSprite
 
 # アニメーションが終わったら自身を消す
