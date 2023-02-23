@@ -5,6 +5,7 @@ const ENEMY_NUM = 45
 const ENEMY_NUM_X = 9
 const ENEMY_SIZE = 64
 const ENEMY_OFFSET = 64
+const ENEMY_HALF = ENEMY_SIZE / 2
 const ENEMY_SPEED = 0.5
 
 # シーン
