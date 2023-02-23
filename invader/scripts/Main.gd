@@ -26,7 +26,7 @@ func _ready() -> void:
 # 毎フレーム処理
 func _process(delta: float) -> void:
     # 敵移動
-    _move_enemy()
+    _move_enemy(delta)
     # UFOの出現管理
     if ufo_timer.is_stopped():
         var ufo = Ufo.instance()
@@ -48,7 +48,20 @@ func _create_enemy() -> void:
         enemy_layer.add_child(enemy)
 
 # 敵移動
-func _move_enemy() -> void:
+func _move_enemy(delta: float) -> void:
     for enemy in enemy_layer.get_children():
         # 移動
-        enemy.position.x += dir * ENEMY_SPEED
+        enemy.position.x += dir * ENEMY_SPEED * delta
+        # 画面端で反転
+        if (enemy.position.x - ENEMY_HALF) < 0 or
+            (enemy.position.x + ENEMY_HALF) < screen_size.x:
+            dir *= -1
+            # 縦移動
+            _move_enemy_down()
+            return
+
+# 敵縦移動
+func _move_enemy_down() -> void:
+    for enemy in enemy_layer.get_children():
+        enemy.position.y += ENEMY_HALF
+        
