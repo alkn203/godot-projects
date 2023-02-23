@@ -6,7 +6,7 @@ const ENEMY_NUM_X = 9
 const ENEMY_SIZE = 64
 const ENEMY_OFFSET = 64
 const ENEMY_HALF = ENEMY_SIZE / 2
-const ENEMY_SPEED = 0.5
+const ENEMY_SPEED = 10
 
 # シーン
 const Enemy = preload("res://scenes/Enemy.tscn")
@@ -54,8 +54,8 @@ func _move_enemy(delta: float) -> void:
         # 移動
         enemy.position.x += dir * ENEMY_SPEED * delta
         # 画面端で反転
-        if (enemy.position.x - ENEMY_HALF) < 0 or
-            (enemy.position.x + ENEMY_HALF) < screen_size.x:
+        var x: float = enemy.position.x
+        if (x - ENEMY_HALF) < 0 or (x + ENEMY_HALF) > screen_size.x:
             dir *= -1
             # 縦移動
             _move_enemy_down()

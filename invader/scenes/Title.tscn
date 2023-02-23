@@ -1,16 +1,7 @@
-[gd_scene load_steps=7 format=2]
+[gd_scene load_steps=4 format=2]
 
-[ext_resource path="res://Xolonium-Regular.ttf" type="DynamicFontData" id=1]
 [ext_resource path="res://scripts/Title.gd" type="Script" id=2]
 [ext_resource path="res://scenes/Enemy.tscn" type="PackedScene" id=3]
-
-[sub_resource type="DynamicFont" id=1]
-size = 56
-font_data = ExtResource( 1 )
-
-[sub_resource type="DynamicFont" id=2]
-size = 32
-font_data = ExtResource( 1 )
 
 [sub_resource type="Animation" id=3]
 resource_name = "fadeout_in"
@@ -46,7 +37,6 @@ margin_top = 256.0
 margin_right = 558.0
 margin_bottom = 325.0
 custom_colors/font_color = Color( 0.647059, 0.0627451, 0.0627451, 1 )
-custom_fonts/font = SubResource( 1 )
 text = "INVADER GAME"
 align = 1
 
@@ -60,7 +50,6 @@ margin_top = 656.0
 margin_right = 573.0
 margin_bottom = 705.0
 custom_colors/font_color = Color( 0.647059, 0.0627451, 0.0627451, 1 )
-custom_fonts/font = SubResource( 2 )
 text = "PRESS SPACE TO START	"
 align = 1
 
