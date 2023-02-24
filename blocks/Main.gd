@@ -113,6 +113,8 @@ func _move_block_y() -> void:
         if _hit_top():
             # 画面ポーズ
             get_tree().paused = true
+            # ブロックをグレイスケール化
+            _greyscale_block()
         # 削除可能ラインチェック
         _check_remove_line()
 
@@ -256,6 +258,11 @@ func _dynamic_to_static() -> void:
     for block in dynamic_layer.get_children():
         dynamic_layer.remove_child(block)
         static_layer.add_child(block)
+
+# ブロックをグレイスケール化
+func _greyscale_block():
+    for block in static_layer.get_children():
+        block.greyscale()
 
 # 座標値からインデックス値へ変換
 func _coord_to_index(pos: Vector2) -> Vector2:
