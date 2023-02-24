@@ -114,7 +114,7 @@ func _move_block_y() -> void:
             # 画面ポーズ
             get_tree().paused = true
             # ブロックをグレイスケール化
-            _greyscale_block()
+            _greyscale_block(0)
         # 削除可能ラインチェック
         _check_remove_line()
 
@@ -260,9 +260,16 @@ func _dynamic_to_static() -> void:
         static_layer.add_child(block)
 
 # ブロックをグレイスケール化
-func _greyscale_block():
+func _greyscale_block(num: int):
     for block in static_layer.get_children():
-        block.greyscale()
+        if block.index_pos.y == num:
+            print("a")
+            block.get_node("Sprite").frame = 0
+        
+    num += 1
+    yield(get_tree().create_timer(0.2), "timeout")
+    print(num)
+    _greyscale_block(num)
 
 # 座標値からインデックス値へ変換
 func _coord_to_index(pos: Vector2) -> Vector2:
