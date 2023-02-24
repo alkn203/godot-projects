@@ -8,6 +8,16 @@
 
 config_version=4
 
+_global_script_classes=[ {
+"base": "Node2D",
+"class": "Block",
+"language": "GDScript",
+"path": "res://Block.gd"
+} ]
+_global_script_class_icons={
+"Block": ""
+}
+
 [application]
 
 config/name="blocks"
